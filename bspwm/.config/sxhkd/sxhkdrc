@@ -128,3 +128,7 @@ super + {Left,Down,Up,Right}
 # lock screen
 super + F9
     bash ~/code/scripts/lock.sh
+
+# screenshot
+Print
+    scrot ~/images/scrots/%Y-%m-%d_%S_scrot.png
