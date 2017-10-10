@@ -7,7 +7,7 @@
 . ~/.config/polybar/polybar.sh
 
 #--- wallpaper
-feh --bg-fill ~/images/wallpapers/FUAY5i8.png
+feh --bg-fill ~/images/wallpapers/fall.png
 
 #--- lock
 . ~/code/scripts/lock.sh
