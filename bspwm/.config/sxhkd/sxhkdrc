@@ -39,6 +39,10 @@ super + y
 super + g
 	bspc node -s biggest
 
+# swap the current node with the last focused node
+super + c
+    bspc node -s last.leaf
+
 #
 # state/flags
 #
@@ -64,7 +68,7 @@ super + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-super + {_,shift + }c
+super + {_,shift + }r
 	bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor

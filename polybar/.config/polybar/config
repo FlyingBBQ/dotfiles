@@ -54,7 +54,7 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-modules-left = bspwm
+modules-left = bspwm mpdc mpd
 modules-center = date
 modules-right = eth1 cpu memory volume battery 
 
@@ -92,22 +92,39 @@ label-occupied-background = ${colors.bg3}
 label-occupied-underline = ${colors.bg3}
 label-occupied-padding = 1
 
+label-urgent = %name%
+label-urgent-foreground = ${colors.background}
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
 [module/mpd]
 type = internal/mpd
 host = /home/derek/.config/mpd/socket
 port = 6600
 interval = 1
 label-song = %artist% - %title%
-;label-song-underline = ${colors.primary}
 label-song-foreground = ${colors.primary}
+;label-song-background = ${colors.bg3}
 label-time = %elapsed% / %total%
-;label-time-underline = ${colors.dcyan}
-label-time-foreground = ${colors.primary}
-format-online = <label-song>    <label-time>
-format-online-font = 3
+label-time-foreground = ${colors.white}
+;label-time-background = ${colors.dcyan}
 
-label-song-maxlen = 70
+format-online = <label-time>
+;format-online-background = ${colors.bg3}
+;format-online = <label-song>    <label-time>
+;format-online-font = 3
+
+label-song-maxlen = 30
 label-song-ellipsis = true
+
+[module/mpdc]
+type = custom/script
+interval = 5
+exec = ~/code/scripts/bar_mpd.sh
+
+format = <label>
+label = "%output:30:30%"
+label-foreground = ${colors.primary}
 
 [module/cpu]
 type = internal/cpu
