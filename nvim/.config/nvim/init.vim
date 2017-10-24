@@ -22,6 +22,7 @@ set clipboard+=unnamedplus
 set cursorline
 set mouse=a
 set number
+set relativenumber
 set ruler
 set showcmd             " show command in bottom bar
 
@@ -35,37 +36,25 @@ set foldlevelstart=10   " open level of folds
 set foldnestmax=10      " 10 nested folds max
 set foldmethod=indent   " fold based on indent level
 
-" themes and colors
 let g:gruvbox_termcolors=16
 let g:airline_theme='gruvbox'
 colorscheme gruvbox
 set background=dark
 
-" move vertically by visual line
+" Keybindings
 nnoremap j gj
 nnoremap k gk
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
-
-" NERDTree stuff
-let NERDTreeShowHidden = 1
-
-" airline stuff
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#fnamemod = ':t'
-
-" CtrlP stuff
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = '.git'
+nnoremap <F2> :set relativenumber!<CR>
 
 " LaTeX stuff
 let g:tex_flavor = "latex"
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_fold_enabled = 0
-let g:vimtex_indent_enabled = 0
 
 " VimWiki stuff
-let g:vimwiki_list = [{'path': '~/documents/vimwiki/'}]
+let wiki_1 = {'path': '~/documents/vimwiki/'}
+let wiki_2 = {'path': '~/thesis/wiki/'}
+let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_folding = 'expr'
 
 " YouCompleteMe
