@@ -36,6 +36,7 @@ set foldlevelstart=10   " open level of folds
 set foldnestmax=10      " 10 nested folds max
 set foldmethod=indent   " fold based on indent level
 
+" themes and colors
 let g:gruvbox_termcolors=16
 let g:airline_theme='gruvbox'
 colorscheme gruvbox
@@ -48,8 +49,15 @@ nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <F2> :set relativenumber!<CR>
 
+" CtrlP stuff
+let g:ctrlp_show_hidden = 1
+let g:Ctrlp_custom_ignore = '.git'
+
 " LaTeX stuff
-let g:tex_flavor = "latex"
+let g:tex_flavor = 'latex'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_fold_enabled = 0
+let g:vimtex_indent_enabled = 0
 
 " VimWiki stuff
 let wiki_1 = {'path': '~/documents/vimwiki/'}
