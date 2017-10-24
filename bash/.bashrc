@@ -16,6 +16,7 @@ alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
 alias clock='tty-clock -s -b -c -C 3'
 alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`; cd "$LASTDIR"'
+alias fractal='xaos -driver aa -aadriver curses -autopilot'
 alias dots='cd ~/.dotfiles'
 
 # shell prompt
