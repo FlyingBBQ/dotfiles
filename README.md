@@ -2,7 +2,7 @@
 
 Collection of all my dotfiles, managed using GNU stow. 
 ## Desktop
-Arch Linux + i3-gaps + polybar
+Arch Linux + i3-gaps + polybar. Dual monitor
 ![](images/desktop_clean.png)
 ## Laptop
 Arch Linux + bspwm + polybar
