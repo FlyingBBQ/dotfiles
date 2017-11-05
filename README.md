@@ -8,3 +8,6 @@ Arch Linux + i3-gaps + polybar. Dual monitor
 Arch Linux + bspwm + polybar
 ![](images/laptop_clean.png)
 ![](images/laptop_busy.png)
+
+Void Linux + herbstluftwm + polybar. (dev laptop)
+![](images/herbst.png)
