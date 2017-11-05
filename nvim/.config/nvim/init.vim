@@ -38,13 +38,15 @@ set foldmethod=indent   " fold based on indent level
 
 " themes and colors
 let g:gruvbox_termcolors=16
-let g:airline_theme='gruvbox'
 colorscheme gruvbox
 set background=dark
+let g:airline_theme='gruvbox'
+let g:airline_powerline_fonts = 0
+let g:airline_symbols_ascii = 1
 
 " Keybindings
-nnoremap j gj
-nnoremap k gk
+"nnoremap j gj
+"nnoremap k gk
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
 nnoremap <F2> :set relativenumber!<CR>

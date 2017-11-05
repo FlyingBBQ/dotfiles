@@ -95,6 +95,8 @@ padding-right = 2
 module-margin-left = 2
 module-margin-right = 1
 
+tray-position = right
+
 modules-left = i3
 modules-center = mpd
 modules-right = volume powermenu
