@@ -192,8 +192,14 @@ bindsym $mod+F9 exec --no-startup-id lock.sh
 bindsym $mod+shift+F9 exec --no-startup-id dunst_xautolock.sh
 # Sleep and lock
 bindsym $mod+Pause exec --no-startup-id suspend_lock.sh
-
+# 420blazeit
 bindsym $mod+F4 exec --no-startup-id dank.sh
+
+# Resize mode sucks
+bindsym $mod+Ctrl+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+j resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+k resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+l resize grow width 10 px or 10 ppt
 
 # resize window (you can also use the mouse for that)
 mode "" {
