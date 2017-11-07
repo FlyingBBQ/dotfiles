@@ -34,10 +34,10 @@ gaps outer 0
 
 # run at startup
 exec --no-startup-id sh ~/.fehbg &
-exec --no-startup-id polybar.sh
+exec --no-startup-id ~/.config/polybar/polybar.sh
 exec --no-startup-id xbindkeys &
 exec --no-startup-id xautolock -time 15 -locker 'lock.sh' &
-exec --no-startup-id redshift
+exec --no-startup-id redshift &
 exec --no-startup-id gmail.sh &
 
 # Colors
@@ -174,7 +174,7 @@ workspace $ws_3 output DVI-0
 workspace $ws_r output DVI-0
 
 # start workspaces and applications + lock screen
-exec --no-startup-id set_workspaces.sh
+exec --no-startup-id ~/.config/i3/set_workspaces.sh
 
 assign [class="discord"] $ws_2
 assign [class="Steam"] $ws_5
