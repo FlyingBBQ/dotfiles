@@ -64,7 +64,7 @@
     # screen width minus the width defined in within the geometry option.
     #
     # 1920/2=960-(width/2)=
-    geometry = "500x5+710+30"
+    geometry = "500x5+710+33"
     # The transparency of the window. range: [0; 100]
     # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
     transparency = 0

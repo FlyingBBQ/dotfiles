@@ -37,9 +37,9 @@ set foldnestmax=10      " 10 nested folds max
 set foldmethod=indent   " fold based on indent level
 
 " themes and colors
+set background=dark
 let g:gruvbox_termcolors=16
 colorscheme gruvbox
-set background=dark
 let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 0
 let g:airline_symbols_ascii = 1
@@ -62,7 +62,7 @@ let g:vimtex_fold_enabled = 0
 let g:vimtex_indent_enabled = 0
 
 " VimWiki stuff
-let wiki_1 = {'path': '~/documents/vimwiki/'}
+let wiki_1 = {'path': '~/documents/vimwiki/', 'diary_rel_path': '.diary/'}
 let wiki_2 = {'path': '~/thesis/wiki/'}
 let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_folding = 'expr'

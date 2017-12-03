@@ -18,4 +18,4 @@ urxvt -name topleft -e 'ncmpcpp' &
 urxvt -name bottomleft -e 'cava' &
 urxvt -name topright -e bash -c "alsi -l -u && bash" &
 urxvt -name centerright -e bash -c "tty-clock -s -b -c -C 3" &
-urxvt -name bottomright -e bash -c "vtop -t brew" &
+urxvt -name bottomright -e bash -c "htop -u derek" &

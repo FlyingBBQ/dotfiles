@@ -2,7 +2,7 @@
 
 #// main:
 set font "Misc Tamsyn Regular 11"
-set selection-clipboard primary
+set selection-clipboard clipboard
 
 #// colors:
 set default-bg \#282828
