@@ -1,0 +1,115 @@
+#! /bin/sh
+#
+# FlyingBBQ @ Bar
+#
+
+## Colors
+
+. ~/.dotfiles/panel/bar_colors
+
+## Config
+screen_width=1920
+bar_fifo=/tmp/bar-fifo
+bar_font="-f -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1"
+bar_width=1500
+bar_height=30
+bar_y=10
+bar_x=$(( ($screen_width - $bar_width)/2 ))
+
+geometry="-g ${bar_width}x${bar_height}+${bar_x}+${bar_y}"
+parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
+
+
+## Initialize
+if [ $(pgrep -cx bar) -gt 1 ] ; then
+    pkill -o bar
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$bar_fifo" ] && rm "$bar_fifo"
+mkfifo "$bar_fifo"
+
+## Modules
+
+# date
+while :
+do
+    echo 'D' $(date "+%a %b %d");
+    sleep 1;
+done > $bar_fifo &
+
+# time
+while :
+do
+    echo 'H' $(date "+%T");
+    sleep 1;
+done > $bar_fifo &
+
+# memory
+while :
+do
+    echo 'M' $(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}');
+    sleep 1;
+done > $bar_fifo &
+
+# cpu
+while :
+do
+    echo 'C' $(awk -v a="$(awk '/cpu /{print $2+$4,$2+$4+$5}' /proc/stat; sleep 0.5)" '/cpu /{split(a,b," "); printf "%2.f", 100*($2+$4-b[1])/($2+$4+$5-b[2]) }'  /proc/stat)
+    sleep 1;
+done > $bar_fifo &
+
+# temp
+while :
+do
+    echo 'T' $(cat /sys/class/thermal/thermal_zone0/temp | awk '{print $1/1000}')
+    sleep 3;
+done > $bar_fifo &
+
+# tags
+while :
+do
+    monitor=0
+    wm_infos=""
+    TAGS=( $(herbstclient tag_status $monitor) )
+    for i in "${TAGS[@]}" ; do
+        case ${i:0:1} in
+            '#')
+                # focused occupied desktop
+                wm_infos="${wm_infos}$hlinv ${i:1}$clr"
+                ;;
+            '+')
+                # focused free desktop
+                wm_infos="${wm_infos}%{+u}$u_highlight ${i:1}$clr%{-u}"
+                ;;
+            '!')
+                # focused urgent desktop
+                wm_infos="${wm_infos} ${i:1}$clr"
+                ;;
+            '%')
+                # different monitor focused
+                wm_infos="${wm_infos}$occupied ${i:1}$clr"
+                ;;
+            '-')
+                # different monitor unfocused
+                wm_infos="${wm_infos}%{+u}$u_occupied ${i:1}$clr%{-u}"
+                ;;
+            ':')
+                # occupied desktop
+                wm_infos="${wm_infos}$occupied2 ${i:1}$clr"
+                ;;
+            *)
+                # free desktop
+                wm_infos="${wm_infos} ${i:1}$clr"
+                ;;
+        esac
+        shift
+    done
+    echo "W$wm_infos"
+    sleep .1
+done > $bar_fifo &
+
+~/.dotfiles/panel/bar_fifo < "$bar_fifo" | lemonbar $geometry$parameters | sh &
+
+wait
