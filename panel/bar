@@ -20,6 +20,11 @@ geometry="-g ${bar_width}x${bar_height}+${bar_x}+${bar_y}"
 parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
 
 ## Initialize
+if [ $(pgrep bar) -gt 1]
+then 
+    pkill bar
+fi
+
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 [ -e "$bar_fifo" ] && rm "$bar_fifo"
