@@ -19,7 +19,7 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close_and_remove
 hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
-hc keybind $Mod-d spawn rofi -show run
+hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '210' -y '10' -w '1500' -lh '30'
 hc keybind $Mod-F9 spawn ~/code/scripts/lock.sh
 
 # basic movement
@@ -189,15 +189,15 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
+# unlock, just to be sure
+hc unlock
+
 herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
-hc set_monitors 1920x1040+0+40 1920x1040+1920+40
+hc set_monitors 1920x1080+0+0 1920x1080+1920+0
 # or simply:
 # hc detect_monitors
 
-exec ~/code/scripts/lock.sh
 exec ~/.config/lemonbar/run_bars
-
-# unlock, just to be sure
-hc unlock
+exec ~/code/scripts/lock.sh

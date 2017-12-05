@@ -27,11 +27,14 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+# make fifo file
 [ -e "$bar_fifo" ] && rm "$bar_fifo"
 mkfifo "$bar_fifo"
 
-## Modules
+# padding
+herbstclient pad 0 $(( $bar_height+$bar_y ))
 
+## Modules
 # date
 while :
 do

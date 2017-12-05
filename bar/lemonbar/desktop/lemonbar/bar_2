@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# FlyingBBQ @ Bar
+# FlyingBBQ @ Bar_2
 #
 
 ## Colors
@@ -27,11 +27,14 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+# make fifo file
 [ -e "$bar_fifo" ] && rm "$bar_fifo"
 mkfifo "$bar_fifo"
 
-## Modules
+# padding
+herbstclient pad 1 $(( $bar_height+$bar_y ))
 
+## Modules
 # song time
 while :
 do
