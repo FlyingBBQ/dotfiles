@@ -1,0 +1,33 @@
+#! /bin/sh
+
+. ~/.dotfiles/panel/bar_colors
+
+while read -r line ; do
+	case $line in
+		D*)
+			date="$normal${line#?}$clr"	
+			;;
+		H*)
+            clock="$highlight${line#?}$clr"
+			;;
+		M*)
+			mem="$normal MEM $highlight${line#?}%$clr"	
+			;;
+		C*)
+            cpu="$normal CPU $highlight${line#?}%$clr"
+			;;
+		T*)
+            tmp="$normal TMP $highlight${line#?}°$clr"
+			;;
+		B*)
+			batt="${line#?}"
+			;;
+		X*)
+			mpd="${line#?}"
+			;;
+		W*)
+			wm_infos="${line#?}"
+			;;
+	esac
+	printf "%s\n" "%{l}%{c}$wm_infos%{r}"
+done
