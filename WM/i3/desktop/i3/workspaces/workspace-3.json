@@ -1,0 +1,125 @@
+// vim:ts=4:sw=4:et
+{
+    // splitv split container with 2 children
+    "border": "normal",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.6,
+    "type": "con",
+    "nodes": [
+        {
+            // splith split container with 1 children
+            "border": "normal",
+            "floating": "auto_off",
+            "layout": "splith",
+            "percent": 0.645454545454546,
+            "type": "con",
+            "nodes": [
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 400,
+                       "width": 760,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "name": "ncmpcpp",
+                    "percent": 1,
+                    "swallows": [
+                       {
+                          "class": "^URxvt$",
+                          "instance": "^topleft$",
+                          "title": "^ncmpcpp$"
+                       }
+                    ],
+                    "type": "con"
+                }
+            ]
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 5,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 400,
+               "width": 760,
+               "x": 0,
+               "y": 0
+            },
+            "name": "cava",
+            "percent": 0.354545454545455,
+            "swallows": [
+               {
+                  "class": "^URxvt$",
+                  "instance": "^bottomleft$",
+                  "title": "^cava$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
+{
+    // splitv split container with 2 children
+    "border": "normal",
+    "floating": "auto_off",
+    "layout": "splitv",
+    "percent": 0.4,
+    "type": "con",
+    "nodes": [
+        {
+            // splith split container with 1 children
+            "border": "normal",
+            "floating": "auto_off",
+            "layout": "splith",
+            "percent": 0.4,
+            "type": "con",
+            "nodes": [
+                {
+                    "border": "pixel",
+                    "current_border_width": 5,
+                    "floating": "auto_off",
+                    "geometry": {
+                       "height": 400,
+                       "width": 760,
+                       "x": 0,
+                       "y": 0
+                    },
+                    "name": "alsi",
+                    "percent": 1,
+                    "swallows": [
+                       {
+                          "class": "^URxvt$",
+                          "instance": "^topright$"
+                       }
+                    ],
+                    "type": "con"
+                }
+            ]
+        },
+        {
+            "border": "pixel",
+            "current_border_width": 5,
+            "floating": "auto_off",
+            "geometry": {
+               "height": 400,
+               "width": 760,
+               "x": 0,
+               "y": 0
+            },
+            "name": "htop",
+            "percent": 0.6,
+            "swallows": [
+               {
+                  "class": "^URxvt$",
+                  "instance": "^bottomright$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
