@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+pkill bar
+
+# Terminate already running bar instances
+killall -q bar bar_2
+
+# Wait until the processes have been shut down
+while pgrep -x bar >/dev/null; do sleep 1; done
+
+# Launch bar1 and bar2
+. ~/.dotfiles/panel/bar &
+. ~/.dotfiles/panel/bar_2 &
+
+echo "Bars launched..."
