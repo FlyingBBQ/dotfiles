@@ -109,5 +109,5 @@ bar="lemonbar "$G$P
 while true
 do
     echo "$(modules)"
-    sleep 0.2
+    sleep 0.5
 done | $bar

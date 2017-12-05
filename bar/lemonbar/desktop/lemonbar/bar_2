@@ -5,7 +5,7 @@
 
 ## Colors
 
-. ~/.dotfiles/panel/bar_colors
+. ~/.config/lemonbar/bar_colors
 
 ## Config
 screen_width=1920
@@ -105,6 +105,6 @@ do
 done > $bar_fifo &
 
 ## bar
-~/.dotfiles/panel/bar_fifo_2 < "$bar_fifo" | lemonbar $geometry$parameters | sh &
+~/.config/lemonbar/bar_fifo_2 < "$bar_fifo" | lemonbar $geometry$parameters | sh &
 
 wait

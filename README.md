@@ -1,8 +1,10 @@
 # Dotfiles
 
 Collection of all my dotfiles, managed using GNU stow. 
-## Desktop
-Arch Linux + i3-gaps + polybar. Dual monitor
+## Desktop (dual monitor)
+Arch Linux + herbstluftwm + lemonbar 
+![](images/desktop_lemonbar.png)
+Arch Linux + i3-gaps + polybar 
 ![](images/desktop_clean.png)
 ## Laptop
 Arch Linux + bspwm + polybar

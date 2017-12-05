@@ -8,14 +8,11 @@ hc() {
 
 hc emit_hook reload
 
-# xsetroot -solid '#5A8E3A'
-
 # remove all existing keybindings
 hc keyunbind --all
 
 # keybindings
 # if you have a super key you will be much happier with Mod set to Mod4
-#Mod=Mod1    # Use alt as the main modifier
 Mod=Mod4   # Use the super key as the main modifier
 
 # hc keybind $Mod-Shift-q quit
@@ -45,8 +42,6 @@ hc keybind $Mod-o       chain , split   right   0.5 , focus -e right
 
 hc keybind $Mod-Shift-u       chain , split   top  0.5 , focus -e up
 hc keybind $Mod-Shift-o       chain , split   left   0.5 , focus -e left
-#hc keybind $Mod-u       split   bottom  0.5
-#hc keybind $Mod-o       split   right   0.5
 # let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 
@@ -144,7 +139,6 @@ hc keybind XF86AudioNext spawn mpc -h ~/.config/mpd/socket next
 hc keybind XF86AudioPrev spawn mpc -h ~/.config/mpd/socket prev
 hc keybind XF86AudioStop spawn sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"
 
-
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
@@ -195,16 +189,15 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
-# unlock, just to be sure
-hc unlock
-
 herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
 hc set_monitors 1920x1040+0+40 1920x1040+1920+40
-# hc set_monitors 1920x1030+0+40
 # or simply:
 # hc detect_monitors
 
-# exec ~/.config/polybar/polybar.sh &
-exec ~/.dotfiles/panel/run_bars
+exec ~/code/scripts/lock.sh
+exec ~/.config/lemonbar/run_bars
+
+# unlock, just to be sure
+hc unlock
