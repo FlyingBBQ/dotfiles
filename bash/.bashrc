@@ -18,6 +18,7 @@ alias clk='tty-clock -s -b -c -C 3'
 alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`; cd "$LASTDIR"'
 alias fractal='xaos -driver aa -aadriver curses -autopilot'
 alias dots='cd ~/.dotfiles'
+alias stowc='stow -t ~/.config'
 
 # shell prompt
 PS1='\[\e[0;31m\]\w \[\e[0;33m\]∇\[\e[0m\] '
