@@ -199,5 +199,5 @@ hc set_monitors 1920x1080+0+0 1920x1080+1920+0
 # or simply:
 # hc detect_monitors
 
-exec ~/.config/lemonbar/run_bars
-exec ~/code/scripts/lock.sh
+. ~/.config/lemonbar/run_bars &
+. ~/code/scripts/lock.sh &
