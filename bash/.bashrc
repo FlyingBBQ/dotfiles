@@ -23,16 +23,14 @@ alias stowc='stow -t ~/.config'
 # shell prompt
 PS1='\[\e[0;31m\]\w \[\e[0;33m\]∇\[\e[0m\] '
 
-# bindings
-bind Space:magic-space
-bind '"\C-h": "cd ..\n"'
-bind '"\C-g": "git add -u; git commit -v && git push"'
-bind '"\C-p": history-search-backward'
-bind '"\C-n": history-search-forward'
-bind -x '"\C-l": "ls"'
-
 # functions
 cs() { cd "$@" && ls; }
+
+# cdpath ":" = delimeter
+CDPATH='.:..:../..:~:~/documents'
+
+# spelling
+shopt -s cdspell
 
 # history
 shopt -s histappend
