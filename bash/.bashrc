@@ -1,7 +1,7 @@
 #
 # ~/.bashrc
 #
-# FlyingBBQ @ bash
+# FlyingBBQ » bash
 #
 
 # If not running interactively, don't do anything

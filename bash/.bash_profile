@@ -1,6 +1,8 @@
 #
 # ~/.bash_profile
 #
+# FlyingBBQ » bash
+#
 
 [[ -f ~/.profile ]] && . ~/.profile
 [[ -f ~/.bashrc ]] && . ~/.bashrc

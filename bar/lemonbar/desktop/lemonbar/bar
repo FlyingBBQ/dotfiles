@@ -73,7 +73,7 @@ done > $bar_fifo &
 # email
 while :
 do
-    echo 'E'$(python ~/.config/polybar/.mail)
+    echo 'E'$(python ~/code/scripts/.mail)
     sleep 10;
 done > $bar_fifo &
 
