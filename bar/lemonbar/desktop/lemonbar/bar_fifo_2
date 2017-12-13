@@ -5,13 +5,13 @@
 while read -r line ; do
     case $line in
         S*)
-            songtime="$highlight ${line#?}$clr"
+            songtime="${line#?}$clr"
             ;;
         A*)
-            artist="$normal ${line#?}$clr"
+            artist="${line#?}$clr"
             ;;
         V*)
-            volume="$normal VOL $highlight${line#?}%$clr"
+            volume="$normal VOL $highlight${line#?}$clr"
             ;;
         W*)
             wm_infos="$dark-<$clr${line#?}$dark >-$clr"

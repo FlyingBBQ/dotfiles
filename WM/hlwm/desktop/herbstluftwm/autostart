@@ -118,6 +118,11 @@ hc keybind $Mod-space                                                           
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
 
+# toggle show frame background
+hc keybind $Mod-b chain , cycle_value smart_window_surroundings 0 1 \
+                        , cycle_value frame_gap 20 0               \
+                        , cycle_value frame_bg_transparent 0 1
+
 # mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
@@ -174,15 +179,13 @@ hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 
-hc keybind $Mod-b chain , cycle_value smart_window_surroundings 0 1 \
-                        , cycle_value frame_gap 20 0               \
-                        , cycle_value frame_bg_transparent 0 1
+# layout: 0=vertical, 1=horizontal
+hc set default_frame_layout 1
 
 # rules
 hc unrule -F
-#hc rule class=XTerm tag=3 # move all xterms to tag 3
+hc rule class=Discord tag=2
 hc rule focus=on # normally focus new clients
-#hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on

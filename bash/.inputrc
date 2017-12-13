@@ -16,10 +16,11 @@ $if Bash
 $endif
 
 # keybindings
-"\C-f": menu-complete
+"\C-j": menu-complete
+"\C-k": menu-complete-backward
 "\C-p": history-search-backward
 "\C-n": history-search-forward
-"\C-h": "cd ..\n"
+"\C-d": kill-whole-line
 "\C-g": "git add -u; git commit -v && git push"
 
 # options

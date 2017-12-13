@@ -38,14 +38,49 @@ herbstclient pad 1 $(( $bar_height+$bar_y ))
 # song time
 while :
 do
-    echo 'S'$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
+    # check if mpd is playing
+    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
+    if [ -n "$artist" ]; then
+        echo "S$highlight "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
+    else
+        echo 'S'
+    fi
     sleep 1
 done > $bar_fifo &
 
 # artist
 while :
 do
-    echo 'A'$(. ~/.dotfiles/scripts/code/scripts/bar_mpd.sh)
+    # check if mpd is playing
+    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
+    if [ -n "$artist" ]; then
+
+        # create temp file if $artist is not null
+        temp=/tmp/.lastSong_info
+        if [ ! -e $temp ]; then
+            touch $temp
+            echo "tit" > $temp
+        fi
+
+        # only switch when actually playing (not paused)
+        playing=$(mpc -h ~/.config/mpd/socket status | sed '2q;d' | cut -d "[" -f2 | cut -d "]" -f1)
+        if [ "$playing" == "playing" ]; then
+
+            # alternate ouput with artist and title
+            current=`cat $temp`
+            if [ "$current" == "tit" ]; then
+                echo "A$normal - $artist -"
+                echo "art" > $temp
+            else
+                title=$(mpc -h ~/.config/mpd/socket current -f %title%)
+                echo "A$normal $title"
+                echo "tit" > $temp
+            fi
+        fi
+    else
+        echo 'A'
+    fi
+    # switch artist/title every 5 seconds
     sleep 5
 done > $bar_fifo &
 
@@ -59,7 +94,7 @@ do
     then
         echo 'Vmuted'
     else
-        echo "V$volume"
+        echo "V$volume%"
     fi
     sleep 1
 done > $bar_fifo &

@@ -10,8 +10,9 @@
 # alias
 alias ls='ls --color=auto'
 alias la='ls -A --color=auto'
+#alias cd='>/dev/null cd'
+#alias c='clear'
 alias x='exit'
-alias c='clear'
 alias alsi='alsi -l -u'
 alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
@@ -27,10 +28,13 @@ PS1='\[\e[0;31m\]\w \[\e[0;33m\]∇\[\e[0m\] '
 cs() { cd "$@" && ls; }
 
 # cdpath ":" = delimeter
-CDPATH='.:..:../..:~:~/documents'
+#CDPATH='.:..:../..:~:~/documents'
 
 # spelling
 shopt -s cdspell
+
+# cd without "cd"
+shopt -s autocd
 
 # history
 shopt -s histappend
