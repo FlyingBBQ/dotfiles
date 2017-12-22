@@ -24,10 +24,10 @@ light="%{B$a$bg3}%{F$a$fg}$PR"
 light_high="%{B$a$bg3}%{F$a$ylw}$PR"
 highlight="%{B$a$bg2}%{F$a$ylw}$PR"
 hlinv="%{B$a$ylw}%{F$a$bg}$PR"
-occupied="%{B$a$bg3}%{F$a$fg}$PR"
+occupied="%{B$a$bg3}%{F$a$ylw}$PR"
 occupied2="%{B$a$bg}%{F$a$ylw}$PR"
-u_occupied="%{B$a$bg}%{F$a$fg}%{U$a$bg4}$PR"
-u_highlight="%{B$a$bg}%{F$a$fg}%{U$a$ylw}$PR"
+u_occupied="%{B$a$bg}%{F$a$ylw}%{U$a$bg4}$PR"
+u_highlight="%{B$a$bg}%{F$a$ylw}%{U$a$ylw}$PR"
 
 ## variables
 PL=" "

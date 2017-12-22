@@ -21,7 +21,7 @@ parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
 
 ## Initialize
 if [ $(pgrep bar) -gt 1 ]
-then 
+then
     pkill bar
 fi
 
@@ -80,7 +80,7 @@ done > $bar_fifo &
 # window info
 while :
 do
-    echo 'I'$(herbstclient attr clients.focus.title) 
+    echo 'I'$(herbstclient attr clients.focus.title)
     sleep .5;
 done > $bar_fifo &
 

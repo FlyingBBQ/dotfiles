@@ -39,8 +39,8 @@ herbstclient pad 1 $(( $bar_height+$bar_y ))
 while :
 do
     # check if mpd is playing
-    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
-    if [ -n "$artist" ]; then
+    title=$(mpc -h ~/.config/mpd/socket current -f %title%)
+    if [ -n "$title" ]; then
         echo "S$highlight "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
     else
         echo 'S'
@@ -53,7 +53,8 @@ while :
 do
     # check if mpd is playing
     artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
-    if [ -n "$artist" ]; then
+    title=$(mpc -h ~/.config/mpd/socket current -f %title%)
+    if [ -n "$title" ] || [ -n "$artist" ]; then
 
         # create temp file if $artist is not null
         temp=/tmp/.lastSong_info
@@ -72,7 +73,6 @@ do
                 echo "A$normal - $artist -"
                 echo "art" > $temp
             else
-                title=$(mpc -h ~/.config/mpd/socket current -f %title%)
                 echo "A$normal $title"
                 echo "tit" > $temp
             fi

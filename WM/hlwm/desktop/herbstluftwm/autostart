@@ -137,12 +137,12 @@ hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 
 # music
-hc keybind XF86AudioRaiseVolume spawn amixer -q set Master 2%+
-hc keybind XF86AudioLowerVolume spawn amixer -q set Master 2%-
-hc keybind XF86AudioPlay spawn mpc -h ~/.config/mpd/socket toggle
-hc keybind XF86AudioNext spawn mpc -h ~/.config/mpd/socket next
-hc keybind XF86AudioPrev spawn mpc -h ~/.config/mpd/socket prev
-hc keybind XF86AudioStop spawn sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"
+# hc keybind XF86AudioRaiseVolume spawn amixer -q set Master 2%+
+# hc keybind XF86AudioLowerVolume spawn amixer -q set Master 2%-
+# hc keybind XF86AudioPlay spawn mpc -h ~/.config/mpd/socket toggle
+# hc keybind XF86AudioNext spawn mpc -h ~/.config/mpd/socket next
+# hc keybind XF86AudioPrev spawn mpc -h ~/.config/mpd/socket prev
+# hc keybind XF86AudioStop spawn sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"
 
 # theme
 hc attr theme.tiling.reset 1
@@ -184,7 +184,7 @@ hc set default_frame_layout 1
 
 # rules
 hc unrule -F
-hc rule class=Discord tag=2
+hc rule class=discord tag=2
 hc rule focus=on # normally focus new clients
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on

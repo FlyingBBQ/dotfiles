@@ -49,6 +49,7 @@ let g:airline_symbols_ascii = 1
 "nnoremap k gk
 nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>f :NERDTreeToggle<CR>
+nnoremap <leader>v :VimtexTocOpen<CR>
 nnoremap <F2> :set relativenumber!<CR>
 
 " CtrlP stuff
@@ -58,7 +59,7 @@ let g:Ctrlp_custom_ignore = '.git'
 " LaTeX stuff
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
-let g:vimtex_fold_enabled = 0
+let g:vimtex_fold_enabled = 1
 let g:vimtex_indent_enabled = 0
 
 " VimWiki stuff
