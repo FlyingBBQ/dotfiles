@@ -56,7 +56,7 @@ module-margin-right = 1
 
 modules-left = bspwm mpdc mpd
 modules-center = date
-modules-right = eth1 cpu memory volume battery 
+modules-right = eth1 cpu memory volume battery
 
 scroll-up = bspwm-desknext
 scroll-down = bspwm-deskprev
@@ -156,6 +156,7 @@ poll-interval = 5
 
 format-charging = <animation-charging> <label-charging>
 format-discharging = <ramp-capacity> <label-discharging>
+format-font = 3
 format-full =  <label-full>
 
 label-charging = %percentage%%

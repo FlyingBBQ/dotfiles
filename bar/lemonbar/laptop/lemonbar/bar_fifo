@@ -1,0 +1,36 @@
+#! /bin/sh
+
+. ~/.config/lemonbar/bar_colors
+
+while read -r line ; do
+    case $line in
+        D*)
+            date="$normal ${line#?}$clr"
+            ;;
+        H*)
+            clock=" $highlight ${line#?}$clr"
+            ;;
+        I*)
+            window="$clr${line#?}"
+            ;;
+        E*)
+            email="$light MAIL $light_high${line#?}$clr"
+            ;;
+        M*)
+            mem="$normal MEM $highlight${line#?}%$clr"
+            ;;
+        C*)
+            cpu="$normal CPU $highlight${line#?}%$clr"
+            ;;
+        T*)
+            tmp="$normal TEMP $highlight${line#?}°$clr"
+            ;;
+        B*)
+            bat="${line#?}$clr"
+            ;;
+        W*)
+            wm_infos="$dark-<$clr${line#?}$dark >-$clr"
+            ;;
+    esac
+    printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$tmp $cpu $mem $bat"
+done

@@ -4,7 +4,8 @@
 #
 
 #--- bar
-. ~/.config/polybar/polybar.sh
+killall bar
+. ~/.config/lemonbar/bar
 
 #--- wallpaper
 feh --bg-fill ~/images/wallpapers/fall.png
@@ -13,14 +14,20 @@ feh --bg-fill ~/images/wallpapers/fall.png
 . ~/code/scripts/lock.sh
 
 #--- bspwm
-bspc monitor -d I II III IV V VI 
+if xrandr -q | grep 'VGA-1 connected'; then
+    bspc monitor LVDS-1 -d I II III IV
+    bspc monitor VGA-1 -d V VI
+else
+    bspc monitor LVDS-1 -d I II III IV V VI
+fi
 
-bspc config border_width         2
+bspc config border_width         3
 bspc config window_gap          10
 
-bspc config split_ratio          0.50
-bspc config borderless_monocle   true
-bspc config gapless_monocle      true
+bspc config split_ratio                 0.50
+bspc config borderless_monocle          true
+bspc config gapless_monocle             true
+bspc config remove_unplugged_monitors   true
 
 bspc config focused_border_color  \#FE8019
 bspc config normal_border_color   \#282828
@@ -32,6 +39,3 @@ bspc rule -a Zathura state=tiled
 #bspc rule -a mplayer2 state=floating
 #bspc rule -a Kupfer.py focus=on
 #bspc rule -a Screenkey manage=off
-
-#--- redshift
-redshift -c ~/.config/redshift.conf &
