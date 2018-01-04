@@ -31,6 +31,7 @@ setopt sharehistory
 # options
 setopt autocd
 setopt extendedglob
+setopt menucomplete
 
 zstyle :compinstall filename '/home/derek/.zshrc'
 zstyle ':completion:*' menu yes select

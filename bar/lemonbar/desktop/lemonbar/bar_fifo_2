@@ -13,8 +13,44 @@ while read -r line ; do
         V*)
             volume="$normal VOL $highlight${line#?}$clr"
             ;;
-        W*)
-            wm_infos="$dark-<$clr${line#?}$dark >-$clr"
+        tag*)
+            monitor=0
+            wm_infos=""
+            TAGS=( $(herbstclient tag_status $monitor) )
+            for i in "${TAGS[@]}" ; do
+                case ${i:0:1} in
+                    '#')
+                        # focused occupied desktop
+                        wm_infos="${wm_infos}$hlinv ${i:1}$clr"
+                        ;;
+                    '+')
+                        # focused free desktop
+                        wm_infos="${wm_infos}%{+u}$u_highlight ${i:1}$clr%{-u}"
+                        ;;
+                    '!')
+                        # focused urgent desktop
+                        wm_infos="${wm_infos} ${i:1}$clr"
+                        ;;
+                    '%')
+                        # different monitor focused
+                        wm_infos="${wm_infos}$occupied ${i:1}$clr"
+                        ;;
+                    '-')
+                        # different monitor unfocused
+                        wm_infos="${wm_infos}%{+u}$u_occupied ${i:1}$clr%{-u}"
+                        ;;
+                    ':')
+                        # occupied desktop
+                        wm_infos="${wm_infos}$occupied2 ${i:1}$clr"
+                        ;;
+                    *)
+                        # free desktop
+                        wm_infos="${wm_infos} ${i:1}$clr"
+                        ;;
+                esac
+                shift
+            done
+            wm_infos="$dark-<$clr${wm_infos}$dark >-$clr"
             ;;
     esac
     printf "%s\n" "%{l}$songtime $artist%{c}$wm_infos%{r}$volume"
