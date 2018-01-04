@@ -29,8 +29,89 @@ while read -r line ; do
             bat="${line#?}$clr"
             ;;
         W*)
-            wm_infos="$dark-<$clr${line#?}$dark >-$clr"
+            wm=
+            IFS=':'
+            set -- ${line#?}
+            while [ $# -gt 0 ] ; do
+                item=$1
+                name=${item#?}
+                case $item in
+                    [mM]*)
+                        case $item in
+                            m*)
+                                # monitor
+                                FG=$fg
+                                BG=$bg
+                                on_focused_monitor=
+                                ;;
+                            M*)
+                                # focused monitor
+                                FG=$fg
+                                BG=$bg
+                                on_focused_monitor=1
+                                ;;
+                        esac
+                        [ $num_mon -lt 2 ] && shift && continue
+                        wm="${wm}%{F$a${FG}}%{B$a${BG}}%{A:bspc monitor -f ${name}:}$clr"
+                        ;;
+                    [fFoOuU]*)
+                        case $item in
+                            f*)
+                                # free desktop
+                                FG=$fg
+                                BG=$bg
+                                ;;
+                            F*)
+                                if [ "$on_focused_monitor" ] ; then
+                                    # focused free desktop
+                                    FG=$bg
+                                    BG=$ylw
+                                else
+                                    # active free desktop
+                                    FG=$bg
+                                    BG=$ylw
+                                fi
+                                ;;
+                            o*)
+                                # occupied desktop
+                                FG=$ylw
+                                BG=$bg
+                                ;;
+                            O*)
+                                if [ "$on_focused_monitor" ] ; then
+                                    # focused occupied desktop
+                                    FG=$bg
+                                    BG=$ylw
+                                else
+                                    # active occupied desktop
+                                    FG=$bg
+                                    BG=$ylw
+                                fi
+                                ;;
+                            u*)
+                                # urgent desktop
+                                FG=$bg
+                                BG=$red
+                                ;;
+                            U*)
+                                if [ "$on_focused_monitor" ] ; then
+                                    # focused urgent desktop
+                                    FG=$bg
+                                    BG=$red
+                                else
+                                    # active urgent desktop
+                                    FG=$bg
+                                    BG=$red
+                                fi
+                                ;;
+                        esac
+                        wm="${wm}%{F$a${FG}}%{B$a${BG}}%{A:bspc desktop -f ${name}:} ${name}$clr"
+                        ;;
+                esac
+                shift
+            done
+            wm_infos="$dark-<$clr${wm}$dark >-$clr"
             ;;
-    esac
-    printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$tmp $cpu $mem $bat"
-done
+        esac
+        printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$tmp $cpu $mem $bat"
+    done

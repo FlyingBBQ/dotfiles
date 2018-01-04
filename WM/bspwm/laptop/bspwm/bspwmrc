@@ -5,7 +5,8 @@
 
 #--- bar
 killall bar
-. ~/.config/lemonbar/bar
+sleep 0.5
+. ~/.config/lemonbar/bar &
 
 #--- wallpaper
 feh --bg-fill ~/images/wallpapers/fall.png
