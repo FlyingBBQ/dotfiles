@@ -70,11 +70,11 @@ do
 done > $bar_fifo &
 
 # window info
-while :
-do
-    echo 'I'$(herbstclient attr clients.focus.title)
-    sleep .5;
-done > $bar_fifo &
+#while :
+#do
+#    echo 'I'$(herbstclient attr clients.focus.title)
+#    sleep .5;
+#done > $bar_fifo &
 
 # tags
 herbstclient -i | grep --line-buffered "tag_change" > $bar_fifo &
