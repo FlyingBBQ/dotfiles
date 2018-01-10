@@ -6,7 +6,7 @@
 
 # prompt
 PROMPT='%F{red}%~ %F{yellow}∇%f '
-RPROMPT='%F{7}%*%f'
+RPROMPT='%F{237}%*%f'
 
 # alias
 alias ls='ls --color=auto'
@@ -19,6 +19,7 @@ alias clk='tty-clock -s -b -c -C 3'
 alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`; cd "$LASTDIR"'
 alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
+alias gs='git status'
 
 # history
 HISTFILE=~/.histfile
@@ -31,9 +32,10 @@ setopt sharehistory
 # options
 setopt autocd
 setopt extendedglob
+setopt menucomplete
 
-zstyle :compinstall filename '/home/derek/.zshrc'
 zstyle ':completion:*' menu yes select
+zstyle :compinstall filename '/home/derek/.zshrc'
 zmodload zsh/complist
 
 # completion
@@ -62,11 +64,11 @@ zle -N zle-line-init
 # set vi mode
 bindkey -v
 
-# bindigs
+# bindings
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
-bindkey '^k' expand-or-complete
-bindkey '^j' reverse-menu-complete
 bindkey '^r' history-incremental-search-backward
 bindkey '^s' history-incremental-search-forward
-
+bindkey '^k' expand-or-complete
+bindkey -M menuselect '^j' reverse-menu-complete
+bindkey -s '^g' "git add -u; git commit -v && git push"

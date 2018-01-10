@@ -19,14 +19,6 @@ bar_x=$(( ($screen_width - $bar_width)/2 ))
 geometry="-g ${bar_width}x${bar_height}+${bar_x}+${bar_y}"
 parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
 
-## Initialize
-if [ $(pgrep bar) -gt 1 ]
-then
-    pkill bar
-fi
-
-trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
-
 # make fifo file
 [ -e "$bar_fifo" ] && rm "$bar_fifo"
 mkfifo "$bar_fifo"
@@ -78,54 +70,14 @@ do
 done > $bar_fifo &
 
 # window info
-while :
-do
-    echo 'I'$(herbstclient attr clients.focus.title)
-    sleep .5;
-done > $bar_fifo &
+#while :
+#do
+#    echo 'I'$(herbstclient attr clients.focus.title)
+#    sleep .5;
+#done > $bar_fifo &
 
 # tags
-while :
-do
-    monitor=0
-    wm_infos=""
-    TAGS=( $(herbstclient tag_status $monitor) )
-    for i in "${TAGS[@]}" ; do
-        case ${i:0:1} in
-            '#')
-                # focused occupied desktop
-                wm_infos="${wm_infos}$hlinv ${i:1}$clr"
-                ;;
-            '+')
-                # focused free desktop
-                wm_infos="${wm_infos}%{+u}$u_highlight ${i:1}$clr%{-u}"
-                ;;
-            '!')
-                # focused urgent desktop
-                wm_infos="${wm_infos} ${i:1}$clr"
-                ;;
-            '%')
-                # different monitor focused
-                wm_infos="${wm_infos}$occupied ${i:1}$clr"
-                ;;
-            '-')
-                # different monitor unfocused
-                wm_infos="${wm_infos}%{+u}$u_occupied ${i:1}$clr%{-u}"
-                ;;
-            ':')
-                # occupied desktop
-                wm_infos="${wm_infos}$occupied2 ${i:1}$clr"
-                ;;
-            *)
-                # free desktop
-                wm_infos="${wm_infos} ${i:1}$clr"
-                ;;
-        esac
-        shift
-    done
-    echo "W$wm_infos"
-    sleep .1
-done > $bar_fifo &
+herbstclient -i | grep --line-buffered "tag_change" > $bar_fifo &
 
 ## bar
 ~/.config/lemonbar/bar_fifo < "$bar_fifo" | lemonbar $geometry$parameters | sh &
