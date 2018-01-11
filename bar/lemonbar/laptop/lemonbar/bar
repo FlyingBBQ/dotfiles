@@ -27,36 +27,47 @@ mkfifo "$bar_fifo"
 # date
 while :
 do
-    echo 'D'$(date "+%a %b %d");
-    sleep 1;
+    echo 'D'$(date "+%a %b %d")
+    sleep 1
 done > $bar_fifo &
 
 # time
 while :
 do
-    echo 'H'$(date "+%T");
-    sleep 1;
+    echo 'H'$(date "+%T")
+    sleep 1
 done > $bar_fifo &
 
 # memory
 while :
 do
-    echo 'M'$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}');
-    sleep 1;
+    echo 'M'$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}')
+    sleep 1
 done > $bar_fifo &
 
 # cpu
 while :
 do
     echo -e 'C'$(awk -v a="$(awk '/cpu /{print $2+$4,$2+$4+$5}' /proc/stat; sleep 0.5)" '/cpu /{split(a,b," "); printf "%2.f", 100*($2+$4-b[1])/($2+$4+$5-b[2]) }'  /proc/stat)
-    sleep 1;
+    sleep 1
+done > $bar_fifo &
+
+# SSID
+while :
+do
+    if [ "$(nmcli radio wifi)" == "enabled" ]; then
+        echo "S$light $(iwgetid -r)"
+    else
+        echo "S$light_high disconnected"
+    fi
+    sleep 10
 done > $bar_fifo &
 
 # temp
 while :
 do
     echo 'T'$(cat /sys/class/thermal/thermal_zone0/temp | awk '{print $1/1000}')
-    sleep 3;
+    sleep 3
 done > $bar_fifo &
 
 # battery
@@ -69,14 +80,18 @@ do
             bat="$full BAT ${full_hl}100%"
             ;;
         'Discharging')
-            bat="$normal BAT ${highlight}$(acpi | awk '{print $4}' | sed 's/,$//')"
+            if (( $(acpi | awk '{print $4}' | sed 's/%,$//') -lt 20 )); then
+                bat="$normal BAT ${power_low}$(acpi | awk '{print $4}' | sed 's/,$//')"
+            else
+                bat="$normal BAT ${highlight}$(acpi | awk '{print $4}' | sed 's/,$//')"
+            fi
             ;;
         'Charging')
             bat="$power BAT ${power_hl}$(acpi | awk '{print $4}' | sed 's/,$//')"
             ;;
     esac
     echo "B$bat"
-    sleep 5;
+    sleep 5
 done > $bar_fifo &
 
 # wm

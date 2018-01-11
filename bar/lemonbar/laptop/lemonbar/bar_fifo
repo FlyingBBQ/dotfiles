@@ -2,6 +2,8 @@
 
 . ~/.config/lemonbar/bar_colors
 
+num_mon=$(bspc query -M | wc -l)
+
 while read -r line ; do
     case $line in
         D*)
@@ -27,6 +29,9 @@ while read -r line ; do
             ;;
         B*)
             bat="${line#?}$clr"
+            ;;
+        S*)
+            ssid="${line#?}$clr"
             ;;
         W*)
             wm=
@@ -113,5 +118,5 @@ while read -r line ; do
             wm_infos="$dark-<$clr${wm}$dark >-$clr"
             ;;
         esac
-        printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$tmp $cpu $mem $bat"
+        printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$ssid $tmp $cpu $mem $bat"
     done

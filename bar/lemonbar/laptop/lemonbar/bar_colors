@@ -4,7 +4,7 @@
 a="#"
 bg2="3c3836"
 bg3="504945"
-bg4="777777"
+bg4="665c54"
 bg=$(xrdb -query|awk '/\*background/ {print $2}'|cut -d '#' -f2)
 fg=$(xrdb -query|awk '/\*foreground/ {print $2}'|cut -d '#' -f2)
 blk=$(xrdb -query|awk '/\*color0:/ {print $2}'|cut -d '#' -f2)
@@ -30,6 +30,7 @@ u_occupied="%{B$a$bg}%{F$a$ylw}%{U$a$bg4}$PR"
 u_highlight="%{B$a$bg}%{F$a$ylw}%{U$a$ylw}$PR"
 power="%{B$a$blu}%{F$a$fg}$PR"
 power_hl="%{B$a$blu}%{F$a$ylw}$PR"
+power_low="%{B$a$red}%{F$a$fg}$PR"
 full="%{B$a$cyn}%{F$a$fg}$PR"
 full_hl="%{B$a$cyn}%{F$a$ylw}$PR"
 
