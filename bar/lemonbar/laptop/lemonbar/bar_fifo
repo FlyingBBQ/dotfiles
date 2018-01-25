@@ -12,8 +12,8 @@ while read -r line ; do
         H*)
             clock=" $highlight ${line#?}$clr"
             ;;
-        I*)
-            window="$clr${line#?}"
+        V*)
+            volume="${line#?}$clr"
             ;;
         E*)
             email="$light MAIL $light_high${line#?}$clr"
@@ -118,5 +118,5 @@ while read -r line ; do
             wm_infos="$dark-<$clr${wm}$dark >-$clr"
             ;;
         esac
-        printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$ssid $tmp $cpu $mem $bat"
+        printf "%s\n" "%{l}$date$clock $ssid%{c}$wm_infos%{r}$tmp $cpu $mem $volume $bat"
     done
