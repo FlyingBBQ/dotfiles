@@ -70,6 +70,21 @@ do
     sleep 3
 done > $bar_fifo &
 
+# volume
+while :
+do
+    volume="$(pactl list sinks | grep "Volume: front-left:" | awk '{print substr($5, 1, length($5)-1)}')"
+    mute="$(pactl list sinks | grep Mute: | awk '{print $2}')"
+
+    if [ "$mute" == "yes" ];
+    then
+        echo "V$normal VOL ${highlight}muted"
+    else
+        echo "V$full VOL $full_hl$volume%"
+    fi
+    sleep 1
+done > $bar_fifo &
+
 # battery
 while :
 do
@@ -88,6 +103,9 @@ do
             ;;
         'Charging')
             bat="$power BAT ${power_hl}$(acpi | awk '{print $4}' | sed 's/,$//')"
+            ;;
+        *)
+            bat="$normal BAT ${highlight}$(acpi | awk '{print $4}' | sed 's/,$//')"
             ;;
     esac
     echo "B$bat"

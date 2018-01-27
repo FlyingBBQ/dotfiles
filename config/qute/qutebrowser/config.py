@@ -15,7 +15,7 @@ c.completion.scrollbar.width = 0
 
 # tabs
 c.tabs.favicons.show= False
-c.tabs.width.indicator = 0
+c.tabs.indicator.width = 0
 c.tabs.title.alignment = 'center'
 c.tabs.padding = {'bottom': 8, 'left': 16, 'right': 16, 'top': 8}
 
@@ -32,7 +32,7 @@ c.colors.completion.even.bg = c.colors.completion.odd.bg
 c.colors.completion.category.fg = '#fe8019'
 c.colors.completion.category.bg = '#282828'
 c.colors.completion.category.border.top = '#282828'
-c.colors.completion.category.border.bottom = c.colors.completion.category.border.top 
+c.colors.completion.category.border.bottom = c.colors.completion.category.border.top
 c.colors.completion.item.selected.fg = '#282828'
 c.colors.completion.item.selected.bg = '#fe8019'
 c.colors.completion.item.selected.border.top = '#fe8019'
