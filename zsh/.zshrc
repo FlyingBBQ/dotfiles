@@ -20,6 +20,7 @@ alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`;
 alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
 alias gs='git status'
+alias slep='lock.sh && systemctl suspend'
 
 # history
 HISTFILE=~/.histfile
