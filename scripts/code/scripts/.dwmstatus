@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# make fifo file
+fifo_path=/tmp/dwmstatus.fifo
+[ -e "$fifo_path" ] && rm "$fifo_path"
+mkfifo "$fifo_path"
+
+# date
+while :
+do
+    echo 'D'$(date "+%a %b %d")
+    sleep 60
+done > $fifo_path &
+
+# time
+while :
+do
+    echo 'H'$(date "+%T")
+    sleep 1
+done > $fifo_path &
+
+# memory
+while :
+do
+    echo 'M'$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}')
+    sleep 3
+done > $fifo_path &
+
+# battery
+while :
+do
+    bat=""
+    stat=$(acpi | awk '{print $3}' | sed 's/,$//')
+    case $stat in
+        'Full')
+            bat="= 100% ="
+            ;;
+        'Discharging')
+            bat="- $(acpi | awk '{print $4}' | sed 's/,$//') -"
+            ;;
+        'Charging')
+            bat="+ $(acpi | awk '{print $4}' | sed 's/,$//') +"
+            ;;
+        *)
+            bat="= $(acpi | awk '{print $4}' | sed 's/,$//') ="
+            ;;
+    esac
+    echo "B$bat"
+    sleep 30
+done > $fifo_path &
+
+# SSID
+while :
+do
+    echo 'S'$(iwgetid -r)
+    sleep 10
+done > $fifo_path &
+
+cat "$fifo_path" | while read -r line ; do
+    case $line in
+        D*)
+            date="${line#?}"
+            ;;
+        H*)
+            clock="${line#?}"
+            ;;
+        M*)
+            mem="${line#?}"
+            ;;
+        B*)
+            battery="${line#?}"
+            ;;
+        S*)
+            ssid="${line#?}"
+            ;;
+    esac
+    xsetroot -name " $ssid | $battery | MEM $mem% | $date $clock"
+done
