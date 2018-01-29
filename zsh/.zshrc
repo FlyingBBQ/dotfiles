@@ -66,8 +66,8 @@ zle -N zle-line-init
 bindkey -v
 
 # bindings
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
+bindkey '^p' history-beginning-search-backward
+bindkey '^n' history-beginning-search-forward
 bindkey '^r' history-incremental-search-backward
 bindkey '^s' history-incremental-search-forward
 bindkey '^k' expand-or-complete
