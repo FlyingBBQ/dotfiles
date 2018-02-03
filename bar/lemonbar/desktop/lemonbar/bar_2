@@ -11,7 +11,7 @@
 screen_width=1920
 bar_fifo=/tmp/bar-fifo-2
 bar_font="-f -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1"
-bar_width=1500
+bar_width=1200
 bar_height=30
 bar_y=10
 bar_x=$(( 1920+($screen_width - $bar_width)/2 ))
@@ -33,7 +33,7 @@ do
     # check if mpd is playing
     title=$(mpc -h ~/.config/mpd/socket current -f %title%)
     if [ -n "$title" ]; then
-        echo "S$highlight "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
+        echo "S$hl "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
     else
         echo 'S'
     fi

@@ -11,7 +11,7 @@ while read -r line ; do
             artist="${line#?}$clr"
             ;;
         V*)
-            volume="$normal VOL $highlight${line#?}$clr"
+            volume="$normal VOL $hl${line#?}$clr"
             ;;
         tag*)
             monitor=1

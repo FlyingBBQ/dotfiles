@@ -39,6 +39,7 @@ set foldmethod=indent   " fold based on indent level
 " themes and colors
 set background=dark
 let g:gruvbox_termcolors=16
+let g:gruvbox_improved_strings=0
 colorscheme gruvbox
 let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 0

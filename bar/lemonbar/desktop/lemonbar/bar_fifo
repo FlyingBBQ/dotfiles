@@ -7,22 +7,22 @@ while read -r line ; do
             date="$normal ${line#?}$clr"
             ;;
         H*)
-            clock=" $highlight ${line#?}$clr"
+            clock=" $hl ${line#?}$clr"
             ;;
         I*)
             window="$clr${line#?}"
             ;;
         E*)
-            email="$light MAIL $light_high${line#?}$clr"
+            email="$light MAIL $light_hl${line#?}$clr"
             ;;
         M*)
-            mem="$normal MEM $highlight${line#?}%$clr"
+            mem="${line#?}$clr"
             ;;
         C*)
-            cpu="$normal CPU $highlight${line#?}%$clr"
+            cpu="$normal CPU $hl${line#?}%$clr"
             ;;
         T*)
-            tmp="$normal TEMP $highlight${line#?}°$clr"
+            tmp="$normal TEMP $hl${line#?}°$clr"
             ;;
         tag*)
             monitor=0
