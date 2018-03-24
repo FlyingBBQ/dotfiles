@@ -14,6 +14,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
