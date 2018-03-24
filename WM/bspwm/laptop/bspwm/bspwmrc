@@ -9,7 +9,8 @@ sleep 0.5
 . ~/.config/lemonbar/bar &
 
 #--- wallpaper
-feh --bg-fill ~/images/wallpapers/fall.png
+#feh --bg-fill ~/images/wallpapers/fall.png
+xsetroot -solid "#458588"
 
 #--- lock
 . ~/code/scripts/lock.sh

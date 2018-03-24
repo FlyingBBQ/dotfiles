@@ -118,5 +118,6 @@ while read -r line ; do
             wm_infos="$dark-<$clr${wm}$dark >-$clr"
             ;;
         esac
-        printf "%s\n" "%{l}$date$clock $ssid%{c}$wm_infos%{r}$tmp $cpu $mem $volume $bat"
+        #printf "%s\n" "%{l}$date$clock $ssid%{c}$wm_infos%{r}$tmp $cpu $mem $volume $bat"
+        echo "%{l}$date$clock $ssid%{c}$wm_infos%{r}$tmp $cpu $mem $volume $bat"
     done

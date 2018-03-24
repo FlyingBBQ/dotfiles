@@ -55,12 +55,12 @@ done > $bar_fifo &
 # SSID
 while :
 do
-    if [ "$(nmcli radio wifi)" == "enabled" ]; then
+    if [ "$(nmcli radio wifi)" == "enabled" ] && [ -n "$(iwgetid -r)" ]; then
         echo "S$light $(iwgetid -r)"
     else
         echo "S$light_high disconnected"
     fi
-    sleep 10
+    sleep 3
 done > $bar_fifo &
 
 # temp
