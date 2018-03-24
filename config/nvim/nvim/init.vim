@@ -3,14 +3,17 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
-Plug 'lervag/vimtex'
-Plug 'https://github.com/vimwiki/vimwiki.git'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer' }
-Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'lervag/vimtex'
+Plug 'https://github.com/vimwiki/vimwiki.git'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer' }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'godlygeek/tabular'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 
@@ -45,17 +48,30 @@ let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 0
 let g:airline_symbols_ascii = 1
 
-" Keybindings
-"nnoremap j gj
-"nnoremap k gk
-nnoremap <leader>t :TagbarToggle<CR>
-nnoremap <leader>f :NERDTreeToggle<CR>
-nnoremap <leader>v :VimtexTocOpen<CR>
-nnoremap <F2> :set relativenumber!<CR>
+" Keybindings (toggles)
+nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F3> :TagbarToggle<CR>
+nnoremap <F4> :VimtexTocOpen<CR>
+nnoremap <F5> :IndentGuidesToggle<CR>
+nnoremap <F6> :set relativenumber!<CR>
+
+" Easymotion stuff
+map <leader> <Plug>(easymotion-prefix)
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+nmap <leader>s <Plug>(easymotion-overwin-f2)
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " CtrlP stuff
 let g:ctrlp_show_hidden = 1
 let g:Ctrlp_custom_ignore = '.git'
+
+" Indent Guides stuff
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
