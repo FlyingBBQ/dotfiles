@@ -73,3 +73,5 @@ bindkey '^s' history-incremental-search-forward
 bindkey '^k' expand-or-complete
 bindkey -M menuselect '^j' reverse-menu-complete
 bindkey -s '^g' "git add -u; git commit -v && git push"
+bindkey -a '^[[3~' delete-char
+bindkey -v '^?' backward-delete-char
