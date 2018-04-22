@@ -34,7 +34,9 @@ herbstclient pad 1 $(( $bar_height+$bar_y ))
 while :
 do
     # check if mpd is playing
+    # check both title and artist in case a tag is empty
     title=$(mpc -h ~/.config/mpd/socket current -f %title%)
+    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
     if [ -n "$title" ] || [ -n "$artist" ]; then
         echo "S$hl "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
     else
@@ -47,11 +49,12 @@ done > $bar_fifo &
 while :
 do
     # check if mpd is playing
-    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
+    # check both title and artist in case a tag is empty
     title=$(mpc -h ~/.config/mpd/socket current -f %title%)
+    artist=$(mpc -h ~/.config/mpd/socket current -f %artist%)
     if [ -n "$title" ] || [ -n "$artist" ]; then
 
-        # create temp file if $artist is not null
+        # create temp file if $artist or $title is not null
         temp=/tmp/.lastSong_info
         if [ ! -e $temp ]; then
             touch $temp
@@ -101,6 +104,8 @@ do
 
         echo "W$light $weather_desc, $light_hl$weather_temp$SYMBOL"
     fi
+    # update every 15min because weather doesn't change that often
+    # also, API max requests are 1 per 10min
     sleep 900
 done > $bar_fifo &
 
