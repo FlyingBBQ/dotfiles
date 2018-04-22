@@ -26,13 +26,16 @@ mkfifo "$bar_fifo"
 # padding
 herbstclient pad 1 $(( $bar_height+$bar_y ))
 
+# weather credentials
+. ~/code/scripts/.weather
+
 ## Modules
 # song time
 while :
 do
     # check if mpd is playing
     title=$(mpc -h ~/.config/mpd/socket current -f %title%)
-    if [ -n "$title" ]; then
+    if [ -n "$title" ] || [ -n "$artist" ]; then
         echo "S$hl "$(mpc -h ~/.config/mpd/socket status | grep "%)" | awk '{ print $3}')
     else
         echo 'S'
@@ -79,8 +82,9 @@ done > $bar_fifo &
 # weather
 while :
 do
-    KEY="7c3d50a9e05138391cc0faa99c39570d"
-    CITY="3054643"
+    # some variables sourced at top of file
+    KEY=$key
+    CITY=$city
     UNITS="metric"
     SYMBOL="°"
 
