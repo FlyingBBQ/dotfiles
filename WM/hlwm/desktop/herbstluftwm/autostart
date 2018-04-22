@@ -21,7 +21,6 @@ hc keybind $Mod-Shift-q close_and_remove
 hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '360' -y '10' -w '1200' -lh '30'
 hc keybind $Mod-F9 spawn ~/code/scripts/lock.sh
-hc keybind $Mod-F10 spawn ~/set_layout.sh
 
 # basic movement
 # focusing clients
