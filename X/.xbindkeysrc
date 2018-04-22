@@ -60,6 +60,10 @@
 'sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"'
   XF86AudioStop
 
+# Global mute audio
+'sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"'
+  XF86AudioMute
+
 # Take complete screenshot
 "scrot -m '/home/derek/images/scrots/%Y-%m-%d_%S_scrot.png'"
   Print
