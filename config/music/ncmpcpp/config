@@ -313,7 +313,7 @@ playlist_display_mode = columns
 #
 #seek_time = 1
 #
-#volume_change_step = 2
+volume_change_step = 5
 #
 #autocenter_mode = no
 #
@@ -427,7 +427,7 @@ locked_screen_width_part = 60
 #
 #display_volume_level = yes
 #
-#display_bitrate = no
+display_bitrate = yes
 #
 #display_remaining_time = no
 #

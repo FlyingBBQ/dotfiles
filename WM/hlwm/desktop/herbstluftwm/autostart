@@ -21,6 +21,7 @@ hc keybind $Mod-Shift-q close_and_remove
 hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '360' -y '10' -w '1200' -lh '30'
 hc keybind $Mod-F9 spawn ~/code/scripts/lock.sh
+hc keybind $Mod-F10 spawn ~/set_layout.sh
 
 # basic movement
 # focusing clients
@@ -75,7 +76,7 @@ done
 # on. This is done by safing the current monitor index in the my_monitor
 # attribute of the focused tag. If the monitor has a (nonempty) name, use the
 # monitor name instead of its index.
-herbstclient keybind $Mod-t chain \
+herbstclient keybind $Mod-m chain \
     , new_attr string tags.focus.my_monitor \
     , substitute M monitors.focus.index set_attr tags.focus.my_monitor M \
     , try and \
@@ -84,7 +85,7 @@ herbstclient keybind $Mod-t chain \
                 set_attr tags.focus.my_monitor M
 
 # Add a keybinding for removing the lock
-herbstclient keybind $Mod-Shift-t \
+herbstclient keybind $Mod-Shift-m \
     remove_attr tags.focus.my_monitor
 
 # Statically define which tag should be send to which monitor
@@ -98,6 +99,7 @@ lock_tag_to_monitor() {
 lock_tag_to_monitor 1 0
 lock_tag_to_monitor 2 1
 lock_tag_to_monitor 3 1
+lock_tag_to_monitor 4 0
 
 # cycle through tags
 hc keybind $Mod-x use_index +1 --skip-visible
@@ -135,14 +137,6 @@ hc keybind $Mod-Tab   cycle_monitor
 #hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
-
-# music
-# hc keybind XF86AudioRaiseVolume spawn amixer -q set Master 2%+
-# hc keybind XF86AudioLowerVolume spawn amixer -q set Master 2%-
-# hc keybind XF86AudioPlay spawn mpc -h ~/.config/mpd/socket toggle
-# hc keybind XF86AudioNext spawn mpc -h ~/.config/mpd/socket next
-# hc keybind XF86AudioPrev spawn mpc -h ~/.config/mpd/socket prev
-# hc keybind XF86AudioStop spawn sh -c "pactl set-sink-mute $(pactl list sinks short | awk '{print $1;}') toggle"
 
 # theme
 hc attr theme.tiling.reset 1
@@ -184,13 +178,28 @@ hc set default_frame_layout 1
 
 # rules
 hc unrule -F
-hc rule class=discord tag=2
 hc rule focus=on # normally focus new clients
-# give focus to most common terminals
-#hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+
+# load layout for fixed tags
+## Tag 2
+hc load 2 '
+(split horizontal:0.600000:0
+    (clients horizontal:0)
+    (clients vertical:0))
+'
+hc rule class=qutebrowser tag=2 index=0
+hc rule class=discord tag=2 index=1
+## Tag 3
+hc load 3 '
+(split vertical:0.750000:1
+    (clients vertical:0)
+    (clients horizontal:0))
+'
+hc rule class=tag3_ncmpcpp tag=3 index=0 pseudotile=on
+hc rule class=tag3_cava tag=3 index=1 pseudotile=on
 
 # unlock, just to be sure
 hc unlock
@@ -202,5 +211,12 @@ hc set_monitors 1920x1080+0+0 1920x1080+1920+0
 # or simply:
 # hc detect_monitors
 
+# start the bar and lock
 . ~/.config/lemonbar/run_bars &
 . ~/code/scripts/lock.sh &
+
+# start programs for fixed tags
+discord &
+qutebrowser &
+#urxvt -name tag3_ncmpcpp -e 'ncmpcpp' &
+#urxvt -name tag3_cava -e 'cava' &

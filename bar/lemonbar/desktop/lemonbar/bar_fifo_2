@@ -10,6 +10,9 @@ while read -r line ; do
         A*)
             artist="${line#?}$clr"
             ;;
+        W*)
+            weather="${line#?}$clr"
+            ;;
         V*)
             volume="$normal VOL $hl${line#?}$clr"
             ;;
@@ -53,5 +56,5 @@ while read -r line ; do
             wm_infos="$dark-<$clr${wm_infos}$dark >-$clr"
             ;;
     esac
-    printf "%s\n" "%{l}$songtime $artist%{c}$wm_infos%{r}$volume"
+    printf "%s\n" "%{l}$songtime $artist%{c}$wm_infos%{r}$weather $volume"
 done

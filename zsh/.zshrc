@@ -21,6 +21,7 @@ alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
 alias gs='git status'
 alias slep='lock.sh && systemctl suspend'
+alias nvimit='nvim ~/.config/nvim/init.vim'
 
 # history
 HISTFILE=~/.histfile
@@ -33,9 +34,9 @@ setopt sharehistory
 # options
 setopt autocd
 setopt extendedglob
-setopt menucomplete
+setopt nolistambiguous
 
-zstyle ':completion:*' menu yes select
+zstyle ':completion:*' menu select
 zstyle :compinstall filename '/home/derek/.zshrc'
 zmodload zsh/complist
 
@@ -71,7 +72,14 @@ bindkey '^n' history-beginning-search-forward
 bindkey '^r' history-incremental-search-backward
 bindkey '^s' history-incremental-search-forward
 bindkey '^k' expand-or-complete
+bindkey ' ' magic-space
 bindkey -M menuselect '^j' reverse-menu-complete
 bindkey -s '^g' "git add -u; git commit -v && git push"
+
+# fix delete key
 bindkey -a '^[[3~' delete-char
 bindkey -v '^?' backward-delete-char
+
+# fix HOME, END
+bindkey '\e[7~' beginning-of-line
+bindkey '\e[8~' end-of-line
