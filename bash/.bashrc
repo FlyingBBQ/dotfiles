@@ -22,6 +22,7 @@ alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
 alias gs='git status'
 alias slep='lock.sh && systemctl suspend'
+alias nvimit='nvim ~/.config/nvim/init.vim'
 
 # shell prompt
 PS1='\[\e[0;31m\]\w \[\e[0;33m\]∇\[\e[0m\] '

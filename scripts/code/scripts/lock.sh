@@ -2,7 +2,6 @@
 
 i3lock                      \
 \
---textcolor=ebdbb2ff        \
 --timecolor=ebdbb2ff        \
 --datecolor=ebdbb2ff        \
 \
