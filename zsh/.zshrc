@@ -20,11 +20,11 @@ alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`;
 alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
 alias gs='git status'
-alias slep='lock.sh && systemctl suspend'
+alias slep='~/code/scripts/lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
 
 # history
-HISTFILE=~/.histfile
+HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt incappendhistory
@@ -33,10 +33,14 @@ setopt sharehistory
 
 # options
 setopt autocd
+setopt correct
 setopt extendedglob
 setopt nolistambiguous
 
 zstyle ':completion:*' menu select
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
 zstyle :compinstall filename '/home/derek/.zshrc'
 zmodload zsh/complist
 
@@ -55,6 +59,7 @@ zle-keymap-select () {
     fi
 }
 zle -N zle-keymap-select
+
 zle-line-init () {
     zle -K viins
     if [ $TERM = "rxvt-unicode-256color" ]; then

@@ -4,6 +4,8 @@ i3lock                      \
 \
 --timecolor=ebdbb2ff        \
 --datecolor=ebdbb2ff        \
+--verifcolor=ebdbb2ff        \
+--wrongcolor=ebdbb2ff        \
 \
 --insidecolor=282828ff      \
 --ringcolor=fe8019ff        \
