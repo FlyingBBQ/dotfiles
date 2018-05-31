@@ -3,6 +3,7 @@
 #// main:
 set font "Misc Tamsyn Regular 12"
 set selection-clipboard clipboard
+set synctex true
 
 #// colors:
 set default-bg \#282828
@@ -11,10 +12,10 @@ set inputbar-bg \#282828
 set inputbar-fg \#fe8019
 set statusbar-bg \#504945
 set statusbar-fg \#ebdbb2
-set tabbar-bg \#282828
-set tabbar-fg \#ebdbb2
-set tabbar-focus-bg \#fe8019
-set tabbar-focus-fg \#282828
+#set tabbar-bg \#282828
+#set tabbar-fg \#ebdbb2
+#set tabbar-focus-bg \#fe8019
+#set tabbar-focus-fg \#282828
 set completion-bg \#282828
 set completion-fg \#ebdbb2
 set completion-group-bg \#504945
@@ -30,8 +31,8 @@ set highlight-color \#6b3baa
 set highlight-transparency 0.3
 #set recolor true
 #set recolor-keephue true
-#set recolor-darkcolor \#cccccc
-#set recolor-lightcolor \#121212
+set recolor-darkcolor \#1d2021
+set recolor-lightcolor \#ebdbb2
 
 #// keybindings:
 unmap q
