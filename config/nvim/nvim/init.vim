@@ -65,6 +65,16 @@ nnoremap <F6> :set relativenumber!<CR>
 
 " Make double-<Esc> clear search highlights
 nnoremap <Esc><Esc> :nohlsearch<CR>
+"
+" Remap for destroying trailing whitespace cleanly
+nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
+    \ :let _s=@/ <Bar>
+    \ :%s/\s\+$//e <Bar>
+    \ :let @/=_s <Bar>
+    \ :nohl <Bar>
+    \ :unlet _s<Bar>
+    \ :call setpos('.', _save_pos)<Bar>
+    \ :unlet _save_pos<CR><CR>
 
 " Easy buffer switching
 nnoremap <leader>b :ls<cr>:b<space>
