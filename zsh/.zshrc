@@ -22,6 +22,7 @@ alias stowc='stow -t ~/.config'
 alias gs='git status'
 alias slep='~/code/scripts/lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
+alias tu='urxvt &'
 
 # history
 HISTFILE=~/.zsh_history

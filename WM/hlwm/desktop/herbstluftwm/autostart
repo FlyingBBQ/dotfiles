@@ -212,6 +212,7 @@ hc set_monitors 1920x1080+0+0 1920x1080+1920+0
 
 # start the bar and lock
 . ~/.config/lemonbar/run_bars &
+. ~/code/scripts/gmail.sh &
 . ~/code/scripts/lock.sh &
 
 # start programs for fixed tags
