@@ -10,6 +10,7 @@ RPROMPT='%F{237}%*%f'
 
 # alias
 alias ls='ls --color=auto'
+alias ll='ls -l --color=auto'
 alias la='ls -A --color=auto'
 alias x='exit'
 alias alsi='alsi -l -u'
@@ -22,7 +23,6 @@ alias stowc='stow -t ~/.config'
 alias gs='git status'
 alias slep='~/code/scripts/lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
-alias tu='urxvt &'
 
 # history
 HISTFILE=~/.zsh_history
