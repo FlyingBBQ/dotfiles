@@ -1,4 +1,6 @@
+"
 " FlyingBBQ - nvim
+"
 
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -31,6 +33,8 @@ set number
 set relativenumber
 set ruler
 set showcmd
+set scrolloff=2
+set sidescrolloff=5
 
 " Tabs
 set expandtab
@@ -66,7 +70,7 @@ nnoremap <F6> :set relativenumber!<CR>
 " Make double-<Esc> clear search highlights
 nnoremap <Esc><Esc> :nohlsearch<CR>
 "
-" Remap for destroying trailing whitespace cleanly
+" Map for destroying trailing whitespace cleanly
 nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
     \ :%s/\s\+$//e <Bar>
