@@ -6,6 +6,7 @@
 
 export VISUAL="nvim"
 export EDITOR="nvim"
+export TERMCMD="/usr/bin/urxvt"
 export XDG_CONFIG_HOME=${HOME}/.config
 export ANDROID_HOME=${HOME}/code/android/SDK
 export PATH=${PATH}:${ANDROID_HOME}/tools
