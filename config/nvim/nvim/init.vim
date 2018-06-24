@@ -12,8 +12,9 @@ Plug 'lervag/vimtex'
 Plug 'https://github.com/vimwiki/vimwiki.git'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --system-libclang --tern-completer' }
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'shougo/denite.nvim'
+Plug 'shougo/deoplete-clangx'
 Plug 'godlygeek/tabular'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'easymotion/vim-easymotion'
@@ -35,6 +36,7 @@ set ruler
 set showcmd
 set scrolloff=2
 set sidescrolloff=5
+"set colorcolumn=80
 
 " Tabs
 set expandtab
@@ -61,15 +63,18 @@ let g:bufferline_echo = 0
 let g:bufferline_solo_highlight = 1
 
 " Keybindings (toggles)
-nnoremap <F2> :NERDTreeToggle<CR>
-nnoremap <F3> :TagbarToggle<CR>
-nnoremap <F4> :VimtexTocOpen<CR>
-nnoremap <F5> :IndentGuidesToggle<CR>
-nnoremap <F6> :set relativenumber!<CR>
+nnoremap <F2> :<C-u>NERDTreeToggle<CR>
+nnoremap <F3> :<C-u>TagbarToggle<CR>
+nnoremap <F4> :<C-u>VimtexTocOpen<CR>
+nnoremap <F5> :<C-u>call ToggleGuides()<CR>
+nnoremap <F6> :<C-u>set relativenumber!<CR>
 
 " Make double-<Esc> clear search highlights
-nnoremap <Esc><Esc> :nohlsearch<CR>
-"
+nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+
+" Easy buffer switching
+"nnoremap <leader>b :ls<cr>:b<space>
+
 " Map for destroying trailing whitespace cleanly
 nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
@@ -80,8 +85,19 @@ nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
 
-" Easy buffer switching
-nnoremap <leader>b :ls<cr>:b<space>
+" Function to toggle guides, mapped to F5
+let s:enaguides = 1
+function! ToggleGuides()
+    if s:enaguides
+        set colorcolumn=80
+        :IndentGuidesEnable
+        let s:enaguides = 0
+    else
+        set colorcolumn=0
+        :IndentGuidesDisable
+        let s:enaguides = 1
+    endif
+endfunction
 
 " Easymotion stuff
 let g:EasyMotion_do_mapping = 0
@@ -90,10 +106,6 @@ map  <leader>  <Plug>(easymotion-prefix)
 map  <Leader>f <Plug>(easymotion-bd-fl)
 map  <Leader>w <Plug>(easymotion-bd-wl)
 nmap <leader>s <Plug>(easymotion-overwin-f2)
-
-" CtrlP stuff
-let g:ctrlp_show_hidden = 1
-let g:Ctrlp_custom_ignore = '.git'
 
 " Indent Guides stuff
 let g:indent_guides_guide_size = 1
@@ -111,8 +123,29 @@ let wiki_2 = {'path': '~/thesis/wiki/'}
 let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_folding = 'expr'
 
-" YouCompleteMe
-autocmd FileType c      let g:ycm_global_ycm_extra_conf = "~/.config/nvim/ycm/c/.ycm_extra_conf.py"
-autocmd FileType cpp    let g:ycm_global_ycm_extra_conf = "~/.config/nvim/ycm/cpp/.ycm_extra_conf.py"
-let g:ycm_auto_trigger = 1
-let g:ycm_show_diagnostics_ui = 1
+" Deoplete stuff
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" Denite stuff
+set completeopt-=preview
+nnoremap <C-p> :<C-u>Denite file_rec<CR>
+nnoremap <leader>b :<C-u>Denite buffer -mode=normal<CR>
+nnoremap <leader>g :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
+nnoremap <leader>z :<C-u>DeniteBufferDir grep:. -mode=normal<CR>
+
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+            \ ['--vimgrep', '--no-heading'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+call denite#custom#map('insert','<C-j>',
+            \ '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert','<C-k>',
+            \ '<denite:move_to_previous_line>', 'noremap')
+
+call denite#custom#var('file/rec', 'command',
+            \ ['rg', '--files', '--glob', '!.git', ''])
