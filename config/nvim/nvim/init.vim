@@ -75,6 +75,12 @@ nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 " Easy buffer switching
 "nnoremap <leader>b :ls<cr>:b<space>
 
+" Make comments C89 compatible
+nnoremap <F9> :/\/\/<CR>xxi/*<Esc>A */<Esc>
+
+" Search (and replace) the word under the cursor
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+
 " Map for destroying trailing whitespace cleanly
 nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
@@ -128,7 +134,8 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " Denite stuff
-set completeopt-=preview
+"set completeopt-=preview
+autocmd CompleteDone * silent! pclose!
 nnoremap <C-p> :<C-u>Denite file_rec<CR>
 nnoremap <leader>b :<C-u>Denite buffer -mode=normal<CR>
 nnoremap <leader>g :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
