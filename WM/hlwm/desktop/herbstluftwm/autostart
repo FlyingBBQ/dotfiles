@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
-# this is a simple config for herbstluftwm
+#
+# FlyingBBQ - herbstluftwm
+#
 
 hc() {
     herbstclient "$@"
@@ -22,7 +23,6 @@ hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm 
 hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '360' -y '10' -w '1200' -lh '30'
 hc keybind $Mod-F9 spawn ~/code/scripts/lock.sh
 
-# basic movement
 # focusing clients
 hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
@@ -39,11 +39,10 @@ hc keybind $Mod-Shift-l     shift right
 # create an empty frame at the specified direction
 hc keybind $Mod-u       chain , split   bottom  0.5 , focus -e down
 hc keybind $Mod-o       chain , split   right   0.5 , focus -e right
-
 hc keybind $Mod-Shift-u       chain , split   top  0.5 , focus -e up
 hc keybind $Mod-Shift-o       chain , split   left   0.5 , focus -e left
 # let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
+hc keybind $Mod-space split explode
 
 # resizing frames
 resizestep=0.05
@@ -114,7 +113,7 @@ hc keybind $Mod-v cycle_layout +1 grid max
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
+hc keybind $Mod-Control-space                                                   \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
@@ -131,7 +130,13 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
 # focus
-hc keybind $Mod-Tab   cycle_monitor
+# toggle between main monitors
+hc keybind $Mod-Tab                                         \
+            or , and . compare monitors.focus.index != 0    \
+                     . focus_monitor 0                      \
+               , focus_monitor 1
+
+hc keybind $Mod-Shift-Tab focus_monitor 2
 #hc keybind $Mod-Tab         cycle_all +1
 #hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
@@ -178,7 +183,7 @@ hc set default_frame_layout 1
 # rules
 hc unrule -F
 hc rule focus=on # normally focus new clients
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
+#hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
@@ -209,6 +214,9 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 hc set_monitors 1920x1080+0+0 1920x1080+1920+0
 # or simply:
 # hc detect_monitors
+
+# proper floating support
+. ~/.config/herbstluftwm/floatmon.sh
 
 # start the bar and lock
 . ~/.config/lemonbar/run_bars &

@@ -1,7 +1,93 @@
 #! /bin/sh
+#
+# FlyingBBQ @ Bar Left
+#
+
+## Colors
 
 . ~/.config/lemonbar/bar_colors
 
+## Config
+screen_width=1920
+bar_fifo=/tmp/bar-fifo-l
+bar_font="-f -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1"
+bar_width=1200
+bar_height=30
+bar_y=10
+bar_x=$(( ($screen_width - $bar_width)/2 ))
+
+geometry="-g ${bar_width}x${bar_height}+${bar_x}+${bar_y}"
+parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
+
+# make fifo file
+[ -e "$bar_fifo" ] && rm "$bar_fifo"
+mkfifo "$bar_fifo"
+
+# padding
+herbstclient pad 0 $(( $bar_height+$bar_y ))
+
+## Modules
+# date
+while :
+do
+    echo 'D'$(date "+%a %b %d");
+    sleep 60;
+done > $bar_fifo &
+
+# time
+while :
+do
+    echo 'H'$(date "+%T");
+    sleep 1;
+done > $bar_fifo &
+
+# memory
+while :
+do
+    perc=$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}' | cut -d "%" -f1)
+    if (($perc<=75)); then
+        mem="$normal MEM $hl${perc}%"
+    elif (($perc<=85)); then
+        mem="$warn MEM $warn_hl${perc}%"
+    elif (($perc<=99)); then
+        mem="$danger MEM $danger_hl${perc}%"
+    fi
+    echo "M$mem"
+    sleep 1;
+done > $bar_fifo &
+
+# cpu
+while :
+do
+    echo -e 'C'$(awk -v a="$(awk '/cpu /{print $2+$4,$2+$4+$5}' /proc/stat; sleep 0.5)" '/cpu /{split(a,b," "); printf "%2.f", 100*($2+$4-b[1])/($2+$4+$5-b[2]) }'  /proc/stat)
+    sleep 1;
+done > $bar_fifo &
+
+# temp
+while :
+do
+    echo 'T'$(cat /sys/class/thermal/thermal_zone0/temp | awk '{print $1/1000}')
+    sleep 3;
+done > $bar_fifo &
+
+# email
+while :
+do
+    echo 'E'$(python ~/code/scripts/.mail)
+    sleep 10;
+done > $bar_fifo &
+
+# window info
+#while :
+#do
+#    echo 'I'$(herbstclient attr clients.focus.title)
+#    sleep .5;
+#done > $bar_fifo &
+
+# tags
+herbstclient -i | grep --line-buffered "tag_change" > $bar_fifo &
+
+## bar
 while read -r line ; do
     case $line in D*)
             date="$normal ${line#?}$clr"
@@ -28,6 +114,8 @@ while read -r line ; do
             monitor=0
             wm_infos=""
             TAGS=( $(herbstclient tag_status $monitor) )
+            # cut last element (float tag)
+            unset 'TAGS[${#TAGS[@]}-1]'
             for i in "${TAGS[@]}" ; do
                 case ${i:0:1} in
                     '#')
@@ -65,4 +153,7 @@ while read -r line ; do
             ;;
     esac
     printf "%s\n" "%{l}$date$clock%{c}$wm_infos%{r}$email $tmp $cpu $mem"
-done
+
+done < "$bar_fifo" | lemonbar $geometry$parameters | sh &
+
+wait

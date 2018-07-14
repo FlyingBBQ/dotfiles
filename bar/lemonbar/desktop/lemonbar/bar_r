@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# FlyingBBQ @ Bar_2
+# FlyingBBQ @ Bar Right
 #
 
 ## Colors
@@ -9,7 +9,7 @@
 
 ## Config
 screen_width=1920
-bar_fifo=/tmp/bar-fifo-2
+bar_fifo=/tmp/bar-fifo-r
 bar_font="-f -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1"
 bar_width=1200
 bar_height=30
@@ -128,6 +128,64 @@ done > $bar_fifo &
 herbstclient -i | grep --line-buffered "tag_change" > $bar_fifo &
 
 ## bar
-~/.config/lemonbar/bar_fifo_2 < "$bar_fifo" | lemonbar $geometry$parameters | sh &
+while read -r line ; do
+    case $line in
+        S*)
+            songtime="${line#?}$clr"
+            ;;
+        A*)
+            artist="${line#?}$clr"
+            ;;
+        W*)
+            weather="${line#?}$clr"
+            ;;
+        V*)
+            volume="$normal VOL $hl${line#?}$clr"
+            ;;
+        tag*)
+            monitor=1
+            wm_infos=""
+            TAGS=( $(herbstclient tag_status $monitor) )
+            # cut last element (float tag)
+            unset 'TAGS[${#TAGS[@]}-1]'
+            for i in "${TAGS[@]}" ; do
+                case ${i:0:1} in
+                    '#')
+                        # focused occupied desktop
+                        wm_infos="${wm_infos}$hl_inv ${i:1}$clr"
+                        ;;
+                    '+')
+                        # focused free desktop
+                        wm_infos="${wm_infos}%{+u}$u_highlight ${i:1}$clr%{-u}"
+                        ;;
+                    '!')
+                        # focused urgent desktop
+                        wm_infos="${wm_infos} ${i:1}$clr"
+                        ;;
+                    '%')
+                        # different monitor focused
+                        wm_infos="${wm_infos}$occupied ${i:1}$clr"
+                        ;;
+                    '-')
+                        # different monitor unfocused
+                        wm_infos="${wm_infos}%{+u}$u_occupied ${i:1}$clr%{-u}"
+                        ;;
+                    ':')
+                        # occupied desktop
+                        wm_infos="${wm_infos}$occupied2 ${i:1}$clr"
+                        ;;
+                    *)
+                        # free desktop
+                        wm_infos="${wm_infos} ${i:1}$clr"
+                        ;;
+                esac
+                shift
+            done
+            wm_infos="$dark-<$clr${wm_infos}$dark >-$clr"
+            ;;
+    esac
+    printf "%s\n" "%{l}$songtime $artist%{c}$wm_infos%{r}$weather $volume"
+
+done < "$bar_fifo" | lemonbar $geometry$parameters | sh &
 
 wait
