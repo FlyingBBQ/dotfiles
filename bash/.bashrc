@@ -24,6 +24,8 @@ alias gs='git status'
 alias slep='lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
 
+[[ -f ~/.bash_alias ]] && . ~/.bash_alias
+
 # shell prompt
 PS1='\[\e[0;31m\]\w \[\e[0;33m\]∇\[\e[0m\] '
 
