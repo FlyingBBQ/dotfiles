@@ -6,17 +6,19 @@ static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int horizpadbar        = 0;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 10;        /* vertical padding for statusbar */
 static const char *fonts[]          = { " Tamsyn:style=Regular:pixelsize=16" };
 static const char dmenufont[]       = " Tamsyn:style=Regular:pixelsize=16";
-static const char col_gray1[]       = "#1c1c1c";
-static const char col_gray2[]       = "#303030";
-static const char col_gray3[]       = "#888888";
+static const char col_gray1[]       = "#282828";
+static const char col_gray2[]       = "#282828";
+static const char col_gray3[]       = "#ebdbb2";
 static const char col_gray4[]       = "#e8e8d3";
-static const char col_cyan[]        = "#ffb964";
+static const char col_cyan[]        = "#fe8019";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-    [SchemeSel]  = { col_gray1, col_gray3, col_cyan  },
+    [SchemeSel]  = { col_cyan , col_gray1, col_cyan  },
 };
 
 /* tagging */
@@ -39,8 +41,8 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    { "[]=",      tile },    /* first entry is default */
-    { "><>",      NULL },    /* no layout function means floating behavior */
+    { "[T]",      tile },    /* first entry is default */
+    { "[F]",      NULL },    /* no layout function means floating behavior */
     { "[M]",      monocle },
 };
 
@@ -67,15 +69,15 @@ static Key keys[] = {
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-    { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-    { MODKEY,                       XK_o,      incnmaster,     {.i = -1 } },
+    { MODKEY|ShiftMask,             XK_h,      incnmaster,     {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = -1 } },
     { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-    { MODKEY,                       XK_p,      zoom,           {0} },
+    { MODKEY,                       XK_f,      zoom,           {0} },
     { MODKEY,                       XK_Tab,    view,           {0} },
     { MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-    { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+    { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
     { MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
