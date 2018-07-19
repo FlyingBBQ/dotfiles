@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int gappx     = 10;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -10,14 +10,12 @@ static const int horizpadbar        = 0;        /* horizontal padding for status
 static const int vertpadbar         = 10;        /* vertical padding for statusbar */
 static const char *fonts[]          = { " Tamsyn:style=Regular:pixelsize=16" };
 static const char dmenufont[]       = " Tamsyn:style=Regular:pixelsize=16";
-static const char col_gray1[]       = "#282828";
-static const char col_gray2[]       = "#282828";
+static const char col_gray1[]       = "#1d2021";
 static const char col_gray3[]       = "#ebdbb2";
-static const char col_gray4[]       = "#e8e8d3";
 static const char col_cyan[]        = "#fe8019";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
-    [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+    [SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
     [SchemeSel]  = { col_cyan , col_gray1, col_cyan  },
 };
 
@@ -59,7 +57,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 
 static Key keys[] = {
