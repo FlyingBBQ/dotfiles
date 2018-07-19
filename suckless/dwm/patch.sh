@@ -1,18 +1,22 @@
 #!/bin/sh
 
+FILES="config.def.h dwm.c"
 tmpdir=tmpp/
-dwmh=config.def.h
-dwmc=dwm.c
 patchname=patch.diff
 
 case "$1" in
     "copy" )
         mkdir $tmpdir
-        cp $dwmh $dwmc $tmpdir
+        for f in $FILES
+        do
+            cp $f $tmpdir
+        done
         ;;
     "manual" )
-        diff -u $tmpdir$dwmh $dwmh > $tmpdir$patchname
-        diff -u $tmpdir$dwmc $dwmc >> $tmpdir$patchname
+        for f in $FILES
+        do
+            diff -u $tmpdir$f $f >> $tmpdir$patchname
+        done
         ;;
     "clean" )
         rm -rf $tmpdir
