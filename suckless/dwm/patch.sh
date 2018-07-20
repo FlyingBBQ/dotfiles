@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILES="config.def.h dwm.c"
+FILES="config.def.h dwm.c drw.h drw.c"
 tmpdir=tmpp/
 patchname=patch.diff
 
