@@ -7,16 +7,22 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'bling/vim-bufferline'
+Plug 'airblade/vim-gitgutter'
+
 Plug 'lervag/vimtex'
-Plug 'https://github.com/vimwiki/vimwiki.git'
-Plug 'majutsushi/tagbar'
+Plug 'vimwiki/vimwiki'
+
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/denite.nvim'
 Plug 'shougo/deoplete-clangx'
+
 Plug 'godlygeek/tabular'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
 
@@ -36,7 +42,7 @@ set ruler
 set showcmd
 set scrolloff=2
 set sidescrolloff=5
-"set colorcolumn=80
+set updatetime=500
 
 " Tabs
 set expandtab
@@ -52,12 +58,13 @@ set foldmethod=indent
 
 " Themes and Colors
 set background=dark
-let g:gruvbox_termcolors=16
-let g:gruvbox_improved_strings=0
+let g:gruvbox_termcolors = 16
+let g:gruvbox_improved_strings = 0
 colorscheme gruvbox
 let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 0
 let g:airline_symbols_ascii = 1
+let g:airline_inactive_collapse = 1
 let g:bufferline_modified = '[+]'
 let g:bufferline_echo = 0
 let g:bufferline_solo_highlight = 1
@@ -116,6 +123,14 @@ nmap <leader>s <Plug>(easymotion-overwin-f2)
 " Indent Guides stuff
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
+
+" GitGutter stuff
+let g:gitgutter_override_sign_column_highlight = 0
+highlight SignColumn ctermbg=0
+highlight link GitGutterAdd GruvboxGreen
+highlight link GitGutterChange GruvboxAqua
+highlight link GitGutterDelete GruvboxRed
+highlight link GitGutterChangeDelete GruvboxAqua
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
