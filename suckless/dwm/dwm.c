@@ -44,8 +44,6 @@
 #include "drw.h"
 #include "util.h"
 
-extern FILE *logger;
-
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
@@ -61,7 +59,7 @@ extern FILE *logger;
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeHigh, SchemeInv}; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeHigh, SchemeInv, SchemeSeIn}; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -697,7 +695,7 @@ dirtomon(int dir)
 void
 drawbar(Monitor *m)
 {
-	int x, w, sw = 0, tw = 0;
+	int x, w, sw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
@@ -706,12 +704,8 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeInv]);
-		tw = TEXTW(stext);
-        fprintf(logger, "width stext %d\n", tw);
-		sw = drw_get_width(drw, LENGTH(colors), lrpad / 2, stext);
-        fprintf(logger, "width get \t%d\n", sw);
-		//drw_text(drw, m->ww - sw - (2 * xbar), 0, sw, bh, lrpad / 2, stext, 0);
-		drw_colored_text(drw, scheme, LENGTH(colors), m->ww - sw - (2 * xbar), 0, sw, bh, lrpad / 2, stext);
+		sw = drw_get_width(drw, LENGTH(colors), stext);
+		drw_colored_text(drw, scheme, LENGTH(colors), m->ww - sw - (2 * xbar), 0, sw, bh, stext);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -2145,9 +2139,6 @@ main(int argc, char *argv[])
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
 	checkotherwm();
-
-    // temp debug
-    logger = fopen("/tmp/dwm.log", "w");
 
 	setup();
 #ifdef __OpenBSD__

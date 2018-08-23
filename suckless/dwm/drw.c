@@ -16,8 +16,6 @@ static const unsigned char utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8}
 static const long utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
 static const long utfmax[UTF_SIZ + 1] = {0x10FFFF, 0x7F, 0x7FF, 0xFFFF, 0x10FFFF};
 
-FILE *logger = NULL;
-
 static long
 utf8decodebyte(const char c, size_t *i)
 {
@@ -225,119 +223,58 @@ drw_setscheme(Drw *drw, Clr *scm)
 }
 
 int
-drw_get_width(Drw *drw, int numcolors, unsigned int lrpad, const char *text)
+drw_get_width(Drw *drw, int numcolors, const char *text)
 {
-	int i;
-	Fnt *curfont = drw->fonts;
-    int w = drw_fontset_getwidth(drw, text); // + lrpad;
-	//int w = drw_text(drw, 0, 0, 0, 0, curfont->h, text, 0); //+curfont->h
+    int i;
+    Fnt *curfont = drw->fonts;
+    int w = drw_fontset_getwidth(drw, text);
 
-	for (i = 0; i < strlen(text); i++) {
+    for (i = 0; i < strlen(text); i++) {
         if (text[i] == '#') {
             /* color code, -length of 2 characters */
-			w -= (2 * curfont->xfont->max_advance_width);
-            /* add standard padding */
-			w += curfont->h;
+            w -= (2 * curfont->xfont->max_advance_width);
+            /* skip 2 characters */
+            i += 1;
         }
-#if 0
-		if (text[i] > 0 && text[i] <= numcolors) {
-			/* we found a color code
-			 * drw_text counted it as a normal character and added one character's width
-			 * we aren't going to render this character, so we remove one character's width */
-			w -= curfont->xfont->max_advance_width;
-
-			if (i == 0 || i + 1 == strlen(text)) {
-				/* we're on the first or the last character of the string
-				 * drw_text already added one character's height (divided by 2) as padding to the beginning and end
-				 * we don't want to double this padding, so we skip this character */
-				continue;
-			}
-
-			if (text[i - 1] > 0 && text[i - 1] <= numcolors) {
-				/* the previous character was also a color code
-				 * we already added padding in the previous iteration
-				 * we don't want to double this padding, so we skip this character */
-				continue;
-			}
-
-			/* we are somewhere in the middle of the string and the color has changed
-			 * we want to add one character's height (divided by 2) as padding to the end of the previous colored text
-			 * and to the beginning of the new colored text */
-			w += curfont->h;
-		}
-#endif
-	}
-
-  return w;
+        /* no checks for first or last character */
+    }
+    return w;
 }
 
 void
-drw_colored_text(Drw *drw, Clr **scheme, int numcolors, int x, int y, unsigned int w, unsigned int h, unsigned int lrpad, char *text)
+drw_colored_text(Drw *drw, Clr **scheme, int numcolors, int x, int y, unsigned int w, unsigned int h, char *text)
 {
 	if (!drw || !drw->fonts || !drw->scheme)
 		return;
 
 	char *buf = text, *ptr = text, c = 1;
-    char outbuf[32] = { 0 };
+    char outbuf[32] = { 0 }; /* this buffer is written with drw_txt() */
 	int i;
-
-    fprintf(logger, "TEXT: %s\n", text);
-    fprintf(logger, "x start: %d\n", x);
 
     for (i = 0; *ptr; i++, ptr++) {
         if (*ptr == '\0' || *ptr == '\n')
             break;
 
+        /* '#' is the separator */
         if (ptr[0] == '#') {
-            c = ptr[1] - '0'; // color
+            c = ptr[1] - '0'; /* get the color */
 
             strncpy(outbuf, buf, i);
-            fprintf(logger, "%s\n", outbuf);
-            w = drw_fontset_getwidth(drw, outbuf) + lrpad / 2;
+            w = drw_fontset_getwidth(drw, outbuf);
 			x = drw_text(drw, x, y, w, h, 0, outbuf, 0);
-            fprintf(logger, "x: %d\n", x);
 
+            /* color code is 2 characters so move 2 */
             ptr += 2;
             buf = ptr;
-            i = 0;
+            i = 0; /* reset length of buffer */
 
 		    drw_setscheme(drw, scheme[c-1]);
         }
         memset(outbuf, 0, sizeof(outbuf));
-        //outbuf[0] = '\0';
     }
-    fprintf(logger, "%s\n", buf);
-    w = drw_fontset_getwidth(drw, buf) + lrpad / 2;
+    /* draw remaining part of buffer */
+    w = drw_fontset_getwidth(drw, buf);
 	drw_text(drw, x, y, w, h, 0, buf, 0);
-
-#if 0
-	while (*ptr) {
-        /* increment i and ptr untill color is found */
-		for (i = 0; *ptr < 0 || *ptr > numcolors; i++, ptr++);
-		if (!*ptr)
-            /* if end of pointer, break out the while loop */
-			break;
-        /* we found a color at position *ptr, the value is assigned to c */
-		c = *ptr;
-		*ptr = 0;
-		if (i) {
-            strncpy(outbuf, buf, i);
-            i = 0;
-            fprintf(logger, "outbuf: %s", outbuf);
-			x = drw_text(drw, x, y, w, h, lrpad, outbuf, 0);
-        }
-        fprintf(logger, "x: %d\n", x);
-		*ptr = c;
-		drw_setscheme(drw, scheme[c-1]);
-        fprintf(logger, "SET SCHEME: %d\n", c-1);
-		buf = ++ptr;
-        buf += c;
-        outbuf[0] = '\0';
-        fprintf(logger, "buf: %s", buf);
-	}
-	drw_text(drw, x, y, w, h, lrpad, buf, 0);
-    fprintf(logger, "BFO: %s", buf);
-#endif
 }
 
 void
@@ -405,10 +342,8 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 				}
 			}
 
-			if (!charexists || nextfont) {
-                fprintf(logger, "NOT EXIST\n");
+			if (!charexists || nextfont)
 				break;
-            }
 			else
 				charexists = 0;
 		}
@@ -441,13 +376,10 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 		} else if (nextfont) {
 			charexists = 0;
 			usedfont = nextfont;
-            fprintf(logger, "NEXT\n");
-		} 
-        else {
+		} else {
 			/* Regardless of whether or not a fallback font is found, the
 			 * character must be drawn. */
 			charexists = 1;
-            fprintf(logger, "BRUTE\n");
 
 			fccharset = FcCharSetCreate();
 			FcCharSetAddChar(fccharset, utf8codepoint);
