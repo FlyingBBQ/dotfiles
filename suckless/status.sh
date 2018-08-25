@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 #
 # FlyingBBQ @ dwm status
 #
@@ -28,7 +28,13 @@ done > $status_fifo &
 # memory
 while :
 do
-    echo 'M'$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}' | cut -d "%" -f1)
+    perc=$(free -m | grep Mem | awk '{printf "%2.f", $3/$2 * 100.0}' | cut -d "%" -f1)
+    if [ $perc -gt 85 ]; then
+        mem="#8 RAM #9$perc%"
+    else
+        mem="#4 RAM #5$perc%"
+    fi
+    echo "M$mem"
     sleep 1;
 done > $status_fifo &
 
@@ -37,6 +43,31 @@ while :
 do
     echo 'C'$(awk -v a="$(awk '/cpu /{print $2+$4,$2+$4+$5}' /proc/stat; sleep 0.5)" '/cpu /{split(a,b," "); printf "%2.f", 100*($2+$4-b[1])/($2+$4+$5-b[2]) }'  /proc/stat)
     sleep 1;
+done > $status_fifo &
+
+# battery
+while :
+do
+    bat=""
+    stat=$(acpi | awk '{print $3}' | sed 's/,$//')
+    perc=$(acpi | awk '{print $4}' | sed 's/%,$//')
+    case $stat in
+        'Discharging')
+            if [ $perc -lt 20 ]; then
+                bat="#8 BAT #9$perc%"
+            else
+                bat="#4 BAT #5$perc%"
+            fi
+            ;;
+        'Charging')
+            bat="#6 BAT #7$perc%"
+            ;;
+        *)
+            bat="#4 BAT #5$perc%"
+            ;;
+    esac
+    echo "B$bat"
+    sleep 5
 done > $status_fifo &
 
 # temp
@@ -61,16 +92,16 @@ while read -r line ; do
             date="${line#?}"
             ;;
         H*)
-            clock="${line#?}"
+            clock="#5 ${line#?}"
             ;;
-        I*)
-            window="${line#?}"
+        B*)
+            battery="${line#?}"
             ;;
         E*)
             email="MAIL ${line#?}"
             ;;
         M*)
-            mem="RAM #5${line#?}%"
+            mem="${line#?}"
             ;;
         C*)
             cpu="CPU #5${line#?}%"
@@ -79,7 +110,7 @@ while read -r line ; do
             tmp="temp ${line#?}°"
             ;;
     esac
-    xsetroot -name  " $cpu $sep $mem $sep $date #1 #5 $clock "
+    xsetroot -name  " $date #1 $clock $sep $cpu #1 $mem #1 $battery "
 
 done < "$status_fifo"
 
