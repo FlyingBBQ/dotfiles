@@ -10,8 +10,8 @@ static const int xbar              = 10;        /* horizontal offset for statusb
 static const int ybar              = 10;        /* vertical offset for statusbar */
 static const int horizpadbar       = 0;        /* horizontal padding for statusbar */
 static const int vertpadbar        = 10;        /* vertical padding for statusbar */
-static const char *fonts[]         = { "Misc Tamsyn:style                             = Regular:pixelsize = 16" };
-static const char dmenufont[]      = "Misc Tamsyn:style                               = Regular:pixelsize = 16";
+static const char *fonts[]         = { "Misc Tamsyn:style=Regular:pixelsize=16" };
+static const char dmenufont[]      = "Misc Tamsyn:style=Regular:pixelsize=16";
 static const char col_bg[]         = "#282828";
 static const char col_fg[]         = "#ebdbb2";
 static const char col_highlight[]  = "#d79921";
