@@ -234,19 +234,19 @@ c.colors.downloads.bar.bg = '#32302f'
 
 ## Background color of the statusbar in caret mode with a selection.
 ## Type: QssColor
-# c.colors.statusbar.caret.selection.bg = '#a12dff'
+c.colors.statusbar.caret.selection.bg = '#1d2021'
 
 ## Foreground color of the statusbar in caret mode with a selection.
 ## Type: QssColor
-# c.colors.statusbar.caret.selection.fg = 'white'
+c.colors.statusbar.caret.selection.fg = '#ebdbb2'
 
 ## Background color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.bg = c.colors.statusbar.normal.bg
+c.colors.statusbar.command.bg = '#1d2021'
 
 ## Foreground color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.fg = c.colors.statusbar.normal.fg
+c.colors.statusbar.command.fg = '#ebdbb2'
 
 ## Background color of the statusbar in private browsing + command mode.
 ## Type: QssColor
@@ -258,11 +258,11 @@ c.colors.statusbar.command.fg = c.colors.statusbar.normal.fg
 
 ## Background color of the statusbar in insert mode.
 ## Type: QssColor
-# c.colors.statusbar.insert.bg = 'darkgreen'
+c.colors.statusbar.insert.bg = '#689d6a'
 
 ## Foreground color of the statusbar in insert mode.
 ## Type: QssColor
-# c.colors.statusbar.insert.fg = 'white'
+c.colors.statusbar.insert.fg = '#ebdbb2'
 
 ## Background color of the statusbar.
 ## Type: QssColor
@@ -294,7 +294,7 @@ c.colors.statusbar.normal.fg = '#fe8019'
 
 ## Foreground color of the URL in the statusbar on error.
 ## Type: QssColor
-# c.colors.statusbar.url.error.fg = 'orange'
+c.colors.statusbar.url.error.fg = '#cc241d'
 
 ## Default foreground color of the URL in the statusbar.
 ## Type: QssColor
@@ -302,17 +302,17 @@ c.colors.statusbar.normal.fg = '#fe8019'
 
 ## Foreground color of the URL in the statusbar for hovered links.
 ## Type: QssColor
-# c.colors.statusbar.url.hover.fg = 'aqua'
+c.colors.statusbar.url.hover.fg = '#458588'
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (http).
 ## Type: QssColor
-# c.colors.statusbar.url.success.http.fg = 'white'
+c.colors.statusbar.url.success.http.fg = '#a89984'
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (https).
 ## Type: QssColor
-# c.colors.statusbar.url.success.https.fg = 'lime'
+c.colors.statusbar.url.success.https.fg = '#ebdbb2'
 
 ## Foreground color of the URL in the statusbar when there's a warning.
 ## Type: QssColor
@@ -320,7 +320,7 @@ c.colors.statusbar.normal.fg = '#fe8019'
 
 ## Background color of the tab bar.
 ## Type: QtColor
-# c.colors.tabs.bar.bg = '#555555'
+c.colors.tabs.bar.bg = '#1d2021'
 
 ## Background color of unselected even tabs.
 ## Type: QtColor
@@ -361,11 +361,11 @@ c.colors.tabs.odd.fg = c.colors.tabs.even.fg
 
 ## Background color of selected even tabs.
 ## Type: QtColor
-c.colors.tabs.selected.even.bg = c.colors.tabs.selected.odd.bg
+c.colors.tabs.selected.even.bg = '#fe8019'
 
 ## Foreground color of selected even tabs.
 ## Type: QtColor
-c.colors.tabs.selected.even.fg = c.colors.tabs.selected.odd.fg
+c.colors.tabs.selected.even.fg = '#1d2021'
 
 ## Background color of selected odd tabs.
 ## Type: QtColor
@@ -432,10 +432,18 @@ c.completion.scrollbar.width = 0
 ## Type: Bool
 # c.completion.use_best_match = False
 
+## A list of patterns which should not be shown in the history. This only
+## affects the completion. Matching URLs are still saved in the history
+## (and visible on the qute://history page), but hidden in the
+## completion. Changing this setting will cause the completion history to
+## be regenerated on the next start, which will take a short while.
+## Type: List of UrlPattern
+# c.completion.web_history.exclude = []
+
 ## Number of URLs to show in the web history. 0: no history / -1:
 ## unlimited
 ## Type: Int
-# c.completion.web_history_max_items = -1
+# c.completion.web_history.max_items = -1
 
 ## Require a confirmation before quitting the application.
 ## Type: ConfirmQuit
@@ -446,8 +454,8 @@ c.completion.scrollbar.width = 0
 ##   - never: Never show a confirmation.
 # c.confirm_quit = ['never']
 
-## Automatically start playing `<video>` elements. Note this option needs
-## a restart with QtWebEngine on Qt < 5.11.
+## Automatically start playing `<video>` elements. Note: On Qt < 5.11,
+## this option needs a restart and does not support URL patterns.
 ## Type: Bool
 # c.content.autoplay = True
 
@@ -485,7 +493,7 @@ c.completion.scrollbar.width = 0
 ##   - no-3rdparty: Accept cookies from the same origin only.
 ##   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 ##   - never: Don't accept cookies at all.
-c.content.cookies.accept = 'no-3rdparty'
+c.content.cookies.accept = 'all'
 
 ## Store cookies. Note this option needs a restart with QtWebEngine on Qt
 ## < 5.9.
@@ -559,15 +567,17 @@ c.content.cookies.store = True
 ## List of URLs of lists which contain hosts to block.  The file can be
 ## in one of the following formats:  - An `/etc/hosts`-like file - One
 ## host per line - A zip-file of any of the above, with either only one
-## file, or a file   named `hosts` (with any extension).
+## file, or a file   named `hosts` (with any extension).  It's also
+## possible to add a local file or directory via a `file://` URL. In case
+## of a directory, all files in the directory are read as adblock lists.
+## The file `~/.config/qutebrowser/blocked-hosts` is always read if it
+## exists.
 ## Type: List of Url
 # c.content.host_blocking.lists = ['https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts']
 
-## List of domains that should always be loaded, despite being ad-
-## blocked. Domains may contain * and ? wildcards and are otherwise
-## required to exactly match the requested domain. Local domains are
-## always exempt from hostblocking.
-## Type: List of String
+## A list of patterns that should always be loaded, despite being ad-
+## blocked. Local domains are always exempt from hostblocking.
+## Type: List of UrlPattern
 # c.content.host_blocking.whitelist = ['piwik.org']
 
 ## Enable hyperlink auditing (`<a ping>`).
@@ -635,6 +645,20 @@ c.content.cookies.store = True
 ##   - false
 ##   - ask
 # c.content.media_capture = 'ask'
+
+## Allow websites to lock your mouse pointer.
+## Type: BoolAsk
+## Valid values:
+##   - true
+##   - false
+##   - ask
+# c.content.mouse_lock = 'ask'
+
+## Automatically mute tabs. Note that if the `:tab-mute` command is used,
+## the mute status for the affected tab is now controlled manually, and
+## this setting doesn't have any effect.
+## Type: Bool
+# c.content.mute = False
 
 ## Netrc-file for HTTP authentication. If unset, `~/.netrc` is used.
 ## Type: File
@@ -713,11 +737,15 @@ c.content.plugins = True
 ## Type: Bool
 # c.content.webgl = True
 
-## Only expose public interfaces via WebRTC. On Qt 5.9, this option
-## requires a restart. On Qt 5.10, this option doesn't work at all
-## because of a Qt bug. On Qt >= 5.11, no restart is required.
-## Type: Bool
-# c.content.webrtc_public_interfaces_only = False
+## Which interfaces to expose via WebRTC. On Qt 5.10, this option doesn't
+## work because of a Qt bug.
+## Type: String
+## Valid values:
+##   - all-interfaces: WebRTC has the right to enumerate all interfaces and bind them to discover public interfaces.
+##   - default-public-and-private-interfaces: WebRTC should only use the default route used by http. This also exposes the associated default private address. Default route is the route chosen by the OS on a multi-homed endpoint.
+##   - default-public-interface-only: WebRTC should only use the default route used by http. This doesn't expose any local addresses.
+##   - disable-non-proxied-udp: WebRTC should only use TCP to contact peers or servers unless the proxy server supports UDP. This doesn't expose any local addresses either.
+# c.content.webrtc_ip_handling_policy = 'all-interfaces'
 
 ## Limit fullscreen to the browser window (does not expand to fill the
 ## screen).
@@ -1086,9 +1114,34 @@ c.fonts.web.family.standard = 'DejaVu Sans'
 ## Type: Bool
 # c.qt.highdpi = False
 
-## Show a scrollbar.
-## Type: Bool
-c.scrolling.bar = False
+## When to use Chromium's low-end device mode. This improves the RAM
+## usage of renderer processes, at the expense of performance.
+## Type: String
+## Valid values:
+##   - always: Always use low-end device mode.
+##   - auto: Decide automatically (uses low-end mode with < 1 GB available RAM).
+##   - never: Never use low-end device mode.
+# c.qt.low_end_device_mode = 'auto'
+
+## Which Chromium process model to use. Alternative process models use
+## less resources, but decrease security and robustness. See the
+## following pages for more details:    -
+## https://www.chromium.org/developers/design-documents/process-models
+## - https://doc.qt.io/qt-5/qtwebengine-features.html#process-models
+## Type: String
+## Valid values:
+##   - process-per-site-instance: Pages from separate sites are put into separate processes and separate visits to the same site are also isolated.
+##   - process-per-site: Pages from separate sites are put into separate processes. Unlike Process per Site Instance, all visits to the same site will share an OS process. The benefit of this model is reduced memory consumption, because more web pages will share processes. The drawbacks include reduced security, robustness, and responsiveness.
+##   - single-process: Run all tabs in a single process. This should be used for debugging purposes only, and it disables `:open --private`.
+# c.qt.process_model = 'process-per-site-instance'
+
+## When to show the scrollbar.
+## Type: String
+## Valid values:
+##   - always: Always show the scrollbar.
+##   - never: Never show the scrollbar.
+##   - when-searching: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to `never`.
+# c.scrolling.bar = 'when-searching'
 
 ## Enable smooth scrolling for web pages. Note smooth scrolling does not
 ## work with the `:scroll-px` command.
@@ -1245,6 +1298,14 @@ c.tabs.indicator.width = 0
 ##   - default-page: Load the default page.
 ##   - close: Close the window.
 # c.tabs.last_close = 'ignore'
+
+## Maximum width (in pixels) of tabs (-1 for no maximum). This setting
+## only applies when tabs are horizontal. This setting does not apply to
+## pinned tabs, unless `tabs.pinned.shrink` is False. This setting may
+## not apply properly if max_width is smaller than the minimum size of
+## tab contents, or smaller than tabs.min_width.
+## Type: Int
+# c.tabs.max_width = -1
 
 ## Minimum width (in pixels) of tabs (-1 for the default minimum size
 ## behavior). This setting only applies when tabs are horizontal. This
@@ -1505,8 +1566,8 @@ c.tabs.title.alignment = 'center'
 # config.bind('F', 'hint all tab')
 # config.bind('G', 'scroll-to-perc')
 # config.bind('H', 'back')
-# config.bind('K', 'tab-next')
-# config.bind('J', 'tab-prev')
+config.bind('K', 'tab-next')
+config.bind('J', 'tab-prev')
 # config.bind('L', 'forward')
 # config.bind('M', 'bookmark-add')
 # config.bind('N', 'search-prev')
@@ -1534,6 +1595,7 @@ c.tabs.title.alignment = 'center'
 # config.bind('g0', 'tab-focus 1')
 # config.bind('gB', 'set-cmd-text -s :bookmark-load -t')
 # config.bind('gC', 'tab-clone')
+# config.bind('gD', 'tab-give')
 # config.bind('gO', 'set-cmd-text :open -t -r {url:pretty}')
 # config.bind('gU', 'navigate up -t')
 # config.bind('g^', 'tab-focus 1')
@@ -1565,6 +1627,9 @@ c.tabs.title.alignment = 'center'
 # config.bind('sk', 'set-cmd-text -s :bind')
 # config.bind('sl', 'set-cmd-text -s :set -t')
 # config.bind('ss', 'set-cmd-text -s :set')
+# config.bind('tIH', 'config-cycle -p -u *://*.{url:host}/* content.images ;; reload')
+# config.bind('tIh', 'config-cycle -p -u *://{url:host}/* content.images ;; reload')
+# config.bind('tIu', 'config-cycle -p -u {url} content.images ;; reload')
 # config.bind('tPH', 'config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload')
 # config.bind('tPh', 'config-cycle -p -u *://{url:host}/* content.plugins ;; reload')
 # config.bind('tPu', 'config-cycle -p -u {url} content.plugins ;; reload')
@@ -1572,6 +1637,9 @@ c.tabs.title.alignment = 'center'
 # config.bind('tSh', 'config-cycle -p -u *://{url:host}/* content.javascript.enabled ;; reload')
 # config.bind('tSu', 'config-cycle -p -u {url} content.javascript.enabled ;; reload')
 # config.bind('th', 'back -t')
+# config.bind('tiH', 'config-cycle -p -t -u *://*.{url:host}/* content.images ;; reload')
+# config.bind('tih', 'config-cycle -p -t -u *://{url:host}/* content.images ;; reload')
+# config.bind('tiu', 'config-cycle -p -t -u {url} content.images ;; reload')
 # config.bind('tl', 'forward -t')
 # config.bind('tpH', 'config-cycle -p -t -u *://*.{url:host}/* content.plugins ;; reload')
 # config.bind('tph', 'config-cycle -p -t -u *://{url:host}/* content.plugins ;; reload')
@@ -1677,7 +1745,7 @@ c.tabs.title.alignment = 'center'
 # config.bind('<Shift-Ins>', 'insert-text {primary}', mode='insert')
 
 ## Bindings for passthrough mode
-# config.bind('<Ctrl-V>', 'leave-mode', mode='passthrough')
+# config.bind('<Shift-Escape>', 'leave-mode', mode='passthrough')
 
 ## Bindings for prompt mode
 # config.bind('<Alt-B>', 'rl-backward-word', mode='prompt')
@@ -1693,6 +1761,7 @@ c.tabs.title.alignment = 'center'
 # config.bind('<Ctrl-F>', 'rl-forward-char', mode='prompt')
 # config.bind('<Ctrl-H>', 'rl-backward-delete-char', mode='prompt')
 # config.bind('<Ctrl-K>', 'rl-kill-line', mode='prompt')
+# config.bind('<Ctrl-P>', 'prompt-open-download --pdfjs', mode='prompt')
 # config.bind('<Ctrl-U>', 'rl-unix-line-discard', mode='prompt')
 # config.bind('<Ctrl-W>', 'rl-unix-word-rubout', mode='prompt')
 # config.bind('<Ctrl-X>', 'prompt-open-download', mode='prompt')
