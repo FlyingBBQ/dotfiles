@@ -1,33 +1,39 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int gappx     = 10;        /* gap pixel between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const int xbar               = 10;        /* horizontal offset for statusbar */
-static const int ybar               = 10;        /* vertical offset for statusbar */
-static const int horizpadbar        = 0;        /* horizontal padding for statusbar */
-static const int vertpadbar         = 10;        /* vertical padding for statusbar */
-static const char *fonts[]          = { " Tamsyn:style=Regular:pixelsize=16" };
-static const char dmenufont[]       = " Tamsyn:style=Regular:pixelsize=16";
-static const char col_gray1[]       = "#1d2021";
-static const char col_gray2[]       = "#282828";
-static const char col_gray3[]       = "#ebdbb2";
-static const char col_gray4[]       = "#3c3836";
-static const char col_cyan[]        = "#fe8019";
-static const char *colors[][3]      = {
-    /*               fg         bg         border   */
-    [SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
-    [SchemeSel]  = { col_cyan , col_gray1, col_cyan  },
-    [SchemeHigh] = { col_gray1, col_cyan , col_cyan  },
-    [SchemeInv]  = { col_gray3, col_gray2, col_cyan  },
-    [SchemeSeIn] = { col_cyan,  col_gray2, col_cyan  },
+static const unsigned int borderpx = 3;        /* border pixel of windows */
+static const unsigned int gappx    = 10;        /* gap pixel between windows */
+static const unsigned int snap     = 32;       /* snap pixel */
+static const int showbar           = 1;        /* 0 means no bar */
+static const int topbar            = 1;        /* 0 means bottom bar */
+static const int xbar              = 10;        /* horizontal offset for statusbar */
+static const int ybar              = 10;        /* vertical offset for statusbar */
+static const int horizpadbar       = 0;        /* horizontal padding for statusbar */
+static const int vertpadbar        = 10;        /* vertical padding for statusbar */
+static const char *fonts[]         = { "Misc Tamsyn:style=Regular:pixelsize=16" };
+static const char dmenufont[]      = "Misc Tamsyn:style=Regular:pixelsize=16";
+static const char col_bg[]         = "#282828";
+static const char col_fg[]         = "#ebdbb2";
+static const char col_highlight[]  = "#d79921";
+static const char col_gray1[]      = "#1d2021";
+static const char col_gray2[]      = "#3c3836";
+static const char col_green[]      = "#689d6a";
+static const char col_red[]        = "#cc241d";
+static const char *colors[][3]     = {
+    /*               fg              bg              border   */
+    [SchemeNorm] = { col_fg        , col_bg        , col_bg        } , /* 1: normal */
+    [SchemeSel]  = { col_highlight , col_bg        , col_highlight } , /* 2: selected */
+    [SchemeHl]   = { col_bg        , col_highlight , col_highlight } , /* 3: highlight */
+    [SchemeLt]   = { col_fg        , col_gray2     , col_bg        } , /* 4: light bg */
+    [SchemeSeLt] = { col_highlight , col_gray2     , col_bg        } , /* 5: selected light bg */
+    [SchemeGr]   = { col_fg        , col_green     , col_bg        } , /* 6: green */
+    [SchemeGrHl] = { col_highlight , col_green     , col_bg        } , /* 7: green highlight */
+    [SchemeRd]   = { col_fg        , col_red       , col_bg        } , /* 8: red */
+    [SchemeRdHl] = { col_highlight , col_red       , col_bg        } , /* 9: red highlight */
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
+static const char *tags[] = { "one", "two", "three", "four", "five", "six" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -65,7 +71,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
-                                "-h", "26", "-x", "10", "-y", "10", "-w", "1420", NULL };
+                                "-h", "26", "-x", "10", "-y", "10", "-w", "1580", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 
 static Key keys[] = {
@@ -81,7 +87,7 @@ static Key keys[] = {
     { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
     { MODKEY,                       XK_f,      zoom,           {0} },
     { MODKEY,                       XK_Tab,    view,           {0} },
-    { MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+    { MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_s,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -94,13 +100,13 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
     TAGKEYS(                        XK_1,                      0)
-        TAGKEYS(                        XK_2,                      1)
-        TAGKEYS(                        XK_3,                      2)
-        TAGKEYS(                        XK_4,                      3)
-        TAGKEYS(                        XK_5,                      4)
-        TAGKEYS(                        XK_6,                      5)
-        TAGKEYS(                        XK_7,                      6)
-        { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+    TAGKEYS(                        XK_2,                      1)
+    TAGKEYS(                        XK_3,                      2)
+    TAGKEYS(                        XK_4,                      3)
+    TAGKEYS(                        XK_5,                      4)
+    TAGKEYS(                        XK_6,                      5)
+    TAGKEYS(                        XK_7,                      6)
+    { MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
 };
 
 /* button definitions */
