@@ -8,4 +8,9 @@
 [[ -f ~/.zshrc ]] && . ~/.zshrc
 
 # autostart x on boot
-[[ -z "$DISPLAY" && "$XDG_VTNR" -eq 1 ]] && startx
+## arch
+#[[ -z "$DISPLAY" && "$XDG_VTNR" -eq 1 ]] && startx
+## void
+if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
+    startx
+fi
