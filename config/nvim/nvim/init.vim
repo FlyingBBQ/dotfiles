@@ -23,8 +23,8 @@ Plug 'shougo/denite.nvim'
 Plug 'shougo/deoplete-clangx'
 
 Plug 'godlygeek/tabular'
-Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
+Plug 'justinmk/vim-sneak'
 
 call plug#end()
 
@@ -112,13 +112,8 @@ function! ToggleGuides()
     endif
 endfunction
 
-" Easymotion stuff
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-map  <leader>  <Plug>(easymotion-prefix)
-map  <Leader>f <Plug>(easymotion-bd-fl)
-map  <Leader>w <Plug>(easymotion-bd-wl)
-nmap <leader>s <Plug>(easymotion-overwin-f2)
+" Sneak stuff
+let g:sneak#label = 1
 
 " Indent Guides stuff
 let g:indent_guides_guide_size = 1
