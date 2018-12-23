@@ -71,15 +71,15 @@ do
 done > $status_fifo &
 
 # SSID
-while :
-do
-    if [ "$(nmcli radio wifi)" == "enabled" ] && [ -n "$(iwgetid -r)" ]; then
-        echo "S$(iwgetid -r)"
-    else
-        echo "Sdisconnected"
-    fi
-    sleep 3
-done > $status_fifo &
+#while :
+#do
+#    if [ "$(nmcli radio wifi)" == "enabled" ] && [ -n "$(iwgetid -r)" ]; then
+#        echo "S$(iwgetid -r)"
+#    else
+#        echo "Sdisconnected"
+#    fi
+#    sleep 3
+#done > $status_fifo &
 
 # temp
 #while :
@@ -124,7 +124,7 @@ while read -r line ; do
             ssid="WiFi #5${line#?}"
             ;;
     esac
-    xsetroot -name  " $ssid $sep $cpu #1 $mem #1 $battery $sep $date #1 $clock "
+    xsetroot -name  " $cpu #1 $mem #1 $battery $sep $date #1 $clock "
 
 done < "$status_fifo"
 
