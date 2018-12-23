@@ -5,26 +5,25 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
+Plug 'bling/vim-bufferline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'bling/vim-bufferline'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 
-Plug 'lervag/vimtex'
-Plug 'vimwiki/vimwiki'
+Plug 'junegunn/fzf.vim'
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-surround'
+Plug 'godlygeek/tabular'
 
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'shougo/denite.nvim'
 Plug 'shougo/deoplete-clangx'
 
-Plug 'godlygeek/tabular'
-Plug 'tpope/vim-surround'
-Plug 'justinmk/vim-sneak'
+Plug 'lervag/vimtex'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -68,6 +67,7 @@ let g:airline_inactive_collapse = 1
 let g:bufferline_modified = '[+]'
 let g:bufferline_echo = 0
 let g:bufferline_solo_highlight = 1
+"highlight! link CursorLineNr GruvboxYellowBold
 
 " Keybindings (toggles)
 nnoremap <F2> :<C-u>NERDTreeToggle<CR>
@@ -79,7 +79,7 @@ nnoremap <F6> :<C-u>set relativenumber!<CR>
 " Make double-<Esc> clear search highlights
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 
-" Easy buffer switching
+" Easy buffer switching (vanilla)
 "nnoremap <leader>b :ls<cr>:b<space>
 
 " Make comments C89 compatible
@@ -115,17 +115,26 @@ endfunction
 " Sneak stuff
 let g:sneak#label = 1
 
-" Indent Guides stuff
+" fzf stuff
+let g:fzf_layout = { 'down': '10' }
+nnoremap <C-p> :<C-u>Files<CR>
+nnoremap <leader>b :<C-u>Buffers<CR>
+nnoremap <leader>g :Rg <C-R><C-W><CR>
+
+" IndentGuides stuff
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 
-" GitGutter stuff
-let g:gitgutter_override_sign_column_highlight = 0
+" Signify stuff
+let g:signify_vcs_list = [ 'git', 'svn' ]
+let g:signify_realtime = 1
 highlight SignColumn ctermbg=0
-highlight link GitGutterAdd GruvboxGreen
-highlight link GitGutterChange GruvboxAqua
-highlight link GitGutterDelete GruvboxRed
-highlight link GitGutterChangeDelete GruvboxAqua
+highlight link SignifyLineAdd    GruvboxGreen
+highlight link SignifySignAdd    GruvboxGreen
+highlight link SignifyLineChange GruvboxAqua
+highlight link SignifySignChange GruvboxAqua
+highlight link SignifyLineDelete GruvboxRed
+highlight link SignifySignDelete GruvboxRed
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
@@ -142,27 +151,3 @@ let g:vimwiki_folding = 'expr'
 " Deoplete stuff
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-" Denite stuff
-"set completeopt-=preview
-autocmd CompleteDone * silent! pclose!
-nnoremap <C-p> :<C-u>Denite file_rec<CR>
-nnoremap <leader>b :<C-u>Denite buffer -mode=normal<CR>
-nnoremap <leader>g :<C-u>DeniteCursorWord grep:. -mode=normal<CR>
-nnoremap <leader>z :<C-u>DeniteBufferDir grep:. -mode=normal<CR>
-
-call denite#custom#var('grep', 'command', ['rg'])
-call denite#custom#var('grep', 'default_opts',
-            \ ['--vimgrep', '--no-heading'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-
-call denite#custom#map('insert','<C-j>',
-            \ '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert','<C-k>',
-            \ '<denite:move_to_previous_line>', 'noremap')
-
-call denite#custom#var('file/rec', 'command',
-            \ ['rg', '--files', '--glob', '!.git', ''])
