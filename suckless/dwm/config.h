@@ -2,16 +2,16 @@
 
 /* appearance */
 static const unsigned int borderpx = 3;        /* border pixel of windows */
-static const unsigned int gappx    = 10;        /* gap pixel between windows */
-static const unsigned int snap     = 32;       /* snap pixel */
+static const unsigned int gappx    = 16;        /* gap pixel between windows */
+static const unsigned int snap     = 8;       /* snap pixel */
 static const int showbar           = 1;        /* 0 means no bar */
 static const int topbar            = 1;        /* 0 means bottom bar */
-static const int xbar              = 10;        /* horizontal offset for statusbar */
-static const int ybar              = 10;        /* vertical offset for statusbar */
+static const int xbar              = 128;        /* horizontal offset for statusbar */
+static const int ybar              = 16;        /* vertical offset for statusbar */
 static const int horizpadbar       = 0;        /* horizontal padding for statusbar */
-static const int vertpadbar        = 10;        /* vertical padding for statusbar */
-static const char *fonts[]         = { "Misc Tamsyn:style=Regular:pixelsize=16" };
-static const char dmenufont[]      = "Misc Tamsyn:style=Regular:pixelsize=16";
+static const int vertpadbar        = 16;        /* vertical padding for statusbar */
+static const char *fonts[]         = { " Tamsyn:style=Regular:pixelsize=16" };
+static const char dmenufont[]      = " Tamsyn:style=Regular:pixelsize=16";
 static const char col_bg[]         = "#282828";
 static const char col_fg[]         = "#ebdbb2";
 static const char col_highlight[]  = "#d79921";
@@ -71,13 +71,15 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
-                                "-h", "26", "-x", "10", "-y", "10", "-w", "1580", NULL };
+                                "-h", "32", "-x", "128", "-y", "16", "-w", "1664", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
+static const char *lock[]     = { "lock.sh", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
     { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+    { MODKEY,                       XK_F9,     spawn,          {.v = lock } },
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
