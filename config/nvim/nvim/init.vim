@@ -83,7 +83,7 @@ nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 "nnoremap <leader>b :ls<cr>:b<space>
 
 " Make comments C89 compatible
-nnoremap <F9> :/\/\/<CR>xxi/*<Esc>A */<Esc>
+nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 
 " Search (and replace) the word under the cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
