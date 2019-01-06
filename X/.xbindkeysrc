@@ -72,6 +72,14 @@
 "scrot -u '/home/derek/images/scrots/%Y-%m-%d_%S_scrot.png'"
   control + Print
 
+# Brightness up
+"xbacklight -inc 10"
+  XF86MonBrightnessUp
+
+# Brightness down
+"xbacklight -dec 10"
+  XF86MonBrightnessDown
+
 # Examples of commands:
 
 #"xbindkeys_show"
