@@ -63,7 +63,7 @@ do
             bat="#6 BAT #7$perc%"
             ;;
         *)
-            bat="#4 BAT #5$perc%"
+            bat="#4 BAT #5$perc"
             ;;
     esac
     echo "B$bat"

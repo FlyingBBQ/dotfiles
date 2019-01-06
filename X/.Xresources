@@ -1,8 +1,7 @@
 !--URxvt----------------------------------------------
 
 URxvt.font: xft:Misc Tamsyn:style=Regular:pixelsize=16
-URxvt.boldFont: xft:Misc Tamsyn:style=Regular:pixelsize=16
-!URxvt.font: xft:Hack:size=10
+URxvt.boldFont: xft:Misc Tamsyn:style=Bold:pixelsize=16
 URxvt.scrollBar: false
 URxvt.internalBorder: 20
 URxvt.geometry: 100x24
