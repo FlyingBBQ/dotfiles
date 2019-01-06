@@ -40,4 +40,5 @@ fi
 xbindkeys &
 redshift &
 . ~/.dotfiles/suckless/status.sh &
+. ~/code/scripts/lock.sh &
 exec dwm
