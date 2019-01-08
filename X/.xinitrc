@@ -26,10 +26,6 @@ fi
 xmodmap -e 'clear Lock'
 xmodmap -e 'keycode 0x42=Escape'
 
-# fonts
-xset +fp /usr/share/fonts/local
-xset fp rehash
-
 # background
 xsetroot -solid '#458588'
 
@@ -44,4 +40,5 @@ fi
 xbindkeys &
 redshift &
 . ~/.dotfiles/suckless/status.sh &
+. ~/code/scripts/lock.sh &
 exec dwm

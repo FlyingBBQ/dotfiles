@@ -5,12 +5,8 @@
 #
 
 [[ -f ~/.profile ]] && . ~/.profile
-[[ -f ~/.zshrc ]] && . ~/.zshrc
+[[ -f ~/.zshrc ]]   && . ~/.zshrc
+[[ -f ~/.zlocal ]]  && . ~/.zlocal
 
 # autostart x on boot
-## arch
-#[[ -z "$DISPLAY" && "$XDG_VTNR" -eq 1 ]] && startx
-## void
-if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
-    startx
-fi
+[[ -z "$DISPLAY" && "$XDG_VTNR" -eq 1 ]] && startx
