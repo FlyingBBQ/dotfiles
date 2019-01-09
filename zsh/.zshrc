@@ -13,7 +13,6 @@ alias ls='ls --color=auto'
 alias ll='ls -l --color=auto'
 alias la='ls -A --color=auto'
 alias x='exit'
-alias alsi='alsi -l -u'
 alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
 alias clk='tty-clock -s -b -c -C 3'
@@ -23,8 +22,9 @@ alias stowc='stow -t ~/.config'
 alias gs='git status'
 alias slep='~/code/scripts/lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
-alias flg='grep -rnw . -e '
-alias flgc='grep --include=\*.{c,h} -rnw . -e '
+
+# local alias
+[[ -f ~/.zlocal ]]  && . ~/.zlocal
 
 # history
 HISTFILE=~/.zsh_history
