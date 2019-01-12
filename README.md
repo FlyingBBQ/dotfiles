@@ -2,7 +2,7 @@
     <h1>dotfiles</h1><br>
 </div>
 
-![](images/lt_dwm_code)
+![](images/lt_dwm_code.png)
 
 Collection of all my dotfiles, managed using GNU stow.
 
