@@ -1,12 +1,17 @@
-# Dotfiles
+<div align='center'>
+    <h1>dotfiles</h1><br>
+</div>
+
+![](images/lt_dwm_code)
 
 Collection of all my dotfiles, managed using GNU stow.
 
-## Desktop (dual monitor)
-Arch Linux + herbstluftwm + lemonbar
-![](images/desktop_lemonbar.png)
-
-## Laptop
-Arch Linux + dwm
-![](images/laptop_dwm.png)
-
+## system info
+* **distro**: Arch Linux
+* **wm**: dwm
+* **shell**: zsh
+* **term**: urxvt-unicode
+* **font**: tamsyn
+* **editor**: neovim
+* **launcher**: dmenu
+* **broswer**: firefox, qutebrowser
