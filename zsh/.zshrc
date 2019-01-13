@@ -40,16 +40,37 @@ setopt correct
 setopt extendedglob
 setopt nolistambiguous
 
+# completion rules
 zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*:processes' command 'ps -A'
 zstyle :compinstall filename '/home/derek/.zshrc'
 zmodload zsh/complist
 
-# completion
-autoload -Uz compinit
-compinit
+# load and init completion
+autoload -Uz compinit && compinit
+
+# git prompt
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git*' formats "%b"
+setopt prompt_subst
+precmd_vcs_info() {
+    vcs_info
+    # string not null
+    if [[ -n ${vcs_info_msg_0_} ]]; then
+        if [[ -n $(git status --porcelain) ]]; then
+            RPROMPT='%F{237}[%F{magenta}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
+        else
+            RPROMPT='%F{237}[%F{cyan}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
+        fi
+    else
+        RPROMPT='%F{237}%*%f'
+    fi
+}
+precmd_functions+=( precmd_vcs_info )
 
 # vi mode cursor
 zle-keymap-select () {
@@ -76,7 +97,7 @@ bindkey -v
 
 # bindings
 bindkey ' ' magic-space
-bindkey '^p' history-beginning-search-backward
+bindkey '^o' history-beginning-search-backward
 bindkey '^n' history-beginning-search-forward
 #bindkey '^r' history-incremental-search-backward
 #bindkey '^s' history-incremental-search-forward
@@ -132,7 +153,7 @@ fzf-redraw-prompt() {
 }
 zle -N fzf-redraw-prompt
 
-# CTRL-O - cd into the selected directory
+# CTRL-p - cd into the selected directory
 fzf-cd-widget() {
   local cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"}"
@@ -148,7 +169,7 @@ fzf-cd-widget() {
   return $ret
 }
 zle     -N   fzf-cd-widget
-bindkey '^o' fzf-cd-widget
+bindkey '^p' fzf-cd-widget
 
 # CTRL-R - Paste the selected command from history into the command line
 fzf-history-widget() {
@@ -167,7 +188,7 @@ fzf-history-widget() {
   return $ret
 }
 zle     -N   fzf-history-widget
-bindkey '^R' fzf-history-widget
+bindkey '^r' fzf-history-widget
 
 fi
 # end fzf
