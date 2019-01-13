@@ -1,6 +1,8 @@
 # dotfiles
-Collection of all my dotfiles, managed using GNU stow.
 ![](https://raw.githubusercontent.com/FlyingBBQ/dotfiles/master/images/lt_dwm_code.png)
+
+
+Collection of all my dotfiles, managed using GNU stow.
 
 ## system info
 * **distro**: Arch Linux
