@@ -11,6 +11,6 @@ Collection of all my dotfiles, managed using GNU stow.
 * **wm**: dwm
 * **launcher**: dmenu
 * **editor**: neovim
-* **broswer**: firefox, qutebrowser
+* **browser**: firefox, qutebrowser
 * **font**: tamsyn
 * **colors**: gruvbox
