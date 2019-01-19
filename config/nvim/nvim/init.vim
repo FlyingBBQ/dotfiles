@@ -116,6 +116,9 @@ endfunction
 let g:sneak#label = 1
 
 " fzf stuff
+let g:fzf_action = {
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'down': '10' }
 nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
@@ -128,6 +131,9 @@ let g:indent_guides_start_level = 2
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]
 let g:signify_realtime = 1
+let g:signify_update_on_focusgained = 1
+let g:signify_cursorhold_normal = 0
+let g:signify_cursorhold_insert = 0
 highlight SignColumn ctermbg=0
 highlight link SignifyLineAdd    GruvboxGreen
 highlight link SignifySignAdd    GruvboxGreen
