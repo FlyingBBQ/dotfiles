@@ -10,6 +10,8 @@ URxvt.intensityStyles: false
 URxvt.saveLines: 4096
 URxvt.keysym.Meta-k: command:\033]720;5\007
 URxvt.keysym.Meta-j: command:\033]721;5\007
+URxvt.iso14755: false
+URxvt.iso14755_52: false
 
 !--Xterm----------------------------------------------
 
