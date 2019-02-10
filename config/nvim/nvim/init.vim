@@ -21,6 +21,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/deoplete-clangx'
+Plug 'deoplete-plugins/deoplete-jedi'
 
 Plug 'lervag/vimtex'
 Plug 'vimwiki/vimwiki'
@@ -157,3 +158,4 @@ let g:vimwiki_folding = 'expr'
 " Deoplete stuff
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
