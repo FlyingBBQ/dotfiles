@@ -21,6 +21,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/deoplete-clangx'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'deoplete-plugins/deoplete-jedi'
 
 Plug 'lervag/vimtex'
@@ -99,6 +101,10 @@ nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
 
+" Automatically close brackets
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
 " Function to toggle guides, mapped to F5
 let s:enaguides = 1
 function! ToggleGuides()
@@ -159,3 +165,12 @@ let g:vimwiki_folding = 'expr'
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Neosnippet stuff
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
