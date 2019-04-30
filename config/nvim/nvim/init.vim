@@ -4,29 +4,34 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Visual
 Plug 'morhetz/gruvbox'
 Plug 'bling/vim-bufferline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'mhinz/vim-signify'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 
+" Motions
 Plug 'junegunn/fzf.vim'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
+" Views
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
+" Autocomplete
 Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'shougo/deoplete-clangx'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'deoplete-plugins/deoplete-jedi'
 
+" Misc
 Plug 'lervag/vimtex'
-Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -71,6 +76,8 @@ let g:bufferline_modified = '[+]'
 let g:bufferline_echo = 0
 let g:bufferline_solo_highlight = 1
 "highlight! link CursorLineNr GruvboxYellowBold
+
+"au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " Keybindings (toggles)
 nnoremap <F2> :<C-u>NERDTreeToggle<CR>
@@ -129,7 +136,8 @@ let g:fzf_action = {
 let g:fzf_layout = { 'down': '10' }
 nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
-nnoremap <leader>g :Rg <C-R><C-W><CR>
+nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
+nnoremap <leader>f :<C-u>BLines<CR>
 
 " IndentGuides stuff
 let g:indent_guides_guide_size = 1
@@ -155,12 +163,6 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_indent_enabled = 0
 
-" VimWiki stuff
-let wiki_1 = {'path': '~/documents/vimwiki/', 'diary_rel_path': '.diary/'}
-let wiki_2 = {'path': '~/thesis/wiki/'}
-let g:vimwiki_list = [wiki_1, wiki_2]
-let g:vimwiki_folding = 'expr'
-
 " Deoplete stuff
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -171,6 +173,11 @@ imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-" SuperTab like snippets behavior.
+" - SuperTab like snippets behavior.
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" - Expand the completed snippet trigger by <CR>.
+imap <expr><CR>
+\ (pumvisible() && neosnippet#expandable()) ?
+\ "\<Plug>(neosnippet_expand)" : "\<CR>"
