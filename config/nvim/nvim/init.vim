@@ -72,6 +72,10 @@ let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 0
 let g:airline_symbols_ascii = 1
 let g:airline_inactive_collapse = 1
+let g:airline_section_y = airline#section#create([])
+call airline#parts#define_raw('linenr', '%4l')
+call airline#parts#define_accent('linenr', 'bold')
+let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr, 'linenr', ':%3c'])
 let g:bufferline_modified = '[+]'
 let g:bufferline_echo = 0
 let g:bufferline_solo_highlight = 1
@@ -87,7 +91,8 @@ nnoremap <F5> :<C-u>call ToggleGuides()<CR>
 nnoremap <F6> :<C-u>set relativenumber!<CR>
 
 " Make double-<Esc> clear search highlights
-nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+"nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+nnoremap <return> :<C-u>nohlsearch<return><esc>
 
 " Easy buffer switching (vanilla)
 "nnoremap <leader>b :ls<cr>:b<space>
