@@ -2,108 +2,65 @@
 " FlyingBBQ - nvim
 "
 
+" === Plugins ===
+" ^^^^^^^^^^^^^^^
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Visual
-Plug 'morhetz/gruvbox'
-Plug 'bling/vim-bufferline'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'mhinz/vim-signify'
-Plug 'martinda/Jenkinsfile-vim-syntax'
+" * Visual
+Plug 'gruvbox-community/gruvbox'
 
-" Motions
-Plug 'junegunn/fzf.vim'
-Plug 'justinmk/vim-sneak'
+" * Motions
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
-" Views
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" Autocomplete
-Plug 'shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'shougo/deoplete-clangx'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'deoplete-plugins/deoplete-jedi'
-
-" Misc
-Plug 'lervag/vimtex'
+" * Steroids
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
+" === Settings ===
+" ^^^^^^^^^^^^^^^^
 filetype plugin on
 filetype indent on
 syntax enable
 
-" General/Misc
+" * General/Misc
 set clipboard+=unnamedplus
 set cursorline
 set mouse=a
 set number
 set relativenumber
-set ruler
 set showcmd
 set scrolloff=2
 set sidescrolloff=5
 set updatetime=500
+set ignorecase smartcase
 
-" Tabs
+" * Tabs
 set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-" Folds
-set foldenable
-set foldlevelstart=10
-set foldnestmax=10
-set foldmethod=indent
-
-" Themes and Colors
+" * Themes and Colors
 set background=dark
 let g:gruvbox_termcolors = 16
 let g:gruvbox_improved_strings = 0
 colorscheme gruvbox
-let g:airline_theme='gruvbox'
-let g:airline_powerline_fonts = 0
-let g:airline_symbols_ascii = 1
-let g:airline_inactive_collapse = 1
-let g:airline_section_y = airline#section#create([])
-call airline#parts#define_raw('linenr', '%4l')
-call airline#parts#define_accent('linenr', 'bold')
-let g:airline_section_z = airline#section#create(['%3p%% ', g:airline_symbols.linenr, 'linenr', ':%3c'])
-let g:bufferline_modified = '[+]'
-let g:bufferline_echo = 0
-let g:bufferline_solo_highlight = 1
-"highlight! link CursorLineNr GruvboxYellowBold
 
-"au BufNewFile,BufRead Jenkinsfile setf groovy
-
-" Keybindings (toggles)
-nnoremap <F2> :<C-u>NERDTreeToggle<CR>
-nnoremap <F3> :<C-u>TagbarToggle<CR>
-nnoremap <F4> :<C-u>VimtexTocOpen<CR>
-nnoremap <F5> :<C-u>call ToggleGuides()<CR>
-nnoremap <F6> :<C-u>set relativenumber!<CR>
-
-" Make double-<Esc> clear search highlights
-"nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+" === Mappings ===
+" ^^^^^^^^^^^^^^^^
+" * Make double-<Esc> clear search highlights
 nnoremap <return> :<C-u>nohlsearch<return><esc>
+"nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 
-" Easy buffer switching (vanilla)
-"nnoremap <leader>b :ls<cr>:b<space>
-
-" Make comments C89 compatible
+" * Make comments C89 compatible
 nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 
-" Search (and replace) the word under the cursor
+" * Search (and replace) the word under the cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 
-" Map for destroying trailing whitespace cleanly
+" * Map for destroying trailing whitespace cleanly
 nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
     \ :%s/\s\+$//e <Bar>
@@ -113,28 +70,25 @@ nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
 
-" Automatically close brackets
+" * Automatically close brackets
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
 
-" Function to toggle guides, mapped to F5
-let s:enaguides = 1
+" === Functions ===
+" ^^^^^^^^^^^^^^^^^
+" * Function to toggle guides, mapped to F5
 function! ToggleGuides()
-    if s:enaguides
-        set colorcolumn=80
-        :IndentGuidesEnable
-        let s:enaguides = 0
-    else
+    if &colorcolumn
         set colorcolumn=0
-        :IndentGuidesDisable
-        let s:enaguides = 1
+    else
+        set colorcolumn=80
     endif
 endfunction
+nnoremap <F5> :<C-u>call ToggleGuides()<CR>
 
-" Sneak stuff
-let g:sneak#label = 1
-
-" fzf stuff
+" === Plugin Settings ===
+" ^^^^^^^^^^^^^^^^^^^^^^^
+" * fzf stuff
 let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
@@ -144,45 +98,71 @@ nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>
 
-" IndentGuides stuff
-let g:indent_guides_guide_size = 1
-let g:indent_guides_start_level = 2
+" === Statusline ===
+" ^^^^^^^^^^^^^^^^^^
+set laststatus=2
+set statusline=
 
-" Signify stuff
-let g:signify_vcs_list = [ 'git', 'svn' ]
-let g:signify_realtime = 1
-let g:signify_update_on_focusgained = 1
-let g:signify_cursorhold_normal = 0
-let g:signify_cursorhold_insert = 0
-highlight SignColumn ctermbg=0
-highlight link SignifyLineAdd    GruvboxGreen
-highlight link SignifySignAdd    GruvboxGreen
-highlight link SignifyLineChange GruvboxAqua
-highlight link SignifySignChange GruvboxAqua
-highlight link SignifyLineDelete GruvboxRed
-highlight link SignifySignDelete GruvboxRed
+function! StatusActive()
+    " * left side
+    setlocal statusline=
+    setlocal statusline+=%#StatusActive#
+    setlocal statusline+=[
+    setlocal statusline+=%{NofBuffers()}
+    setlocal statusline+=]
+    setlocal statusline+=%#statusLineNC#
+    setlocal statusline+=\ %t
+    setlocal statusline+=%m%r
 
-" LaTeX stuff
-let g:tex_flavor = 'latex'
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_fold_enabled = 1
-let g:vimtex_indent_enabled = 0
+    " * right side
+    setlocal statusline+=%=
+    setlocal statusline+=%#statusLine#
+    setlocal statusline+=%4.p%%
+    setlocal statusline+=\ %#StatusActive#
+    setlocal statusline+=[
+    setlocal statusline+=%3l/%L\ ::
+    setlocal statusline+=%3.c
+    setlocal statusline+=]
+endfunction
 
-" Deoplete stuff
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+function! StatusInactive()
+    " * left side
+    setlocal statusline=
+    setlocal statusline+=%#StatusInactive#
+    setlocal statusline+=[
+    setlocal statusline+=%{NofBuffers()}
+    setlocal statusline+=]
+    setlocal statusline+=%#statusLineNC#
+    setlocal statusline+=\ %t
+    setlocal statusline+=%m%r
 
-" Neosnippet stuff
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+    " * right side
+    setlocal statusline+=%=
+    "setlocal statusline+=%#statusLine#
+    setlocal statusline+=%4.p%%
+    setlocal statusline+=\ %#StatusInactive#
+    setlocal statusline+=[
+    setlocal statusline+=%3l/%L\ ::
+    setlocal statusline+=%3.c
+    setlocal statusline+=]
+endfunction
 
-" - SuperTab like snippets behavior.
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" * statusline functions
+function! NofBuffers()
+    return len(getbufinfo({'buflisted':1}))
+endfunction
 
-" - Expand the completed snippet trigger by <CR>.
-imap <expr><CR>
-\ (pumvisible() && neosnippet#expandable()) ?
-\ "\<Plug>(neosnippet_expand)" : "\<CR>"
+" * colors
+hi StatusActive ctermbg=7 ctermfg=0
+hi StatusInactive ctermbg=237 ctermfg=7
+hi User2 ctermbg=237 ctermfg=7
+hi User3 ctermbg=239 ctermfg=15
+
+" * statusline autocmd
+augroup status
+    autocmd!
+    autocmd WinEnter,BufEnter * call StatusActive()
+    autocmd WinLeave,BufLeave * call StatusInactive()
+augroup END
+
+call StatusActive()
