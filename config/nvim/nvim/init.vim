@@ -19,6 +19,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
+" Autocomplete
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+
 call plug#end()
 
 " ==========# Settings #==========
@@ -111,6 +114,7 @@ nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>
+nnoremap <leader>h :<C-u>Help<CR>
 
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]
@@ -126,6 +130,28 @@ highlight link SignifySignChange GruvboxAqua
 highlight link SignifyLineDelete GruvboxRed
 highlight link SignifySignDelete GruvboxRed
 
+" Coc stuff
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" use <tab> for trigger completion and navigate to the next complete item
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+nnoremap <silent> gi :<C-u>CocList diagnostics<cr>
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>cr  <Plug>(coc-rename)
+
+let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-vimlsp']
+
 " ==========# Statusline #==========
 set laststatus=2
 set statusline=
@@ -139,12 +165,14 @@ function! StatusActive()
     setlocal statusline+=%#statusLineNC#\ ::
     setlocal statusline+=%2*\ %t
     setlocal statusline+=%#statusLineNC#\ ::
-    setlocal statusline+=\ %{StatusGitStatus()}
+    setlocal statusline+=\ %{StatusGitStatus()}%h
     setlocal statusline+=%4*%m
     setlocal statusline+=%5*%r
     " right side
     setlocal statusline+=%=
-    setlocal statusline+=%#statusLine#
+    setlocal statusline+=%#statusLineNC#
+    setlocal statusline+=%{coc#status()}
+    setlocal statusline+=\ %#statusLine#
     setlocal statusline+=%4.p%%
     setlocal statusline+=\ %#statusLine#
     if g:indent_warning
@@ -165,7 +193,7 @@ function! StatusInactive()
     setlocal statusline+=[%{StatusNofBuffers()}]
     setlocal statusline+=%#statusLineNC#
     setlocal statusline+=\ ::\ %t\ ::
-    setlocal statusline+=\ %m%r
+    setlocal statusline+=\ %h%m%r
     " right side
     setlocal statusline+=%=
     setlocal statusline+=%4.p%%
