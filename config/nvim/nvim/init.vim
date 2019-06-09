@@ -114,7 +114,7 @@ nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>
-nnoremap <leader>h :<C-u>Help<CR>
+nnoremap <leader>q :<C-u>Help<CR>
 
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]

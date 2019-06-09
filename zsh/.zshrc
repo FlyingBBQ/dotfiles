@@ -36,7 +36,8 @@ setopt sharehistory
 
 # options
 setopt autocd
-setopt correct
+#setopt correct
+eval $(thefuck --alias)
 setopt extendedglob
 setopt nolistambiguous
 

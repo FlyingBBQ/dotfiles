@@ -6,7 +6,9 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 //static char *font = "Misc Tamsyn:style=Regular:pixelsize=16";
+//static char *font = "Liberation Mono:pixelsize=13:antialias=true:autohint=false";
 static char *font = "DejaVu Sans Mono:pixelsize=13:antialias=true:autohint=false";
+//static char *font = "Roboto Mono:pixelsize=13:antialias=true:autohint=false";
 static int borderpx = 20;
 
 /*
