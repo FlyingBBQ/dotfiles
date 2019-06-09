@@ -99,7 +99,7 @@ channels = mono
 # terminal that can change color definitions such as Gnome-terminal or rxvt.
 ; background = black
 ; foreground = cyan
-foreground = '#fe8019' #orange
+foreground = '#d79921' #orange
 
 # Gradient mode, only hex defined colors are supported, background must also be defined in hex
 # or remain commented out. 1 = on, 0 = off. Warning: for certain terminal emulators cava will
