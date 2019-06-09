@@ -2,7 +2,6 @@
 " FlyingBBQ » nvim
 "
 
-
 " ==========# Plugins #==========
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -38,6 +37,13 @@ set scrolloff=2
 set sidescrolloff=5
 set updatetime=500
 set ignorecase smartcase
+set lazyredraw
+
+if has('persistent_undo')
+    silent !mkdir ~/.local/share/nvim/undodir > /dev/null 2>&1
+    set undodir=~/.local/share/nvim/undodir
+    set undofile
+endif
 
 " Tabs
 set expandtab
@@ -81,11 +87,19 @@ inoremap {;<CR> {<CR>};<ESC>O
 function! ToggleGuides()
     if &colorcolumn
         set colorcolumn=0
+        let g:indent_warning = 0
+        call StatusActive()
     else
         set colorcolumn=80
+        let g:indent_warning = 1
+        call StatusActive()
     endif
 endfunction
+let g:indent_warning = 0
 nnoremap <F5> :<C-u>call ToggleGuides()<CR>
+
+" command to edit init.vim
+command! Vimrc :sp $MYVIMRC
 
 " ==========# Plugin Settings #==========
 " fzf stuff
@@ -121,18 +135,24 @@ function! StatusActive()
     " left side
     setlocal statusline=
     setlocal statusline+=%#StatusActive#
-    setlocal statusline+=[%{NofBuffers()}]
+    setlocal statusline+=[%{StatusNofBuffers()}]
     setlocal statusline+=%#statusLineNC#\ ::
     setlocal statusline+=%2*\ %t
     setlocal statusline+=%#statusLineNC#\ ::
-    setlocal statusline+=\ %{GitStats()}
+    setlocal statusline+=\ %{StatusGitStatus()}
     setlocal statusline+=%4*%m
     setlocal statusline+=%5*%r
     " right side
     setlocal statusline+=%=
     setlocal statusline+=%#statusLine#
     setlocal statusline+=%4.p%%
-    setlocal statusline+=\ %#StatusActive#
+    setlocal statusline+=\ %#statusLine#
+    if g:indent_warning
+        setlocal statusline+=%6*
+        setlocal statusline+=%{StatusMixedIndent()}
+        setlocal statusline+=%{StatusTrailingSpace()}
+    endif
+    setlocal statusline+=%#StatusActive#
     setlocal statusline+=[%3l/%L\ ::%3.c]
     " enable the cursorline
     setlocal cursorline
@@ -142,7 +162,7 @@ function! StatusInactive()
     " left side
     setlocal statusline=
     setlocal statusline+=%#StatusInactive#
-    setlocal statusline+=[%{NofBuffers()}]
+    setlocal statusline+=[%{StatusNofBuffers()}]
     setlocal statusline+=%#statusLineNC#
     setlocal statusline+=\ ::\ %t\ ::
     setlocal statusline+=\ %m%r
@@ -155,13 +175,13 @@ function! StatusInactive()
     setlocal nocursorline
 endfunction
 
-function! NofBuffers()
+function! StatusNofBuffers()
     return len(getbufinfo({'buflisted':1}))
 endfunction
 
-function! GitStats()
+function! StatusGitStatus()
     let symbols = ['+', '-', '~']
-    let [added, modified, removed] = sy#repo#get_stats() 
+    let [added, modified, removed] = sy#repo#get_stats()
     let stats = [added, removed, modified]  " reorder
     let hunkline = ''
 
@@ -178,19 +198,49 @@ function! GitStats()
     return hunkline
 endfunction
 
+function! StatusTrailingSpace()
+    if !exists("b:status_trailing_space")
+        let spaces = search('\s\+$', 'nw')
+
+        if spaces > 0
+            let b:status_trailing_space = printf("[trailing :: %d]", spaces)
+        else
+            let b:status_trailing_space = ''
+        endif
+    endif
+    return b:status_trailing_space
+endfunction
+
+function! StatusMixedIndent()
+    if !exists("b:status_mixed_indent")
+        let tabs = search('^\t', 'nw')
+        let spaces = search('^ ', 'nw')
+
+        if tabs && spaces
+            let b:status_mixed_indent = printf("[mixed-indent :: %d]", tabs)
+        else
+            let b:status_mixed_indent = ''
+        endif
+    endif
+    return b:status_mixed_indent
+endfunction
+
 " statusline colors
 hi StatusActive     ctermbg=7   ctermfg=0
 hi StatusInactive   ctermbg=237 ctermfg=7
-hi User2 cterm=bold ctermbg=237 ctermfg=7
+hi User2 cterm=bold ctermbg=237 ctermfg=15
 hi User3 ctermbg=239 ctermfg=15
-hi User4 ctermbg=237 ctermfg=3
+hi User4 ctermbg=237 ctermfg=11
 hi User5 ctermbg=237 ctermfg=9
+hi User6 ctermbg=3 ctermfg=0
 
 " statusline autocmd
 augroup status
     autocmd!
     autocmd WinEnter,BufEnter * call StatusActive()
     autocmd WinLeave,BufLeave * call StatusInactive()
+    autocmd CursorHold,BufWritePost * unlet! b:status_trailing_space
+    autocmd CursorHold,BufWritePost * unlet! b:status_mixed_indent
 augroup END
 
 call StatusActive()
