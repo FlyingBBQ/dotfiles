@@ -20,7 +20,7 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close_and_remove
 hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
-hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '360' -y '10' -w '1200' -lh '30'
+hc keybind $Mod-d spawn dmenu_run -fn 'Misc Tamsyn:style=Regular:pixelsize=16' -nb '#1d2021' -nf '#ebdbb2' -sb '#fe8019' -sf '#1d2021' -x '680' -y '1400' -w '1200' -lh '30'
 hc keybind $Mod-F9 spawn ~/code/scripts/lock.sh
 
 # focusing clients
@@ -190,20 +190,35 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 # load layout for fixed tags
 ## Tag 2
 hc load 2 '
-(split horizontal:0.600000:0
-    (clients horizontal:0)
-    (clients vertical:0))
+(split vertical:0.850000:0
+    (split vertical:0.500000:1
+        (clients horizontal:0 0x1c0003b)
+        (clients horizontal:0 0x1400001))
+        (clients vertical:0 0x2e00009))
 '
-hc rule class=qutebrowser tag=2 index=0
-hc rule class=discord tag=2 index=1
+#(split horizontal:0.600000:0
+#    (clients horizontal:0)
+#    (clients vertical:0))
+#'
+hc rule class=discord tag=2 index=00
+hc rule class=spotify tag=2 index=01
+hc rule class=Spotify tag=2 index=01
+
 ## Tag 3
-hc load 3 '
-(split vertical:0.750000:1
-    (clients vertical:0)
-    (clients horizontal:0))
-'
-hc rule class=tag3_ncmpcpp tag=3 index=0 pseudotile=on
-hc rule class=tag3_cava tag=3 index=1 pseudotile=on
+#hc load 3 '
+#(split horizontal:0.800000:0
+#    (split horizontal:0.250000:0
+#        (clients horizontal:0)
+#        (split vertical:0.700000:0
+#            (clients vertical:0 0x2000001)
+#            (clients horizontal:0 0x3400009)))
+#        (clients horizontal:0))
+#'
+hc rule class=qutebrowser tag=3
+
+## other tags
+hc rule class=Firefox tag=4
+hc rule class=Steam tag=5
 
 # unlock, just to be sure
 hc unlock
@@ -211,20 +226,25 @@ hc unlock
 herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
-hc set_monitors 1920x1080+0+0 1920x1080+1920+0
+. ~/code/scripts/herbmon.sh
+#hc set_monitors 1920x1080+0+0 1920x1080+1920+0
+#hc set_monitors 1920x1080+0+0
 # or simply:
-# hc detect_monitors
+hc detect_monitors
 
 # proper floating support
 . ~/.config/herbstluftwm/floatmon.sh
 
 # start the bar and lock
-. ~/.config/lemonbar/run_bars &
+#. ~/.config/lemonbar/run_bars &
+. ~/.config/lemonbar/bar_l &
+# pad the bar at bottom
+hc pad 0 0 0 40 0
+
 . ~/code/scripts/gmail.sh &
 . ~/code/scripts/lock.sh &
 
 # start programs for fixed tags
 discord &
+spotify &
 qutebrowser &
-#urxvt -name tag3_ncmpcpp -e 'ncmpcpp' &
-#urxvt -name tag3_cava -e 'cava' &
