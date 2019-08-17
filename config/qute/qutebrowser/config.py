@@ -58,7 +58,7 @@ c.colors.completion.category.border.top = '#1d2021'
 
 ## Foreground color of completion widget category headers.
 ## Type: QtColor
-c.colors.completion.category.fg = '#fe8019'
+c.colors.completion.category.fg = '#d79921'
 
 ## Background color of the completion widget for even rows.
 ## Type: QssColor
@@ -71,7 +71,7 @@ c.colors.completion.fg = '#ebdbb2'
 
 ## Background color of the selected completion item.
 ## Type: QssColor
-c.colors.completion.item.selected.bg = '#fe8019'
+c.colors.completion.item.selected.bg = '#d79921'
 
 ## Bottom border color of the selected completion item.
 ## Type: QssColor
@@ -79,7 +79,7 @@ c.colors.completion.item.selected.border.bottom = c.colors.completion.item.selec
 
 ## Top border color of the completion widget category headers.
 ## Type: QssColor
-c.colors.completion.item.selected.border.top = '#fe8019'
+c.colors.completion.item.selected.border.top = '#d79921'
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
@@ -87,7 +87,7 @@ c.colors.completion.item.selected.fg = '#1d2021'
 
 ## Foreground color of the matched text in the completion.
 ## Type: QssColor
-c.colors.completion.match.fg = '#fe8019'
+c.colors.completion.match.fg = '#d79921'
 
 ## Background color of the completion widget for odd rows.
 ## Type: QssColor
@@ -270,7 +270,7 @@ c.colors.statusbar.normal.bg = '#1d2021'
 
 ## Foreground color of the statusbar.
 ## Type: QssColor
-c.colors.statusbar.normal.fg = '#fe8019'
+c.colors.statusbar.normal.fg = '#d79921'
 
 ## Background color of the statusbar in passthrough mode.
 ## Type: QssColor
@@ -359,9 +359,41 @@ c.colors.tabs.odd.bg = c.colors.tabs.even.bg
 ## Type: QtColor
 c.colors.tabs.odd.fg = c.colors.tabs.even.fg
 
+## Background color of pinned unselected even tabs.
+## Type: QtColor
+c.colors.tabs.pinned.even.bg = '#32302f'
+
+## Foreground color of pinned unselected even tabs.
+## Type: QtColor
+c.colors.tabs.pinned.even.fg = c.colors.tabs.even.fg
+
+## Background color of pinned unselected odd tabs.
+## Type: QtColor
+c.colors.tabs.pinned.odd.bg = c.colors.tabs.pinned.even.bg
+
+## Foreground color of pinned unselected odd tabs.
+## Type: QtColor
+c.colors.tabs.pinned.odd.fg = c.colors.tabs.even.fg
+
+## Background color of pinned selected even tabs.
+## Type: QtColor
+c.colors.tabs.pinned.selected.even.bg = '#d79921'
+
+## Foreground color of pinned selected even tabs.
+## Type: QtColor
+c.colors.tabs.pinned.selected.even.fg = '#1d2021'
+
+## Background color of pinned selected odd tabs.
+## Type: QtColor
+c.colors.tabs.pinned.selected.odd.bg = '#d79921'
+
+## Foreground color of pinned selected odd tabs.
+## Type: QtColor
+c.colors.tabs.pinned.selected.odd.fg = '#1d2021'
+
 ## Background color of selected even tabs.
 ## Type: QtColor
-c.colors.tabs.selected.even.bg = '#fe8019'
+c.colors.tabs.selected.even.bg = '#d79921'
 
 ## Foreground color of selected even tabs.
 ## Type: QtColor
@@ -369,7 +401,7 @@ c.colors.tabs.selected.even.fg = '#1d2021'
 
 ## Background color of selected odd tabs.
 ## Type: QtColor
-c.colors.tabs.selected.odd.bg = '#fe8019'
+c.colors.tabs.selected.odd.bg = '#d79921'
 
 ## Foreground color of selected odd tabs.
 ## Type: QtColor
@@ -558,7 +590,8 @@ c.content.cookies.store = True
 ## User agent to send. Unset to send the default. Note that the value
 ## read from JavaScript is always the global value.
 ## Type: String
-# c.content.headers.user_agent = None
+c.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.128 Safari/537.36'
+
 
 ## Enable host blocking.
 ## Type: Bool

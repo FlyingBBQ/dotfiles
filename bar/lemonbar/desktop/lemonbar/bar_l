@@ -8,29 +8,29 @@
 . ~/.config/lemonbar/bar_colors
 
 ## Config
-screen_width=1920
+screen_width=2560
 bar_fifo=/tmp/bar-fifo-l
 bar_font="-f -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1"
 bar_width=1200
 bar_height=30
 bar_y=10
-bar_x=$(( ($screen_width - $bar_width)/2 ))
+bar_x=$(( (screen_width - bar_width)/2 + 1080 ))
 
 geometry="-g ${bar_width}x${bar_height}+${bar_x}+${bar_y}"
-parameters=" $bar_font -B $a$bg -F $a$fg -u 3"
+parameters=" -b $bar_font -B $a$bg -F $a$fg -u 3"
 
 # make fifo file
 [ -e "$bar_fifo" ] && rm "$bar_fifo"
 mkfifo "$bar_fifo"
 
 # padding
-herbstclient pad 0 $(( $bar_height+$bar_y ))
+#herbstclient pad 0 $(( $bar_height+$bar_y ))
 
 ## Modules
 # date
 while :
 do
-    echo 'D'$(date "+%a %b %d");
+    echo 'D'$(date "+%a %d %b");
     sleep 60;
 done > $bar_fifo &
 
@@ -89,7 +89,8 @@ herbstclient -i | grep --line-buffered "tag_change" > $bar_fifo &
 
 ## bar
 while read -r line ; do
-    case $line in D*)
+    case $line in 
+        D*)
             date="$normal ${line#?}$clr"
             ;;
         H*)
