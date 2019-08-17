@@ -46,14 +46,14 @@
   XF86AudioLowerVolume
 
 # Global play pause
-"mpc -h ~/.config/mpd/socket toggle"
+"mkey.sh play"
   XF86AudioPlay
 
 # Next and Previous song
-"mpc -h ~/.config/mpd/socket next"
+"mkey.sh next"
   XF86AudioNext
 
-"mpc -h ~/.config/mpd/socket prev"
+"mkey.sh prev"
   XF86AudioPrev
 
 # Global mute audio
