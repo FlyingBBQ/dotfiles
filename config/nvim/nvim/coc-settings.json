@@ -3,12 +3,12 @@
     "languageserver": {
         "ccls": {
             "command": "ccls",
-            "disableDiagnostics": true,
+            "disableDiagnostics": false,
             "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
             "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
             "initializationOptions": {
                 "cache": {
-                    "directory": ".ccls-cache"
+                    "directory": "/tmp/ccls-cache"
                 }
             }
         },
