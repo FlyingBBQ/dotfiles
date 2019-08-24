@@ -1,0 +1,60 @@
+--- tmpp/dwm.c	2019-08-24 15:49:39.294134410 +0200
++++ dwm.c	2019-08-24 16:02:19.974110646 +0200
+@@ -408,6 +408,21 @@
+ }
+ 
+ void
++attachabove(Client *c)
++{
++	if(c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating) {
++		attach(c);
++		return;
++	}
++
++	Client *at;
++	for(at = c->mon->clients; at->next != c->mon->sel; at = at->next);
++	c->next = at->next;
++	at->next = c;
++}
++
++
++void
+ attachstack(Client *c)
+ {
+ 	c->snext = c->mon->stack;
+@@ -1064,7 +1079,7 @@
+ 		c->isfloating = c->oldstate = trans != None || c->isfixed;
+ 	if (c->isfloating)
+ 		XRaiseWindow(dpy, c->win);
+-	attach(c);
++	attachabove(c);
+ 	attachstack(c);
+ 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
+ 		(unsigned char *) &(c->win), 1);
+@@ -1205,7 +1220,7 @@
+ pop(Client *c)
+ {
+ 	detach(c);
+-	attach(c);
++    attachabove(c);
+ 	focus(c);
+ 	arrange(c->mon);
+ }
+@@ -1419,7 +1434,7 @@
+ 	detachstack(c);
+ 	c->mon = m;
+ 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
+-	attach(c);
++    attachabove(c);
+ 	attachstack(c);
+ 	focus(NULL);
+ 	arrange(NULL);
+@@ -1902,7 +1917,7 @@
+ 					m->clients = c->next;
+ 					detachstack(c);
+ 					c->mon = mons;
+-					attach(c);
++                    attachabove(c);
+ 					attachstack(c);
+ 				}
+ 				if (m == selmon)
