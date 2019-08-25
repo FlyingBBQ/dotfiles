@@ -25,6 +25,6 @@ xsetroot -solid '#458588'
 
 xbindkeys &
 redshift &
-. ~/.dotfiles/suckless/status.sh &
 . ~/code/scripts/lock.sh &
-exec dwm
+. ~/.dotfiles/suckless/status.sh &
+. ~/.dotfiles/suckless/restartdwm.sh
