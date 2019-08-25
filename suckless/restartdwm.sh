@@ -11,5 +11,5 @@ do
         exit 0
     fi
     new_csum=$(sha1sum $(which dwm))
-    sleep 0.5
+    sleep 1
 done
