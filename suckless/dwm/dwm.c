@@ -423,7 +423,6 @@ attachabove(Client *c)
 	at->next = c;
 }
 
-
 void
 attachstack(Client *c)
 {
@@ -1223,7 +1222,7 @@ void
 pop(Client *c)
 {
 	detach(c);
-    attachabove(c);
+    attach(c);
 	focus(c);
 	arrange(c->mon);
 }

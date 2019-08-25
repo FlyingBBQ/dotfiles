@@ -17,7 +17,6 @@
 +	at->next = c;
 +}
 +
-+
 +void
  attachstack(Client *c)
  {
@@ -31,21 +30,12 @@
  	attachstack(c);
  	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
  		(unsigned char *) &(c->win), 1);
-@@ -1205,7 +1220,7 @@
- pop(Client *c)
- {
- 	detach(c);
--	attach(c);
-+    attachabove(c);
- 	focus(c);
- 	arrange(c->mon);
- }
 @@ -1419,7 +1434,7 @@
  	detachstack(c);
  	c->mon = m;
  	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
 -	attach(c);
-+    attachabove(c);
++   attachabove(c);
  	attachstack(c);
  	focus(NULL);
  	arrange(NULL);
@@ -54,7 +44,7 @@
  					detachstack(c);
  					c->mon = mons;
 -					attach(c);
-+                    attachabove(c);
++                   attachabove(c);
  					attachstack(c);
  				}
  				if (m == selmon)
