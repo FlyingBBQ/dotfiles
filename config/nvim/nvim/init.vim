@@ -22,6 +22,9 @@ Plug 'mhinz/vim-signify'
 " Autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" LaTeX
+Plug 'lervag/vimtex'
+
 call plug#end()
 
 " ==========# Settings #==========
@@ -62,8 +65,8 @@ colorscheme gruvbox
 
 " ==========# Mappings #==========
 " Make double-<Esc> clear search highlights
-nnoremap <return> :<C-u>nohlsearch<return><esc>
-"nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
+"nnoremap <return> :<C-u>nohlsearch<return><esc>
+nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 
 " Make comments C89 compatible
 nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
@@ -151,6 +154,12 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>cr  <Plug>(coc-rename)
 
 let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-vimlsp']
+
+" LaTeX stuff
+let g:tex_flavor = 'latex'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_fold_enabled = 1
+let g:vimtex_indent_enabled = 0
 
 " ==========# Statusline #==========
 set laststatus=2
