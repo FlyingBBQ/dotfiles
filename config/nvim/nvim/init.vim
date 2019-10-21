@@ -75,7 +75,7 @@ nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 
 " Map for destroying trailing whitespace cleanly
-nnoremap <Leader>t :let _save_pos=getpos(".") <Bar>
+nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
     \ :%s/\s\+$//e <Bar>
     \ :let @/=_s <Bar>
@@ -117,6 +117,7 @@ nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>
+nnoremap <leader>t :<C-u>BTags<CR>
 nnoremap <leader>q :<C-u>Help<CR>
 
 " Signify stuff
