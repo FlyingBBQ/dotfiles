@@ -712,7 +712,7 @@ dirtomon(int dir)
 void
 drawbar(Monitor *m)
 {
-	int x, w, mid, sw = 0;
+	int x, w, mid = 0, sw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
@@ -747,12 +747,10 @@ drawbar(Monitor *m)
 
 	if ((w = m->ww - sw - x) > bh) {
 		if (m->sel) {
-            //mid = (m->ww - TEXTW(m->sel->name)) / 2 - x - xbar;
-            //mid = (mid < x) ? (lrpad / 2) : mid;
-            if ((mid = (m->ww - TEXTW(m->sel->name)) / 2 - x - xbar) < x)
-                mid = lrpad / 2;
+            if (((m->ww - TEXTW(m->sel->name)) / 2) > x) 
+                mid = (m->ww - TEXTW(m->sel->name)) / 2 - x - xbar;
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-			drw_text(drw, x, 0, w - (2 * xbar), bh, mid, m->sel->name, 0);
+			drw_text(drw, x, 0, w - (2 * xbar), bh, mid > 0 ? mid : lrpad / 2, m->sel->name, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
