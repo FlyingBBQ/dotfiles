@@ -44,6 +44,7 @@ set sidescrolloff=5
 set updatetime=500
 set ignorecase smartcase
 set lazyredraw
+set inccommand=split
 
 if has('persistent_undo')
     silent !mkdir ~/.local/share/nvim/undodir > /dev/null 2>&1
