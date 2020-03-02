@@ -9,6 +9,12 @@
             "initializationOptions": {
                 "cache": {
                     "directory": "/tmp/ccls-cache"
+                },
+                "clang": {
+                    "extraArgs": [
+                        "-I",
+                        "/usr/lib/clang/9.0.1/include"
+                    ]
                 }
             }
         },
