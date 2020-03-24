@@ -1,15 +1,15 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx = 3;        /* border pixel of windows */
-static const unsigned int gappx    = 16;        /* gap pixel between windows */
-static const unsigned int snap     = 8;       /* snap pixel */
-static const int showbar           = 1;        /* 0 means no bar */
-static const int topbar            = 1;        /* 0 means bottom bar */
-static const int xbar              = 128;        /* horizontal offset for statusbar */
-static const int ybar              = 16;        /* vertical offset for statusbar */
-static const int horizpadbar       = 0;        /* horizontal padding for statusbar */
-static const int vertpadbar        = 16;        /* vertical padding for statusbar */
+static const unsigned int borderpx = 3;   /* border pixel of windows */
+static const unsigned int gappx    = 16;  /* gap pixel between windows */
+static const unsigned int snap     = 8;   /* snap pixel */
+static const int showbar           = 1;   /* 0 means no bar */
+static const int topbar            = 1;   /* 0 means bottom bar */
+static const int xbar              = 128; /* horizontal offset for statusbar */
+static const int ybar              = 16;  /* vertical offset for statusbar */
+static const int horizpadbar       = 0;   /* horizontal padding for statusbar */
+static const int vertpadbar        = 16;  /* vertical padding for statusbar */
 static const char *fonts[]         = { " Misc Tamsyn:style=Regular:pixelsize=16" };
 static const char dmenufont[]      = " Misc Tamsyn:style=Regular:pixelsize=16";
 static const char col_bg[]         = "#282828";
@@ -87,9 +87,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_l,      incnmaster,     {.i = -1 } },
     { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_period, setcfact,       {.f = +0.25} },
-	{ MODKEY,                       XK_comma,  setcfact,       {.f = -0.25} },
-	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+    { MODKEY,                       XK_period, setcfact,       {.f = +0.25} },
+    { MODKEY,                       XK_comma,  setcfact,       {.f = -0.25} },
+    { MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
     { MODKEY,                       XK_f,      zoom,           {0} },
     { MODKEY,                       XK_grave,  view,           {0} },
     { MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
