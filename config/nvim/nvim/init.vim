@@ -160,7 +160,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>cr  <Plug>(coc-rename)
 
-let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-vimlsp']
+let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-vimlsp', 'coc-yaml']
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
