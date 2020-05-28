@@ -45,6 +45,7 @@ set updatetime=500
 set ignorecase smartcase
 set lazyredraw
 set inccommand=split
+let mapleader = ' '
 
 if has('persistent_undo')
     silent !mkdir ~/.local/share/nvim/undodir > /dev/null 2>&1
@@ -73,7 +74,8 @@ nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 
 " Search (and replace) the word under the cursor
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+"nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+nnoremap <Leader>r :%s///gc<Left><Left><Left>
 
 " Map for destroying trailing whitespace cleanly
 nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
@@ -88,6 +90,8 @@ nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
 " Automatically close brackets
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
+
+map <C-K> :py3f /usr/share/clang/clang-format.py<cr>
 
 " ==========# Functions #==========
 " Function to toggle guides, mapped to F5
@@ -114,7 +118,7 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'down': '10' }
-nnoremap <C-p> :<C-u>Files<CR>
+nnoremap <C-p> :<C-u>Files!<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>

@@ -114,6 +114,9 @@ bindkey -v '^?' backward-delete-char
 bindkey '\e[7~' beginning-of-line
 bindkey '\e[8~' end-of-line
 
+# change output of time command
+TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
+
 # fzf
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!{.git}/*"'
 export FZF_DEFAULT_OPTS='--height 30% --min-height=8 --inline-info --layout=reverse'
