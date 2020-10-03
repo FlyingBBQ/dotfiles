@@ -4,16 +4,16 @@
 #
 
 # Colors
-c_bg="#1"
-c_fg="#5"
-c_hl="#4"
-c_iv="#3"
-c_gn="#6"
-c_gh="#7"
-c_rn="#8"
-c_rh="#9"
+c_bg=""
+c_fg=""
+c_hl=""
+c_iv=""
+c_gn=""
+c_gh=""
+c_rn=""
+c_rh=""
 
-mod_string=""
+mod_string="\$c_fg "
 status_fifo=/tmp/status-fifo
 
 # Make fifo file
@@ -61,7 +61,7 @@ mod_mem () {
         if [ "$perc" -gt 85 ]; then
             mem="$c_rn RAM $c_rh$perc%"
         else
-            mem="$c_hl RAM $c_fg$perc%"
+            mem="$c_fg RAM $c_hl$perc%"
         fi
         echo "M$mem"
         sleep 1;
@@ -87,14 +87,14 @@ mod_bat () {
                 if [ "$perc" -lt 20 ]; then
                     bat="$c_rn BAT $c_rh$perc%"
                 else
-                    bat="$c_hl BAT $c_fg$perc%"
+                    bat="$c_fg BAT $c_hl$perc%"
                 fi
                 ;;
             'Charging')
                 bat="$c_gn BAT $c_gh$perc%"
                 ;;
             *)
-                bat="$c_hl BAT $c_fg$perc"
+                bat="$c_fg BAT $c_hl$perc"
                 ;;
         esac
         echo "B$bat"
@@ -151,16 +151,17 @@ done
 # Expand module string with module values
 while read -r line ; do
     case $line in
-        D*) date="$c_hl ${line#?}" ;;
+        D*) date="$c_fg ${line#?}" ;;
         H*) clock="$c_iv ${line#?}" ;;
         B*) battery="${line#?}" ;;
         E*) email="MAIL ${line#?}" ;;
         M*) mem="${line#?}" ;;
-        C*) cpu="CPU $c_fg${line#?}%" ;;
-        T*) temp="$c_fg ${line#?}" ;;
-        S*) ssid="WiFi $c_fg${line#?}" ;;
+        C*) cpu="CPU $c_hl${line#?}%" ;;
+        T*) temp="$c_hl ${line#?}" ;;
+        S*) ssid="WiFi $c_hl${line#?}" ;;
     esac
-    xsetroot -name " $(eval echo "$mod_string")"
+    echo "$mod_string"
+    xsetroot -name " $(eval echo "$mod_string") "
 done < "$status_fifo"
 
 wait
