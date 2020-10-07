@@ -1,9 +1,11 @@
 #!/bin/sh
 
-userresources=$HOME/.Xresources
-usermodmap=$HOME/.Xmodmap
+userresources=$HOME/.xresources
+usermodmap=$HOME/.xmodmap
+userkeymap=$HOME/.xbindkeysrc
+userstartup=$HOME/.startup_local
 
-# merge in defaults and keymaps
+# merge in user defaults
 if [ -f "$userresources" ]; then
     xrdb -merge "$userresources"
 fi
@@ -12,19 +14,35 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-# start some nice programs
-if [ -d /etc/X11/xinit/xinitrc.d ] ; then
- for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-  [ -x "$f" ] && . "$f"
- done
- unset f
+if [ -f "$userkeymap" ]; then
+    xbindkeys &
 fi
 
-# background
-xsetroot -solid '#458588'
+# start some nice programs
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
+fi
 
-xbindkeys &
-redshift &
-. ~/code/scripts/lock.sh &
-. ~/.dotfiles/suckless/status.sh &
-. ~/.dotfiles/suckless/restartdwm.sh
+if [ -f "$userstartup" ]; then
+    . ~/.startup_local
+fi
+
+# relaunch dwm if the binary changes, otherwise bail
+csum=$(sha1sum $(which dwm))
+new_csum=""
+while true
+do
+    if [ "$csum" != "$new_csum" ]
+    then
+        csum=$new_csum
+        dwm
+    else
+        exit 0
+    fi
+    new_csum=$(sha1sum $(which dwm))
+    sleep 1
+done
+
