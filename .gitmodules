@@ -1,9 +1,6 @@
 [submodule "suckless/dwm"]
 	path = suckless/dwm
 	url = https://github.com/FlyingBBQ/dwm.git
-[submodule "suckless/dmenu"]
-	path = suckless/dmenu
-	url = https://github.com/FlyingBBQ/dmenu.git
 [submodule "suckless/st"]
 	path = suckless/st
 	url = https://github.com/FlyingBBQ/st.git
