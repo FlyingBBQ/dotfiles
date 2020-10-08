@@ -4,14 +4,14 @@
 #
 
 # Colors
-c_bg=""
-c_fg=""
-c_hl=""
-c_iv=""
-c_gn=""
-c_gh=""
-c_rn=""
-c_rh=""
+c_bg="#1"
+c_fg="#4"
+c_hl="#5"
+c_iv="#2"
+c_gn="#6"
+c_gh="#7"
+c_rn="#8"
+c_rh="#9"
 
 mod_string="\$c_fg "
 status_fifo=/tmp/status-fifo
@@ -36,6 +36,11 @@ cat << EOF
         -e, --email
 EOF
 }
+
+if [ $# -eq 0 ]; then
+    usage
+    exit 1
+fi
 
 # Modules
 mod_date () {
@@ -160,8 +165,7 @@ while read -r line ; do
         T*) temp="$c_hl ${line#?}" ;;
         S*) ssid="WiFi $c_hl${line#?}" ;;
     esac
-    echo "$mod_string"
-    xsetroot -name " $(eval echo "$mod_string") "
+    xsetroot -name "$(eval echo "$mod_string")"
 done < "$status_fifo"
 
 wait
