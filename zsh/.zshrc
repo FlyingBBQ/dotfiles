@@ -75,7 +75,7 @@ precmd_functions+=( precmd_vcs_info )
 
 # vi mode cursor
 zle-keymap-select () {
-    if [ $TERM = "rxvt-unicode-256color" ]; then
+    if [ $TERM = "st-256color" ]; then
         if [ $KEYMAP = vicmd ]; then
             echo -ne "\e[2 q"
         else
@@ -87,7 +87,7 @@ zle -N zle-keymap-select
 
 zle-line-init () {
     zle -K viins
-    if [ $TERM = "rxvt-unicode-256color" ]; then
+    if [ $TERM = "st-256color" ]; then
         echo -ne "\e[4 q"
     fi
 }
