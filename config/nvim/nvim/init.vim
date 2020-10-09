@@ -53,6 +53,10 @@ if has('persistent_undo')
     set undofile
 endif
 
+" Add highlighting to C header files
+autocmd BufRead,BufNewFile *.h set filetype=c
+"autocmd FileType c setlocal tabstop=8 shiftwidth=8 softtabstop=8
+
 " Tabs
 set expandtab
 set tabstop=4
@@ -91,6 +95,7 @@ nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
 
+" Call clang-format to format selection
 map <C-K> :py3f /usr/share/clang/clang-format.py<cr>
 
 " ==========# Functions #==========
@@ -101,7 +106,7 @@ function! ToggleGuides()
         let g:indent_warning = 0
         call StatusActive()
     else
-        set colorcolumn=80
+        set colorcolumn=80,100
         let g:indent_warning = 1
         call StatusActive()
     endif
@@ -161,6 +166,7 @@ nmap <silent> [d <Plug>(coc-diagnostic-prev)
 nmap <silent> ]d <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>cr  <Plug>(coc-rename)
 
