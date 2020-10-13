@@ -5,17 +5,16 @@
 #
 
 # prompt
-PROMPT='%F{red}%~ %F{yellow}∇%f '
+PROMPT='%F{red}%~ %F{yellow}▼%f '
 RPROMPT='%F{237}%*%f'
 
 # alias
-alias ls='ls --color=auto'
-alias ll='ls -l --color=auto'
-alias la='ls -A --color=auto'
+alias ls='exa -g'
+alias ll='ls -l'
+alias la='ls -a'
 alias x='exit'
 alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
-alias clk='tty-clock -s -b -c -C 3'
 alias ranger='ranger --choosedir=/tmp/.rangerdir; LASTDIR=`cat /tmp/.rangerdir`; cd "$LASTDIR"'
 alias dots='cd ~/.dotfiles'
 alias stowc='stow -t ~/.config'
@@ -28,8 +27,8 @@ alias nvimit='nvim ~/.config/nvim/init.vim'
 
 # history
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 setopt incappendhistory
 setopt histignorealldups
 setopt sharehistory
@@ -107,12 +106,13 @@ bindkey -M menuselect '^j' reverse-menu-complete
 bindkey -s '^g' "git add -u; git commit -v && git push"
 
 # fix delete key
-bindkey -a '^[[3~' delete-char
+bindkey -a '\033[P' delete-char
 bindkey -v '^?' backward-delete-char
 
+
 # fix HOME, END
-bindkey '\e[7~' beginning-of-line
-bindkey '\e[8~' end-of-line
+bindkey '\033[H' beginning-of-line
+bindkey '\033[4~' end-of-line
 
 # change output of time command
 TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
