@@ -30,7 +30,6 @@
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
     # geometry = "700x1+610+10"
-    geometry = "1000+780+16"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -47,7 +46,7 @@
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
     # to the font height and padding.
-    notification_height = 30
+    notification_height = 29
 
     # Draw a line of "separator_height" pixel height between two
     # notifications.
@@ -65,7 +64,7 @@
     frame_width = 0
 
     # Defines color of the frame around the notification window.
-    frame_color = "#458588"
+    frame_color = "#504945"
 
     # Define a color for the separator.
     # possible values are:
@@ -85,7 +84,7 @@
 
     ### Text ###
 
-    font = JetBrains Mono 11
+    font = JetBrains Mono 10
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
