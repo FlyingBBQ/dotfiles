@@ -27,7 +27,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 if [ -f "$userstartup" ]; then
-    . ~/.startup_local
+    . "$userstartup"
 fi
 
 # relaunch dwm if the binary changes, otherwise bail
