@@ -6,7 +6,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Visual
-Plug 'gruvbox-community/gruvbox'
+Plug 'morhetz/gruvbox'
 
 " Motions
 Plug 'tpope/vim-surround'
@@ -53,32 +53,32 @@ if has('persistent_undo')
     set undofile
 endif
 
-" Add highlighting to C header files
-autocmd BufRead,BufNewFile *.h set filetype=c
-"autocmd FileType c setlocal tabstop=8 shiftwidth=8 softtabstop=8
-
 " Tabs
 set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-" * Themes and Colors
+command! Tb8 :setlocal tabstop=8 shiftwidth=8 softtabstop=8
+command! Tb4 :setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
+" Themes and Colors
 set background=dark
 let g:gruvbox_termcolors = 16
 let g:gruvbox_improved_strings = 0
 colorscheme gruvbox
 
+" Add highlighting to C header files
+autocmd BufRead,BufNewFile *.h set filetype=c
+
 " ==========# Mappings #==========
-" Make double-<Esc> clear search highlights
-"nnoremap <return> :<C-u>nohlsearch<return><esc>
+" Make double <Esc> clear search highlights
 nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 
 " Make comments C89 compatible
 nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 
 " Search (and replace) the word under the cursor
-"nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
 nnoremap <Leader>r :%s///gc<Left><Left><Left>
 
 " Map for destroying trailing whitespace cleanly
@@ -150,7 +150,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-" use <tab> for trigger completion and navigate to the next complete item
+" Use <tab> for trigger completion and navigate to the next complete item
 inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
@@ -280,13 +280,13 @@ function! StatusMixedIndent()
 endfunction
 
 " statusline colors
-hi StatusActive     ctermbg=7   ctermfg=0
-hi StatusInactive   ctermbg=237 ctermfg=7
-hi User2 cterm=bold ctermbg=237 ctermfg=15
-hi User3 ctermbg=239 ctermfg=15
-hi User4 ctermbg=237 ctermfg=11
-hi User5 ctermbg=237 ctermfg=9
-hi User6 ctermbg=3 ctermfg=0
+hi StatusActive   ctermbg=7   ctermfg=0
+hi StatusInactive ctermbg=237 ctermfg=7
+hi User2          ctermbg=237 ctermfg=15 cterm=bold
+hi User3          ctermbg=239 ctermfg=15
+hi User4          ctermbg=237 ctermfg=11
+hi User5          ctermbg=237 ctermfg=9
+hi User6          ctermbg=3   ctermfg=0
 
 " statusline autocmd
 augroup status
