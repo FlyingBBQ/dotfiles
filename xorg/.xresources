@@ -1,22 +1,3 @@
-!--URxvt----------------------------------------------
-
-URxvt.font: xft:Misc Tamsyn:style=Regular:pixelsize=16
-URxvt.boldFont: xft:Misc Tamsyn:style=Bold:pixelsize=16
-URxvt.scrollBar: false
-URxvt.internalBorder: 20
-URxvt.geometry: 100x24
-URxvt.depth: 0
-URxvt.intensityStyles: false
-URxvt.saveLines: 4096
-URxvt.keysym.Meta-k: command:\033]720;5\007
-URxvt.keysym.Meta-j: command:\033]721;5\007
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-
-!--Xterm----------------------------------------------
-
-xterm*font: -misc-tamsyn-medium-r-normal--16-116-100-100-c-80-iso8859-1
-
 !--Fonts---------------------------------------------
 
 Xft.lcdfilter: lcddefault
@@ -50,7 +31,6 @@ Xft.dpi: 96
 
 ! DarkYellow + Yellow
 *color3:  #d79921
-!*color3:  #fe8019
 *color11: #fabd2f
 
 ! DarkBlue + Blue
