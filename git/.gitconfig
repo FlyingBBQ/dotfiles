@@ -1,0 +1,16 @@
+[core]
+    excludesfile = ~/.gitignore_global
+
+[merge]
+    tool = nvim
+
+[pull]
+    rebase = false
+
+[alias]
+    bav = branch -avv
+    la = log --pretty=format:'%C(auto)%h%d %s %C(white)- %C(bold blue)%an %Creset%C(white)%cr %Creset'
+
+[include]
+    path = ~/.gitconfig_local
+

@@ -5,12 +5,12 @@
 #
 
 export VISUAL="nvim"
-export EDITOR="nvim"
-export TERMCMD="/usr/bin/urxvt"
-
+export EDITOR=$VISUAL
+export TERMCMD="/usr/bin/st"
 export XDG_CONFIG_HOME=${HOME}/.config
-export PATH=${PATH}:${HOME}/code/scripts
-export PATH=${PATH}:${HOME}/code/scripts/secret
+
+export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:${HOME}/.local/bin
 
+# Fix misbehaving Java applications in dwm
 export _JAVA_AWT_WM_NONREPARENTING=1

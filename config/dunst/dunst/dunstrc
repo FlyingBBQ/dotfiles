@@ -30,9 +30,6 @@
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
     # geometry = "700x1+610+10"
-    #geometry = "1008+552+10"
-    #geometry = "1008+552+1040"
-    geometry = "1008+872+1400"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -49,7 +46,7 @@
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
     # to the font height and padding.
-    notification_height = 30
+    notification_height = 29
 
     # Draw a line of "separator_height" pixel height between two
     # notifications.
@@ -57,7 +54,7 @@
     separator_height = 3
 
     # Padding between text and separator.
-    padding = 7
+    padding = 6
 
     # Horizontal padding.
     horizontal_padding = 10
@@ -67,7 +64,7 @@
     frame_width = 0
 
     # Defines color of the frame around the notification window.
-    frame_color = "#458588"
+    frame_color = "#504945"
 
     # Define a color for the separator.
     # possible values are:
@@ -87,7 +84,7 @@
 
     ### Text ###
 
-    font = Misc Tamsyn
+    font = JetBrains Mono 10
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -242,22 +239,22 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#282828"
-    foreground = "#d79921"
+    background = "#3c3836"
+    foreground = "#ebdbb2"
     timeout = 6
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
-[urgency_critical]
+[urgency_normal]
     background = "#3c3836"
-    foreground = "#ebdbb2"
+    foreground = "#d79921"
     timeout = 6
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
-[urgency_normal]
+[urgency_critical]
     background = "#d79921"
-    foreground = "#1d2021"
+    foreground = "#282828"
     timeout = 10
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon

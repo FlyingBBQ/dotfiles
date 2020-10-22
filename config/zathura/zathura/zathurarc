@@ -1,7 +1,7 @@
 ## ~/zathura/zathurarc
 
 #// main:
-#set font "Misc Tamsyn Regular 12"
+set font "JetBrains Mono 10"
 set selection-clipboard clipboard
 set synctex true
 
