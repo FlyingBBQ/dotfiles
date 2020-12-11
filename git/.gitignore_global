@@ -1,4 +1,6 @@
 .ccls-cache
 .vscode
 compile_commands.json
+.cache
+virt_env/
 __pycache__
