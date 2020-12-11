@@ -161,7 +161,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-nnoremap <silent> gi :<C-u>CocList diagnostics<cr>
 nmap <silent> [d <Plug>(coc-diagnostic-prev)
 nmap <silent> ]d <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
@@ -169,8 +168,10 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>cr  <Plug>(coc-rename)
+nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
 
-let g:coc_global_extensions = ['coc-python', 'coc-json', 'coc-vimlsp', 'coc-yaml']
+let g:coc_global_extensions = ['coc-clangd', 'coc-python', 'coc-sh']
+let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
