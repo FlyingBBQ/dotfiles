@@ -6,8 +6,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Visual
-Plug 'doums/darcula'
+Plug 'FlyingBBQ/darcula'
 Plug 'sheerun/vim-polyglot'
+Plug 'unblevable/quick-scope'
 
 " Motions
 Plug 'tpope/vim-surround'
@@ -203,6 +204,12 @@ let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_indent_enabled = 0
+
+" Quick-scope stuff
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_hi_priority = 1
+highlight link QuickScopePrimary Visual
+highlight link QuickScopeSecondary Search
 
 " ==========# Statusline #==========
 set laststatus=2
