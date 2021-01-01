@@ -61,8 +61,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-command! Tb8 :setlocal tabstop=8 shiftwidth=8 softtabstop=8
-command! Tb4 :setlocal tabstop=4 shiftwidth=4 softtabstop=4
+command! Tb8 :set tabstop=8 shiftwidth=8 softtabstop=8
+command! Tb4 :set tabstop=4 shiftwidth=4 softtabstop=4
 
 " Themes and Colors
 set background=dark
