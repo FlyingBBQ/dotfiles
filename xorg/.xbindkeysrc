@@ -53,15 +53,15 @@
   XF86AudioPrev
 
 # Take complete screenshot
-"maim ~/images/scrots/$(date +%Y-%m-%d_%M%S)_screen.png"
+"screencap.sh all"
   Print
 
 # Take screenshot of focused window
-"maim -i $(xdotool getactivewindow) ~/images/scrots/$(date +%Y-%m-%d_%M%S)_window.png"
+"screencap.sh window"
   Control + Print
 
 # Take screenshot of a selected region
-"maim -s ~/images/scrots/$(date +%Y-%m-%d_%M%S)_region.png"
+"screencap.sh region"
   Control + Shift + Print
 
 # Brightness up
