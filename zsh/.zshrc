@@ -66,7 +66,7 @@ precmd_vcs_info() {
         if [[ -n $(git status --porcelain) ]]; then
             RPROMPT='%F{237}[%F{magenta}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
         else
-            RPROMPT='%F{237}[%F{cyan}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
+            RPROMPT='%F{237}[%F{green}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
         fi
     else
         RPROMPT='%F{237}%*%f'
