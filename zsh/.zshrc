@@ -15,6 +15,7 @@ alias la='ls -a'
 alias lt='ls -TL 2'
 alias gs='git status'
 alias dl='cd ~/downloads'
+alias pac='pikaur'
 alias dots='cd ~/.dotfiles'
 alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
@@ -66,7 +67,7 @@ precmd_vcs_info() {
         if [[ -n $(git status --porcelain) ]]; then
             RPROMPT='%F{237}[%F{magenta}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
         else
-            RPROMPT='%F{237}[%F{cyan}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
+            RPROMPT='%F{237}[%F{green}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
         fi
     else
         RPROMPT='%F{237}%*%f'

@@ -6,7 +6,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Visual
-Plug 'morhetz/gruvbox'
+Plug 'FlyingBBQ/darcula'
+Plug 'sheerun/vim-polyglot'
+Plug 'unblevable/quick-scope'
 
 " Motions
 Plug 'tpope/vim-surround'
@@ -59,14 +61,16 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 
-command! Tb8 :setlocal tabstop=8 shiftwidth=8 softtabstop=8
-command! Tb4 :setlocal tabstop=4 shiftwidth=4 softtabstop=4
+command! Tb8 :set tabstop=8 shiftwidth=8 softtabstop=8
+command! Tb4 :set tabstop=4 shiftwidth=4 softtabstop=4
 
 " Themes and Colors
 set background=dark
-let g:gruvbox_termcolors = 16
-let g:gruvbox_improved_strings = 0
-colorscheme gruvbox
+set termguicolors
+colorscheme darcula
+highlight link diffAdded String
+highlight link diffRemoved Comment
+highlight link diffLine Number
 
 " Add highlighting to C header files
 autocmd BufRead,BufNewFile *.h set filetype=c
@@ -114,6 +118,13 @@ endfunction
 let g:indent_warning = 0
 nnoremap <F5> :<C-u>call ToggleGuides()<CR>
 
+" Display the highlight group of the word under the cursor
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+command! Syng :call SynGroup()<CR>
+
 " command to edit init.vim
 command! Vimrc :sp $MYVIMRC
 
@@ -122,8 +133,8 @@ command! Vimrc :sp $MYVIMRC
 let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'down': '10' }
-nnoremap <C-p> :<C-u>Files!<CR>
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'NvimFloat' } }
+nnoremap <C-p> :<C-u>Files<CR>
 nnoremap <leader>b :<C-u>Buffers<CR>
 nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
 nnoremap <leader>f :<C-u>BLines<CR>
@@ -136,13 +147,12 @@ let g:signify_realtime = 1
 let g:signify_update_on_focusgained = 1
 let g:signify_cursorhold_normal = 0
 let g:signify_cursorhold_insert = 0
-highlight SignColumn ctermbg=0
-highlight link SignifyLineAdd    GruvboxGreen
-highlight link SignifySignAdd    GruvboxGreen
-highlight link SignifyLineChange GruvboxAqua
-highlight link SignifySignChange GruvboxAqua
-highlight link SignifyLineDelete GruvboxRed
-highlight link SignifySignDelete GruvboxRed
+highlight link SignifyLineAdd    CursorLineNR
+highlight link SignifySignAdd    CursorLineNR
+highlight link SignifyLineChange CursorLineNR
+highlight link SignifySignChange CursorLineNR
+highlight link SignifyLineDelete CursorLineNR
+highlight link SignifySignDelete CursorLineNR
 
 " Coc stuff
 function! s:check_back_space() abort
@@ -173,11 +183,33 @@ nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
 let g:coc_global_extensions = ['coc-clangd', 'coc-python', 'coc-sh']
 let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
 
+highlight! link CocErrorSign ErrorSign
+highlight! link CocWarningSign WarningSign
+highlight! link CocInfoSign InfoSign
+highlight! link CocHintSign InfoSign
+highlight! link CocErrorFloat Pmenu
+highlight! link CocWarningFloat Pmenu
+highlight! link CocInfoFloat Pmenu
+highlight! link CocHintFloat Pmenu
+highlight! link CocHighlightText IdentifierUnderCaret
+highlight! link CocHighlightRead IdentifierUnderCaret
+highlight! link CocHighlightWrite IdentifierUnderCaretWrite
+highlight! link CocErrorHighlight CodeError
+highlight! link CocWarningHighlight CodeWarning
+highlight! link CocInfoHighlight CodeInfo
+highlight! link CocHintHighlight CodeHint
+
 " LaTeX stuff
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_indent_enabled = 0
+
+" Quick-scope stuff
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_hi_priority = 1
+highlight link QuickScopePrimary Visual
+highlight link QuickScopeSecondary Search
 
 " ==========# Statusline #==========
 set laststatus=2
@@ -187,27 +219,26 @@ set statusline=
 function! StatusActive()
     " left side
     setlocal statusline=
-    setlocal statusline+=%#StatusActive#
+    setlocal statusline+=%#StatusInverse#
     setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=%#statusLineNC#\ ::
-    setlocal statusline+=%2*\ %t
-    setlocal statusline+=%#statusLineNC#\ ::
-    setlocal statusline+=\ %{StatusGitStatus()}%h
-    setlocal statusline+=%4*%m
-    setlocal statusline+=%5*%r
+    setlocal statusline+=%#StatusInactive#\ ::
+    setlocal statusline+=%#StatusActive#\ %t
+    setlocal statusline+=%#StatusInactive#\ ::
+    setlocal statusline+=\ %{StatusGitStatus()}
+    setlocal statusline+=%#StatusActive#%h%m%r
     " right side
     setlocal statusline+=%=
-    setlocal statusline+=%#statusLineNC#
+    setlocal statusline+=%#StatusInactive#
     setlocal statusline+=%{coc#status()}
-    setlocal statusline+=\ %#statusLine#
+    setlocal statusline+=\ %#StatusActive#
     setlocal statusline+=%4.p%%
-    setlocal statusline+=\ %#statusLine#
+    setlocal statusline+=\ %#StatusActive#
     if g:indent_warning
-        setlocal statusline+=%6*
+        setlocal statusline+=%#StatusWarn#
         setlocal statusline+=%{StatusMixedIndent()}
         setlocal statusline+=%{StatusTrailingSpace()}
     endif
-    setlocal statusline+=%#StatusActive#
+    setlocal statusline+=%#StatusInverse#
     setlocal statusline+=[%3l/%L\ ::%3.c]
     " enable the cursorline
     setlocal cursorline
@@ -218,13 +249,11 @@ function! StatusInactive()
     setlocal statusline=
     setlocal statusline+=%#StatusInactive#
     setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=%#statusLineNC#
     setlocal statusline+=\ ::\ %t\ ::
     setlocal statusline+=\ %h%m%r
     " right side
     setlocal statusline+=%=
     setlocal statusline+=%4.p%%
-    setlocal statusline+=\ %#StatusInactive#
     setlocal statusline+=[%3l/%L\ ::%3.c]
     " disable the cursorline
     setlocal nocursorline
@@ -281,13 +310,10 @@ function! StatusMixedIndent()
 endfunction
 
 " statusline colors
-hi StatusActive   ctermbg=7   ctermfg=0
-hi StatusInactive ctermbg=237 ctermfg=7
-hi User2          ctermbg=237 ctermfg=15 cterm=bold
-hi User3          ctermbg=239 ctermfg=15
-hi User4          ctermbg=237 ctermfg=11
-hi User5          ctermbg=237 ctermfg=9
-hi User6          ctermbg=3   ctermfg=0
+highlight link StatusInverse TermCursor
+highlight link StatusActive StatusLine
+highlight link StatusInactive StatusLineNC
+highlight link StatusWarn Visual
 
 " statusline autocmd
 augroup status

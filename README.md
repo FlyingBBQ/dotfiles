@@ -11,7 +11,7 @@ Collection of all my configuration files, managed using GNU stow.
 | **editor**| neovim |
 | **browser**| Firefox |
 | **font**| JetBrains Mono |
-| **colors**| gruvbox |
+| **colors**| darcula |
 
 ## install
 `git clone --recurse-submodules https://github.com/FlyingBBQ/dotfiles ~/.dotfiles`
