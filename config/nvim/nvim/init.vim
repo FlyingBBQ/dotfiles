@@ -182,7 +182,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>cr  <Plug>(coc-rename)
 nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
 
-let g:coc_global_extensions = ['coc-clangd', 'coc-python', 'coc-sh']
+let g:coc_global_extensions = ['coc-clangd', 'coc-pyright', 'coc-sh']
 let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
 
 highlight! link CocErrorSign ErrorSign
