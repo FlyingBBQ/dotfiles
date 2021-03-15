@@ -121,8 +121,8 @@ TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS='--height 30% --min-height=8 --inline-info --layout=reverse'
-export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always --line-range :500 {}' --select-1 --exit-0"
+export FZF_DEFAULT_OPTS='--height 40% --min-height=8 --inline-info --layout=reverse'
+export FZF_CTRL_T_OPTS="--preview '([[ -f {} ]] && (bat --style=numbers --color=always --line-range :500 {} || cat {})) || ([[ -d {} ]] && (tree -C -L 2 {} | less))' --select-1 --exit-0"
 
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
