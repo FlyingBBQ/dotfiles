@@ -16,10 +16,6 @@ c_rh="#9"
 mod_string="\$c_fg "
 status_fifo=/tmp/status-fifo
 
-# Make fifo file
-[ -e "$status_fifo" ] && rm "$status_fifo"
-mkfifo "$status_fifo"
-
 usage () {
 cat << EOF
     Status script for dwm
@@ -41,6 +37,9 @@ if [ $# -eq 0 ]; then
     usage
     exit 1
 fi
+
+[ -e "$status_fifo" ] && rm "$status_fifo"
+mkfifo "$status_fifo"
 
 # Modules
 mod_date () {
