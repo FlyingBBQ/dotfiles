@@ -83,7 +83,9 @@ nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
 nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
 
 " Search (and replace) the word under the cursor
-nnoremap <Leader>r :%s///gc<Left><Left><Left>
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+" Search (and replace) the selected text
+vnoremap <Leader>r "hy:%s/<C-r>h//gc<left><left><left>
 
 " Map for destroying trailing whitespace cleanly
 nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
