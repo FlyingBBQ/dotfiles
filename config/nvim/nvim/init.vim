@@ -184,6 +184,7 @@ nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
 
 let g:coc_global_extensions = ['coc-clangd', 'coc-pyright', 'coc-sh']
 let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
+let g:coc_global_extensions += ['coc-rust-analyzer']
 
 highlight! link CocErrorSign ErrorSign
 highlight! link CocWarningSign WarningSign

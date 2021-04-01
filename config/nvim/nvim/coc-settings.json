@@ -1,3 +1,4 @@
 {
-    "diagnostic.warningSign": "[]"
+    "diagnostic.warningSign": "[]",
+    "rust-analyzer.server.path": "/usr/bin/rust-analyzer"
 }
