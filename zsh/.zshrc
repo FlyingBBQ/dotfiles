@@ -6,7 +6,7 @@
 
 # prompt
 PROMPT='%F{red}%~ %F{yellow}▼%f '
-RPROMPT='%F{237}%*%f'
+RPROMPT='${vcs_info_msg_0_} %F{237}%*%f'
 
 # alias
 alias ls='exa -g'
@@ -58,22 +58,11 @@ autoload -Uz compinit && compinit
 # git prompt
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git*' formats "%b"
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr "%F{magenta}"
+zstyle ':vcs_info:git*' formats "%F{237}[%F{green}%u%b%F{237}]"
 setopt prompt_subst
-precmd_vcs_info() {
-    vcs_info
-    # string not null
-    if [[ -n ${vcs_info_msg_0_} ]]; then
-        if [[ -n $(git status --porcelain) ]]; then
-            RPROMPT='%F{237}[%F{magenta}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
-        else
-            RPROMPT='%F{237}[%F{green}${vcs_info_msg_0_}%F{237}] %F{237}%*%f'
-        fi
-    else
-        RPROMPT='%F{237}%*%f'
-    fi
-}
-precmd_functions+=( precmd_vcs_info )
+precmd () { vcs_info }
 
 # vi mode cursor
 zle-keymap-select () {
