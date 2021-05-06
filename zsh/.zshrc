@@ -118,3 +118,50 @@ source /usr/share/fzf/completion.zsh
 
 bindkey '^f' fzf-file-widget
 bindkey '^p' fzf-cd-widget
+
+# fzf + git
+is_in_git_repo () {
+    git rev-parse HEAD > /dev/null 2>&1
+}
+
+fzf-down () {
+    fzf --height 80% --min-height 20 --preview-window right:70% --bind ctrl-l:toggle-preview "$@"
+}
+
+gd () {
+    # Show diff for each modified file.
+    is_in_git_repo || return
+    preview_cmd="git diff $@ --color=always -- {-1} | sed 1,4d"
+    git diff $@ --name-only | fzf-down -m --ansi --preview $preview_cmd | read file_name
+    if [[ ! -z "$file_name" ]] git diff $@ -- $file_name
+}
+
+
+gb () {
+    # Display commits for each branch
+    is_in_git_repo || return
+    preview_cmd='git log --oneline --graph --color=always $(sed s/^..// <<< {} | cut -d" " -f1)'
+    git branch -a --color=always | grep -v '/HEAD\s' | sort |
+    fzf-down --ansi --multi --tac --preview $preview_cmd |
+    sed 's/^..//' | cut -d' ' -f1 |
+    sed 's#^remotes/##'
+}
+
+gsl () {
+    # List stashes and browse files in the selected stash.
+    is_in_git_repo || return
+    git stash list | fzf | cut -d':' -f1 | read stash_name
+    git log $stash_name --format="%H" | read stash_hash
+    if [[ ! -z $stash_name ]] gd $stash_hash~ $stash_hash
+}
+
+gh () {
+    # Show commit history and browse files of diff.
+    is_in_git_repo || return
+    preview_cmd='grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always'
+    git log --oneline --graph --color=always |
+    fzf-down --ansi --no-sort --reverse --multi --preview $preview_cmd |
+    grep -o "[a-f0-9]\{7,\}" | read commit_hash
+    if [[ ! -z $commit_hash ]] gd $commit_hash~ $commit_hash
+}
+
