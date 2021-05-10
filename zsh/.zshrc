@@ -23,7 +23,7 @@ alias ranger='. ranger'
 alias stowc='stow -t ~/.config'
 alias slep='~/bin/lock.sh && systemctl suspend'
 alias nvimit='nvim ~/.config/nvim/init.vim'
-alias x='exit'
+alias td='nvim ~/.todo'
 
 # local alias
 [[ -f ~/.zlocal ]]  && . ~/.zlocal
@@ -56,16 +56,18 @@ zmodload zsh/complist
 autoload -Uz compinit && compinit
 
 # git prompt
+setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr "%F{magenta}"
 zstyle ':vcs_info:git*' formats "%F{237}[%F{green}%u%b%F{237}]"
-setopt prompt_subst
-precmd () { vcs_info }
+precmd() {
+    vcs_info
+}
 
 # vi mode cursor
-zle-keymap-select () {
+zle-keymap-select() {
     if [ $TERM = "st-256color" ]; then
         if [ $KEYMAP = vicmd ]; then
             echo -ne "\e[2 q"
@@ -76,7 +78,7 @@ zle-keymap-select () {
 }
 zle -N zle-keymap-select
 
-zle-line-init () {
+zle-line-init() {
     zle -K viins
     if [ $TERM = "st-256color" ]; then
         echo -ne "\e[4 q"
@@ -91,8 +93,6 @@ bindkey -v
 bindkey ' ' magic-space
 bindkey '^o' history-beginning-search-backward
 bindkey '^n' history-beginning-search-forward
-#bindkey '^r' history-incremental-search-backward
-#bindkey '^s' history-incremental-search-forward
 bindkey '^k' expand-or-complete
 bindkey -M menuselect '^j' reverse-menu-complete
 bindkey -s '^g' "git add -u; git commit -v && git push"
@@ -120,24 +120,26 @@ bindkey '^f' fzf-file-widget
 bindkey '^p' fzf-cd-widget
 
 # fzf + git
-is_in_git_repo () {
+is_in_git_repo() {
     git rev-parse HEAD > /dev/null 2>&1
 }
 
-fzf-down () {
+fzf-down() {
     fzf --height 80% --min-height 20 --preview-window right:70% --bind ctrl-l:toggle-preview "$@"
 }
 
-gd () {
+gd() {
     # Show diff for each modified file.
     is_in_git_repo || return
     preview_cmd="git diff $@ --color=always -- {-1} | sed 1,4d"
     git diff $@ --name-only | fzf-down -m --ansi --preview $preview_cmd | read file_name
-    if [[ ! -z "$file_name" ]] git diff $@ -- $file_name
+    if [[ ! -z "$file_name" ]] ; then
+        git diff $@ -- $file_name
+    fi
 }
 
 
-gb () {
+gb() {
     # Display commits for each branch
     is_in_git_repo || return
     preview_cmd='git log --oneline --graph --color=always $(sed s/^..// <<< {} | cut -d" " -f1)'
@@ -147,21 +149,25 @@ gb () {
     sed 's#^remotes/##'
 }
 
-gsl () {
+gsl() {
     # List stashes and browse files in the selected stash.
     is_in_git_repo || return
     git stash list | fzf | cut -d':' -f1 | read stash_name
     git log $stash_name --format="%H" | read stash_hash
-    if [[ ! -z $stash_name ]] gd $stash_hash~ $stash_hash
+    if [[ ! -z $stash_name ]] ; then
+        gd $stash_hash~ $stash_hash
+    fi
 }
 
-gh () {
+gh() {
     # Show commit history and browse files of diff.
     is_in_git_repo || return
     preview_cmd='grep -o "[a-f0-9]\{7,\}" <<< {} | xargs git show --color=always'
     git log --oneline --graph --color=always |
     fzf-down --ansi --no-sort --reverse --multi --preview $preview_cmd |
     grep -o "[a-f0-9]\{7,\}" | read commit_hash
-    if [[ ! -z $commit_hash ]] gd $commit_hash~ $commit_hash
+    if [[ ! -z $commit_hash ]] ; then
+        gd $commit_hash~ $commit_hash
+    fi
 }
 
