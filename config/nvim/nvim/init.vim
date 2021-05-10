@@ -15,6 +15,7 @@ Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
 " Steroids
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " Git
