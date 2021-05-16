@@ -6,8 +6,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Visual
-Plug 'FlyingBBQ/darcula'
-Plug 'sheerun/vim-polyglot'
+Plug 'flyingbbq/darcula'
 Plug 'unblevable/quick-scope'
 
 " Motions
@@ -23,7 +22,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Autocomplete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 
 " LaTeX
 Plug 'lervag/vimtex'
@@ -48,6 +52,7 @@ set updatetime=500
 set ignorecase smartcase
 set lazyredraw
 set inccommand=split
+set completeopt=menuone,noselect
 let mapleader = ' '
 
 if has('persistent_undo')
@@ -158,51 +163,81 @@ highlight link SignifySignChange CursorLineNR
 highlight link SignifyLineDelete CursorLineNR
 highlight link SignifySignDelete CursorLineNR
 
-" Coc stuff
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+" Compe stuff
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'enable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
 
-" Use <tab> for trigger completion and navigate to the next complete item
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>cr  <Plug>(coc-rename)
-nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
+lua << EOF
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
 
-let g:coc_global_extensions = ['coc-clangd', 'coc-pyright', 'coc-sh']
-let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
-let g:coc_global_extensions += ['coc-rust-analyzer']
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
 
-highlight! link CocErrorSign ErrorSign
-highlight! link CocWarningSign WarningSign
-highlight! link CocInfoSign InfoSign
-highlight! link CocHintSign InfoSign
-highlight! link CocErrorFloat Pmenu
-highlight! link CocWarningFloat Pmenu
-highlight! link CocInfoFloat Pmenu
-highlight! link CocHintFloat Pmenu
-highlight! link CocHighlightText IdentifierUnderCaret
-highlight! link CocHighlightRead IdentifierUnderCaret
-highlight! link CocHighlightWrite IdentifierUnderCaretWrite
-highlight! link CocErrorHighlight CodeError
-highlight! link CocWarningHighlight CodeWarning
-highlight! link CocInfoHighlight CodeInfo
-highlight! link CocHintHighlight CodeHint
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
+
+" Vsnip stuff
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
@@ -215,6 +250,63 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:qs_hi_priority = 1
 highlight link QuickScopePrimary Visual
 highlight link QuickScopeSecondary Search
+
+" Treesitter stuff
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = {
+        "c", "rust", "go",
+        "python", "bash", "lua",
+        "yaml", "json",
+        "comment", "rst",
+    },
+    highlight = {
+        enable = true,
+        -- disable = { "c" },
+        custom_captures = {
+        -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+        -- ["foo.bar"] = "Identifier",
+        },
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+        },
+    },
+    indent = {
+        enable = true,
+        disable = { "c" },
+    }
+}
+EOF
+
+highlight! link TSNote Todo
+highlight! link TSWarning Todo
+highlight! link TSDanger Error
+highlight! link TSError Error
+
+" LSP stuff
+lua << EOF
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+        'documentation',
+        'detail',
+        'additionalTextEdits',
+    }
+}
+
+require'lspconfig'.clangd.setup{
+    capabilities = capabilities,
+}
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.rust_analyzer.setup{}
+EOF
 
 " ==========# Statusline #==========
 set laststatus=2
@@ -234,7 +326,7 @@ function! StatusActive()
     " right side
     setlocal statusline+=%=
     setlocal statusline+=%#StatusInactive#
-    setlocal statusline+=%{coc#status()}
+    "setlocal statusline+=%{coc#status()}
     setlocal statusline+=\ %#StatusActive#
     setlocal statusline+=%4.p%%
     setlocal statusline+=\ %#StatusActive#
