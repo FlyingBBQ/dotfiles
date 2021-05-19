@@ -32,6 +32,9 @@ Plug 'nvim-treesitter/playground'
 " LaTeX
 Plug 'lervag/vimtex'
 
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
 call plug#end()
 
 " ==========# Settings #==========
@@ -74,9 +77,6 @@ command! Tb4 :set tabstop=4 shiftwidth=4 softtabstop=4
 set background=dark
 set termguicolors
 colorscheme darcula
-highlight link diffAdded String
-highlight link diffRemoved Comment
-highlight link diffLine Number
 
 " Add highlighting to C header files
 autocmd BufRead,BufNewFile *.h set filetype=c
@@ -110,7 +110,10 @@ inoremap {;<CR> {<CR>};<ESC>O
 " Call clang-format to format selection
 map <C-K> :py3f /usr/share/clang/clang-format.py<cr>
 
-" ==========# Functions #==========
+" Move line up and down in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " Function to toggle guides, mapped to F5
 function! ToggleGuides()
     if &colorcolumn
@@ -133,8 +136,9 @@ function! SynGroup()
 endfun
 command! Syng :call SynGroup()<CR>
 
-" command to edit init.vim
-command! Vimrc :sp $MYVIMRC
+" Commands to edit and source init.vim
+command! Vime :sp $MYVIMRC
+command! Vims :so $MYVIMRC
 
 " ==========# Plugin Settings #==========
 " fzf stuff
@@ -156,84 +160,6 @@ let g:signify_realtime = 1
 let g:signify_update_on_focusgained = 1
 let g:signify_cursorhold_normal = 0
 let g:signify_cursorhold_insert = 0
-highlight link SignifyLineAdd    CursorLineNR
-highlight link SignifySignAdd    CursorLineNR
-highlight link SignifyLineChange CursorLineNR
-highlight link SignifySignChange CursorLineNR
-highlight link SignifyLineDelete CursorLineNR
-highlight link SignifySignDelete CursorLineNR
-
-" Compe stuff
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-lua << EOF
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-EOF
 
 " Vsnip stuff
 imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
@@ -248,177 +174,9 @@ let g:vimtex_indent_enabled = 0
 " Quick-scope stuff
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:qs_hi_priority = 1
-highlight link QuickScopePrimary Visual
-highlight link QuickScopeSecondary Search
 
-" Treesitter stuff
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-        "c", "rust", "go",
-        "python", "bash", "lua",
-        "yaml", "json",
-        "comment", "rst",
-    },
-    highlight = {
-        enable = true,
-        -- disable = { "c" },
-        custom_captures = {
-        -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-        -- ["foo.bar"] = "Identifier",
-        },
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
-        },
-    },
-    indent = {
-        enable = true,
-        disable = { "c" },
-    }
-}
-EOF
+let g:mkdp_browser = 'chromium'
+let g:mkdp_page_title = '${name}'
 
-highlight! link TSNote Todo
-highlight! link TSWarning Todo
-highlight! link TSDanger Error
-highlight! link TSError Error
-
-" LSP stuff
-lua << EOF
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        'documentation',
-        'detail',
-        'additionalTextEdits',
-    }
-}
-
-require'lspconfig'.clangd.setup{
-    capabilities = capabilities,
-}
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.rust_analyzer.setup{}
-EOF
-
-" ==========# Statusline #==========
-set laststatus=2
-set statusline=
-
-" statusline functions
-function! StatusActive()
-    " left side
-    setlocal statusline=
-    setlocal statusline+=%#StatusInverse#
-    setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=%#StatusInactive#\ ::
-    setlocal statusline+=%#StatusActive#\ %t
-    setlocal statusline+=%#StatusInactive#\ ::
-    setlocal statusline+=\ %{StatusGitStatus()}
-    setlocal statusline+=%#StatusActive#%h%m%r
-    " right side
-    setlocal statusline+=%=
-    setlocal statusline+=%#StatusInactive#
-    "setlocal statusline+=%{coc#status()}
-    setlocal statusline+=\ %#StatusActive#
-    setlocal statusline+=%4.p%%
-    setlocal statusline+=\ %#StatusActive#
-    if g:indent_warning
-        setlocal statusline+=%#StatusWarn#
-        setlocal statusline+=%{StatusMixedIndent()}
-        setlocal statusline+=%{StatusTrailingSpace()}
-    endif
-    setlocal statusline+=%#StatusInverse#
-    setlocal statusline+=[%3l/%L\ ::%3.c]
-    " enable the cursorline
-    setlocal cursorline
-endfunction
-
-function! StatusInactive()
-    " left side
-    setlocal statusline=
-    setlocal statusline+=%#StatusInactive#
-    setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=\ ::\ %t\ ::
-    setlocal statusline+=\ %h%m%r
-    " right side
-    setlocal statusline+=%=
-    setlocal statusline+=%4.p%%
-    setlocal statusline+=[%3l/%L\ ::%3.c]
-    " disable the cursorline
-    setlocal nocursorline
-endfunction
-
-function! StatusNofBuffers()
-    return len(getbufinfo({'buflisted':1}))
-endfunction
-
-function! StatusGitStatus()
-    let symbols = ['+', '-', '~']
-    let [added, modified, removed] = sy#repo#get_stats()
-    let stats = [added, removed, modified]  " reorder
-    let hunkline = ''
-
-    for i in range(3)
-        if stats[i] > 0
-            let hunkline .= printf('%s%s ', symbols[i], stats[i])
-        endif
-    endfor
-
-    if !empty(hunkline)
-        let hunkline = printf('[%s]', hunkline[:-2])
-    endif
-
-    return hunkline
-endfunction
-
-function! StatusTrailingSpace()
-    if !exists("b:status_trailing_space")
-        let spaces = search('\s\+$', 'nw')
-
-        if spaces > 0
-            let b:status_trailing_space = printf("[trailing :: %d]", spaces)
-        else
-            let b:status_trailing_space = ''
-        endif
-    endif
-    return b:status_trailing_space
-endfunction
-
-function! StatusMixedIndent()
-    if !exists("b:status_mixed_indent")
-        let tabs = search('^\t', 'nw')
-        let spaces = search('^ ', 'nw')
-
-        if tabs && spaces
-            let b:status_mixed_indent = printf("[mixed-indent :: %d]", tabs)
-        else
-            let b:status_mixed_indent = ''
-        endif
-    endif
-    return b:status_mixed_indent
-endfunction
-
-" statusline colors
-highlight link StatusInverse TermCursor
-highlight link StatusActive StatusLine
-highlight link StatusInactive StatusLineNC
-highlight link StatusWarn Visual
-
-" statusline autocmd
-augroup status
-    autocmd!
-    autocmd WinEnter,BufEnter * call StatusActive()
-    autocmd WinLeave,BufLeave * call StatusInactive()
-    autocmd CursorHold,BufWritePost * unlet! b:status_trailing_space
-    autocmd CursorHold,BufWritePost * unlet! b:status_mixed_indent
-augroup END
-
-call StatusActive()
+" Load lua configuration
+lua require('config')
