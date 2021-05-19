@@ -60,8 +60,10 @@ setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr "%F{blue}"
 zstyle ':vcs_info:*' unstagedstr "%F{magenta}"
-zstyle ':vcs_info:git*' formats "%F{237}[%F{green}%u%b%F{237}]"
+zstyle ':vcs_info:git*' formats "%F{237}[%F{green}%c%u%b%F{237}]"
+zstyle ':vcs_info:git*' actionformats "%F{237}(%F{cyan}%a%F{237})-[%F{green}%c%u%b%F{237}]"
 precmd() {
     vcs_info
 }
