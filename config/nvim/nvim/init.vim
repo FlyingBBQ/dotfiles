@@ -13,9 +13,11 @@ Plug 'unblevable/quick-scope'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
-" Steroids
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Navigation
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -141,18 +143,17 @@ command! Vime :sp $MYVIMRC
 command! Vims :so $MYVIMRC
 
 " ==========# Plugin Settings #==========
-" fzf stuff
-let g:fzf_action = {
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'NvimFloat' } }
-let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-l']
-nnoremap <C-p> :<C-u>Files<CR>
-nnoremap <leader>b :<C-u>Buffers<CR>
-nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
-nnoremap <leader>f :<C-u>BLines<CR>
-nnoremap <leader>t :<C-u>BTags<CR>
-nnoremap <leader>q :<C-u>Help<CR>
+" Telescope
+noremap <C-p> :<C-u>lua require('config.navigation').list_files()<CR>
+nnoremap <leader>b :<C-u>lua require('config.navigation').list_buffers()<CR>
+nnoremap <Leader>m :<C-u>lua require('config.navigation').git_files()<CR>
+nnoremap <leader>f :<C-u>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>
+nnoremap <leader>t :<C-u>lua require('telescope.builtin').current_buffer_tags()<CR>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>q <cmd>Telescope help_tags<cr>
+
+nnoremap <leader>sr :<C-u>lua require('plenary.reload').reload_module('config.navigation')<CR>
+nnoremap <leader>sb :<C-u>lua require('telescope.builtin').builtin()<CR>
 
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]
@@ -162,8 +163,8 @@ let g:signify_cursorhold_normal = 0
 let g:signify_cursorhold_insert = 0
 
 " Vsnip stuff
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+imap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
