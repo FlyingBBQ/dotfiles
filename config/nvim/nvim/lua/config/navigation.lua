@@ -85,6 +85,7 @@ end
 function M.list_buffers()
     local opts = themes.get_dropdown {
         winblend = 10,
+        width = 100,
         previewer = false,
         show_all_buffers = true,
     }

@@ -40,7 +40,7 @@ function! StatusInactive()
     " right side
     setlocal statusline+=%=
     setlocal statusline+=%4.p%%
-    setlocal statusline+=[%3l/%L\ ::%3.c]
+    setlocal statusline+=\ [%3l/%L\ ::%3.c]
     " disable the cursorline
     setlocal nocursorline
 endfunction
