@@ -84,11 +84,8 @@ colorscheme darcula
 autocmd BufRead,BufNewFile *.h set filetype=c
 
 " ==========# Mappings #==========
-" Make double <Esc> clear search highlights
-nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
-
-" Make comments C89 compatible
-nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
+" Clear search highlights
+nnoremap _ :<C-u>nohlsearch<CR>
 
 " Search (and replace) the word under the cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
@@ -104,10 +101,6 @@ nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
     \ :unlet _s<Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
-
-" Automatically close brackets
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
 
 " Call clang-format to format selection
 map <C-K> :py3f /usr/share/clang/clang-format.py<cr>
@@ -154,6 +147,7 @@ nnoremap <leader>q <cmd>Telescope help_tags<cr>
 
 nnoremap <leader>sr :<C-u>lua require('plenary.reload').reload_module('config.navigation')<CR>
 nnoremap <leader>sb :<C-u>lua require('telescope.builtin').builtin()<CR>
+nnoremap <leader>cs :<C-u>ClangdSwitchSourceHeader<CR>
 
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]
