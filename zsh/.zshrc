@@ -22,7 +22,7 @@ alias forecast='curl -s wttr.in'
 alias ranger='. ranger'
 alias stowc='stow -t ~/.config'
 alias slep='~/bin/lock.sh && systemctl suspend'
-alias nvimit='nvim ~/.config/nvim/init.vim'
+alias nvimit='cd ~/.config/nvim && nvim init.vim'
 alias td='nvim ~/.todo'
 
 # local alias
@@ -173,3 +173,8 @@ gh() {
     fi
 }
 
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239,bg=0"
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+bindkey '^_' autosuggest-accept
