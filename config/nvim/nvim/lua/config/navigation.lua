@@ -14,7 +14,7 @@ local sorters = require('telescope.sorters')
 local themes = require('telescope.themes')
 local builtin = require('telescope.builtin')
 
-require('telescope').setup{
+require('telescope').setup {
     defaults = {
         mappings = {
             i = {
@@ -24,12 +24,11 @@ require('telescope').setup{
                 ["<C-x>"] = false,
                 ["<C-s>"] = actions.select_horizontal,
             }
-       },
+        },
         prompt_prefix = "> ",
         selection_caret = "> ",
         entry_prefix = "  ",
 
-        prompt_position = "top",
         selection_strategy = "reset",
         sorting_strategy = "ascending",
         layout_strategy = "center",
@@ -41,15 +40,19 @@ require('telescope').setup{
         generic_sorter =  sorters.get_generic_fuzzy_sorter,
 
         winblend = 10,
-        width = 100,
-        preview_cutoff = 100,
-        results_height = 15,
+        layout_config = {
+            height = 15,
+            width = 100,
+            preview_cutoff = 1,
+            prompt_position = "top",
+        },
 
         border = true,
         borderchars = {
             { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
             prompt = {"─", "│", " ", "│", "┌", "┐", "│", "│"},
             results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+            preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
         },
     },
     extensions = {
@@ -57,38 +60,39 @@ require('telescope').setup{
             override_generic_sorter = false,
             override_file_sorter = false,
         },
-    }
+    },
 }
 require('telescope').load_extension('fzy_native')
 
 local M = {}
+local common_opts = themes.get_dropdown {
+    winblend = 10,
+    previewer = false,
+    borderchars = {
+        { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+        prompt = {"─", "│", " ", "│", "┌", "┐", "│", "│"},
+        results = {"─", "│", "─", "│", "├", "┤", "┘", "└"},
+        preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    },
+    layout_config = {
+        height = 15,
+        width = 100,
+    }
+}
 
 function M.list_files()
-    local opts = themes.get_dropdown {
-        winblend = 10,
-        width = 100,
-        previewer = false,
-    }
-    builtin.find_files(opts)
+    builtin.find_files(common_opts)
 end
 
 function M.git_files()
-    local opts = themes.get_dropdown {
-        winblend = 10,
-        width = 100,
-        previewer = false,
-        hidden = true,
-    }
+    local opts = common_opts
+    opts['hidden'] = 'true'
     builtin.git_files(opts)
 end
 
 function M.list_buffers()
-    local opts = themes.get_dropdown {
-        winblend = 10,
-        width = 100,
-        previewer = false,
-        show_all_buffers = true,
-    }
+    local opts = common_opts
+    opts['show_all_buffers'] = 'true'
     builtin.buffers(opts)
 end
 
