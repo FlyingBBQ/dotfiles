@@ -72,6 +72,14 @@
 "xbacklight -dec 10"
   XF86MonBrightnessDown
 
+# Dunst show last
+"dunstctl history-pop"
+  Control + grave
+
+# Dunst close
+"dunstctl close"
+  Control + space
+
 #"xterm -geom 50x20+20+20"
 #   Shift+Mod2+alt + s
 #
