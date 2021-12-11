@@ -24,6 +24,7 @@ alias stowc='stow -t ~/.config'
 alias slep='~/bin/lock.sh && systemctl suspend'
 alias nvimit='cd ~/.config/nvim && nvim init.vim'
 alias td='nvim ~/.todo'
+alias fda='fd --no-ignore -L'
 
 # local alias
 [[ -f ~/.zlocal ]]  && . ~/.zlocal
