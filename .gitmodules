@@ -7,3 +7,6 @@
 [submodule "suckless/st"]
 	path = suckless/st
 	url = https://github.com/FlyingBBQ/st.git
+[submodule "config/nvim/nvim"]
+	path = config/nvim/nvim
+	url = https://github.com/FlyingBBQ/nvim_lua.git
