@@ -15,7 +15,7 @@ alias la='ls -a'
 alias lt='ls -TL 2'
 alias gs='git status'
 alias dl='cd ~/downloads'
-alias pac='pikaur'
+alias pac='paru'
 alias dots='cd ~/.dotfiles'
 alias weather='curl -s wttr.in | head -7'
 alias forecast='curl -s wttr.in'
@@ -24,6 +24,7 @@ alias stowc='stow -t ~/.config'
 alias slep='~/bin/lock.sh && systemctl suspend'
 alias nvimit='cd ~/.config/nvim && nvim init.vim'
 alias td='nvim ~/.todo'
+alias fda='fd --no-ignore -L'
 
 # local alias
 [[ -f ~/.zlocal ]]  && . ~/.zlocal
