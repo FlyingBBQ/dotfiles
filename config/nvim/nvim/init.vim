@@ -6,27 +6,36 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Visual
-Plug 'FlyingBBQ/darcula'
-Plug 'sheerun/vim-polyglot'
+Plug 'flyingbbq/darcula'
 Plug 'unblevable/quick-scope'
 
 " Motions
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
 
-" Steroids
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Navigation
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Autocomplete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
 
 " LaTeX
 Plug 'lervag/vimtex'
+
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 call plug#end()
 
@@ -48,6 +57,7 @@ set updatetime=500
 set ignorecase smartcase
 set lazyredraw
 set inccommand=split
+set completeopt=menuone,noselect
 let mapleader = ' '
 
 if has('persistent_undo')
@@ -69,19 +79,13 @@ command! Tb4 :set tabstop=4 shiftwidth=4 softtabstop=4
 set background=dark
 set termguicolors
 colorscheme darcula
-highlight link diffAdded String
-highlight link diffRemoved Comment
-highlight link diffLine Number
 
 " Add highlighting to C header files
 autocmd BufRead,BufNewFile *.h set filetype=c
 
 " ==========# Mappings #==========
-" Make double <Esc> clear search highlights
-nnoremap <Esc><Esc> :<C-u>nohlsearch<CR>
-
-" Make comments C89 compatible
-nnoremap <F9> :%s,//\(.*\),/*\1 */,gc
+" Clear search highlights
+nnoremap _ :<C-u>nohlsearch<CR>
 
 " Search (and replace) the word under the cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
@@ -98,14 +102,13 @@ nnoremap <Leader>w :let _save_pos=getpos(".") <Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
 
-" Automatically close brackets
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
-
 " Call clang-format to format selection
 map <C-K> :py3f /usr/share/clang/clang-format.py<cr>
 
-" ==========# Functions #==========
+" Move line up and down in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " Function to toggle guides, mapped to F5
 function! ToggleGuides()
     if &colorcolumn
@@ -128,22 +131,23 @@ function! SynGroup()
 endfun
 command! Syng :call SynGroup()<CR>
 
-" command to edit init.vim
-command! Vimrc :sp $MYVIMRC
+" Commands to edit and source init.vim
+command! Vime :sp $MYVIMRC
+command! Vims :so $MYVIMRC
 
 " ==========# Plugin Settings #==========
-" fzf stuff
-let g:fzf_action = {
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'NvimFloat' } }
-let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-l']
-nnoremap <C-p> :<C-u>Files<CR>
-nnoremap <leader>b :<C-u>Buffers<CR>
-nnoremap <leader>g :<C-u>Rg <C-R><C-W><CR>
-nnoremap <leader>f :<C-u>BLines<CR>
-nnoremap <leader>t :<C-u>BTags<CR>
-nnoremap <leader>q :<C-u>Help<CR>
+" Telescope
+noremap <C-p> :<C-u>lua require('config.navigation').list_files()<CR>
+nnoremap <leader>b :<C-u>lua require('config.navigation').list_buffers()<CR>
+nnoremap <Leader>m :<C-u>lua require('config.navigation').git_files()<CR>
+nnoremap <leader>f :<C-u>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>
+nnoremap <leader>t :<C-u>lua require('telescope.builtin').current_buffer_tags()<CR>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>q <cmd>Telescope help_tags<cr>
+
+nnoremap <leader>sr :<C-u>lua require('plenary.reload').reload_module('config.navigation')<CR>
+nnoremap <leader>sb :<C-u>lua require('telescope.builtin').builtin()<CR>
+nnoremap <leader>cs :<C-u>ClangdSwitchSourceHeader<CR>
 
 " Signify stuff
 let g:signify_vcs_list = [ 'git', 'svn' ]
@@ -151,58 +155,10 @@ let g:signify_realtime = 1
 let g:signify_update_on_focusgained = 1
 let g:signify_cursorhold_normal = 0
 let g:signify_cursorhold_insert = 0
-highlight link SignifyLineAdd    CursorLineNR
-highlight link SignifySignAdd    CursorLineNR
-highlight link SignifyLineChange CursorLineNR
-highlight link SignifySignChange CursorLineNR
-highlight link SignifyLineDelete CursorLineNR
-highlight link SignifySignDelete CursorLineNR
 
-" Coc stuff
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-" Use <tab> for trigger completion and navigate to the next complete item
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>cr  <Plug>(coc-rename)
-nmap <leader>cs :<C-u>CocCommand clangd.switchSourceHeader<cr>
-
-let g:coc_global_extensions = ['coc-clangd', 'coc-pyright', 'coc-sh']
-let g:coc_global_extensions += ['coc-json', 'coc-vimlsp', 'coc-yaml']
-let g:coc_global_extensions += ['coc-rust-analyzer']
-
-highlight! link CocErrorSign ErrorSign
-highlight! link CocWarningSign WarningSign
-highlight! link CocInfoSign InfoSign
-highlight! link CocHintSign InfoSign
-highlight! link CocErrorFloat Pmenu
-highlight! link CocWarningFloat Pmenu
-highlight! link CocInfoFloat Pmenu
-highlight! link CocHintFloat Pmenu
-highlight! link CocHighlightText IdentifierUnderCaret
-highlight! link CocHighlightRead IdentifierUnderCaret
-highlight! link CocHighlightWrite IdentifierUnderCaretWrite
-highlight! link CocErrorHighlight CodeError
-highlight! link CocWarningHighlight CodeWarning
-highlight! link CocInfoHighlight CodeInfo
-highlight! link CocHintHighlight CodeHint
+" Vsnip stuff
+imap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr><C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 
 " LaTeX stuff
 let g:tex_flavor = 'latex'
@@ -213,120 +169,9 @@ let g:vimtex_indent_enabled = 0
 " Quick-scope stuff
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:qs_hi_priority = 1
-highlight link QuickScopePrimary Visual
-highlight link QuickScopeSecondary Search
 
-" ==========# Statusline #==========
-set laststatus=2
-set statusline=
+let g:mkdp_browser = 'chromium'
+let g:mkdp_page_title = '${name}'
 
-" statusline functions
-function! StatusActive()
-    " left side
-    setlocal statusline=
-    setlocal statusline+=%#StatusInverse#
-    setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=%#StatusInactive#\ ::
-    setlocal statusline+=%#StatusActive#\ %t
-    setlocal statusline+=%#StatusInactive#\ ::
-    setlocal statusline+=\ %{StatusGitStatus()}
-    setlocal statusline+=%#StatusActive#%h%m%r
-    " right side
-    setlocal statusline+=%=
-    setlocal statusline+=%#StatusInactive#
-    setlocal statusline+=%{coc#status()}
-    setlocal statusline+=\ %#StatusActive#
-    setlocal statusline+=%4.p%%
-    setlocal statusline+=\ %#StatusActive#
-    if g:indent_warning
-        setlocal statusline+=%#StatusWarn#
-        setlocal statusline+=%{StatusMixedIndent()}
-        setlocal statusline+=%{StatusTrailingSpace()}
-    endif
-    setlocal statusline+=%#StatusInverse#
-    setlocal statusline+=[%3l/%L\ ::%3.c]
-    " enable the cursorline
-    setlocal cursorline
-endfunction
-
-function! StatusInactive()
-    " left side
-    setlocal statusline=
-    setlocal statusline+=%#StatusInactive#
-    setlocal statusline+=[%{StatusNofBuffers()}]
-    setlocal statusline+=\ ::\ %t\ ::
-    setlocal statusline+=\ %h%m%r
-    " right side
-    setlocal statusline+=%=
-    setlocal statusline+=%4.p%%
-    setlocal statusline+=[%3l/%L\ ::%3.c]
-    " disable the cursorline
-    setlocal nocursorline
-endfunction
-
-function! StatusNofBuffers()
-    return len(getbufinfo({'buflisted':1}))
-endfunction
-
-function! StatusGitStatus()
-    let symbols = ['+', '-', '~']
-    let [added, modified, removed] = sy#repo#get_stats()
-    let stats = [added, removed, modified]  " reorder
-    let hunkline = ''
-
-    for i in range(3)
-        if stats[i] > 0
-            let hunkline .= printf('%s%s ', symbols[i], stats[i])
-        endif
-    endfor
-
-    if !empty(hunkline)
-        let hunkline = printf('[%s]', hunkline[:-2])
-    endif
-
-    return hunkline
-endfunction
-
-function! StatusTrailingSpace()
-    if !exists("b:status_trailing_space")
-        let spaces = search('\s\+$', 'nw')
-
-        if spaces > 0
-            let b:status_trailing_space = printf("[trailing :: %d]", spaces)
-        else
-            let b:status_trailing_space = ''
-        endif
-    endif
-    return b:status_trailing_space
-endfunction
-
-function! StatusMixedIndent()
-    if !exists("b:status_mixed_indent")
-        let tabs = search('^\t', 'nw')
-        let spaces = search('^ ', 'nw')
-
-        if tabs && spaces
-            let b:status_mixed_indent = printf("[mixed-indent :: %d]", tabs)
-        else
-            let b:status_mixed_indent = ''
-        endif
-    endif
-    return b:status_mixed_indent
-endfunction
-
-" statusline colors
-highlight link StatusInverse TermCursor
-highlight link StatusActive StatusLine
-highlight link StatusInactive StatusLineNC
-highlight link StatusWarn Visual
-
-" statusline autocmd
-augroup status
-    autocmd!
-    autocmd WinEnter,BufEnter * call StatusActive()
-    autocmd WinLeave,BufLeave * call StatusInactive()
-    autocmd CursorHold,BufWritePost * unlet! b:status_trailing_space
-    autocmd CursorHold,BufWritePost * unlet! b:status_mixed_indent
-augroup END
-
-call StatusActive()
+" Load lua configuration
+lua require('config')

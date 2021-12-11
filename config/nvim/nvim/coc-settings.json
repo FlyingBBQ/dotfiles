@@ -1,9 +1,0 @@
-{
-    "diagnostic.warningSign": "[]",
-    "rust-analyzer.server.path": "/usr/bin/rust-analyzer",
-    "clangd.arguments": [
-                "--background-index",
-                "--clang-tidy",
-                "--query-driver=/usr/bin/arm-none-eabi-gcc,/usr/bin/**/clang-*"
-    ]
-}
