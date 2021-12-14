@@ -1,6 +1,8 @@
 # dotfiles
 Collection of all my configuration files, managed using GNU stow.
 
+![screenshot](desktop.png)
+
 ## info
 | distro|<span style="font-weight:normal">Arch Linux</span>| 
 |---:|:---|
@@ -67,21 +69,14 @@ Use this script to auto start any programs you like, for example:
 
 xsetroot -solid '#504945'
 
-dunst -geometry "1000+780+16" &
+dunst &
 redshift &
 . ~/.dotfiles/suckless/dwmstatus.sh -c -t -m -d -h &
 ```
 
 ## neovim
-In order to use plugins, first run `plug.sh` that comes with the nvim configuration files.
-Open `nvim` and type `:PlugInstall`.
-Some plugins, such as `coc.nvim`, have dependencies.
-My nvim configuration currently depends on:
-
-- `fzf`
-- `ccls`
-- `bash-language-server`
-- `python-language-server`
+My nvim configuration is a separate repository added as submodule.
+It is not compatible anymore with vim since it is (partly) written in lua.
 
 ## power tools
 Some tools I like:
