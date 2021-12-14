@@ -31,8 +31,8 @@ if [ -f "$userstartup" ]; then
 fi
 
 # relaunch dwm if the binary changes, otherwise bail
-csum=$(sha1sum $(which dwm))
-new_csum=""
+csum=""
+new_csum=$(sha1sum $(which dwm))
 while true
 do
     if [ "$csum" != "$new_csum" ]
