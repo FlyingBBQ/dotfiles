@@ -13,18 +13,22 @@ alias ls='exa -g'
 alias ll='ls -l'
 alias la='ls -a'
 alias lt='ls -TL 2'
-alias gs='git status'
-alias dl='cd ~/downloads'
+
 alias pac='paru'
-alias dots='cd ~/.dotfiles'
-alias weather='curl -s wttr.in | head -7'
-alias forecast='curl -s wttr.in'
 alias ranger='. ranger'
 alias stowc='stow -t ~/.config'
-alias slep='~/bin/lock.sh && systemctl suspend'
-alias nvimit='cd ~/.config/nvim && nvim init.vim'
-alias td='nvim ~/.todo'
 alias fda='fd --no-ignore -L'
+alias slep='~/bin/lock.sh && systemctl suspend'
+alias gs='git status'
+alias td='nvim ~/.todo'
+alias dpc='$(echo $TERM | sed "s/-256color//") &!'
+
+alias weather='curl -s wttr.in | head -7'
+alias forecast='curl -s wttr.in'
+
+alias dl='cd ~/downloads'
+alias dots='cd ~/.dotfiles'
+alias nvimit='cd ~/.config/nvim && nvim init.lua'
 
 # local alias
 [[ -f ~/.zlocal ]]  && . ~/.zlocal
