@@ -179,7 +179,7 @@ gh() {
 }
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239,bg=0"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=239"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 bindkey '^_' autosuggest-accept
