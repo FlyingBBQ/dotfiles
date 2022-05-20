@@ -102,7 +102,6 @@ bindkey '^o' history-beginning-search-backward
 bindkey '^n' history-beginning-search-forward
 bindkey '^k' expand-or-complete
 bindkey -M menuselect '^j' reverse-menu-complete
-bindkey -s '^g' "git add -u; git commit -v && git push"
 
 # fix delete key
 bindkey -a '\033[P' delete-char
