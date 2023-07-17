@@ -7,6 +7,9 @@
 [pull]
     rebase = false
 
+[push]
+    autoSetupRemote = true
+
 [alias]
     bav = branch -avv
     la = log --pretty=format:'%C(auto)%h%d %s %C(white)- %C(bold blue)%an %Creset%C(white)%cr %Creset'
