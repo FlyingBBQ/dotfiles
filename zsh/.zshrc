@@ -13,6 +13,7 @@ alias ls='exa -g'
 alias ll='ls -l'
 alias la='ls -a'
 alias lt='ls -TL 2'
+alias lsn='exa --sort=new -1 | tail -5'
 
 alias pac='paru'
 alias ranger='. ranger'
