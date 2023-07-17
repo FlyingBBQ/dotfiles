@@ -98,7 +98,7 @@ bindkey -v
 
 # bindings
 bindkey ' ' magic-space
-bindkey '^o' history-beginning-search-backward
+bindkey '^p' history-beginning-search-backward
 bindkey '^n' history-beginning-search-forward
 bindkey '^k' expand-or-complete
 bindkey -M menuselect '^j' reverse-menu-complete
@@ -123,7 +123,7 @@ source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
 bindkey '^f' fzf-file-widget
-bindkey '^p' fzf-cd-widget
+bindkey '^o' fzf-cd-widget
 
 # fzf + git
 is_in_git_repo() {
