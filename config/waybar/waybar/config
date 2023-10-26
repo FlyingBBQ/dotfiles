@@ -1,0 +1,42 @@
+{
+    "layer": "top",
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["cpu", "memory", "clock", "clock#time"],
+    "hyprland/window": {
+        "max-length": 200,
+        "separate-outputs": false
+    },
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "disable-click": false,
+        "all-outputs": false,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "one",
+            "2": "two",
+            "3": "three",
+            "4": "four",
+            "5": "five",
+            "6": "six",
+            "7": "seven",
+            "8": "eight"
+        },
+    },
+    "cpu": {
+        "interval": 1,
+        "format": "CPU {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "interval": 1,
+        "format": "MEM {}%"
+    },
+    "clock": {
+        "format": "{:%a %d %b}"
+    },
+    "clock#time": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}"
+    }
+}
