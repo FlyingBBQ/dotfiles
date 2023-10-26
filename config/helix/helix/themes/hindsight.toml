@@ -1,0 +1,58 @@
+# UI
+"ui.background" = { bg = "bg" }
+"ui.cursor" = { fg = "fg", modifiers = ["reversed"] }
+"ui.cursor.match" = { fg = "sand", modifiers = ["reversed"] }
+"ui.linenr" = { fg = "fade" }
+"ui.linenr.selected" = { fg = "fg" }
+"ui.statusline" = { fg = "fg", bg = "bump" }
+"ui.text" = { fg = "fg" }
+"ui.text.focus" = { fg = "sand" }
+"ui.selection" = { fg = "teal", modifiers = ["reversed"] }
+
+"ui.window" = { fg = "cyan", bg = "bump" }
+"ui.popup" = { fg = "cyan", bg = "bump" }
+"ui.menu" = { fg = "sand", bg = "bump" }
+"ui.menu.selected" = { fg = "sand" }
+
+# Diagnostics
+"diagnostic" = { fg = "rose" }
+"warning" = { fg = "wine" }
+"error" = { fg = "rose" }
+"info" = { fg = "wine" }
+"hint" = { fg = "wine" }
+
+# Syntax
+"function" = { fg = "sand" }
+"keyword" = { fg = "olive" }
+"type" = { fg = "olive"}
+"constant" = { fg = "blue" }
+"constant.numeric" = { fg = "cyan" }
+
+"variable" = { fg = "fg" }
+#"variable.other.member" = { fg = "blue" }
+
+"special" = { fg = "fg" }
+"punctuation" = { fg = "fg" }
+#"punctuation.delimiter" = { fg = "#aaaaaa" }
+"string" = { fg = "green" }
+"comment" = { fg = "fade" }
+"namespace" = { fg = "teal" }
+
+[palette]
+bg = "#2b2b2b"
+fg = "#bbbbbb"
+pop = "#dddddd"
+fade = "#808080"
+bump = "#3c3c3c"
+
+blue = "#4477aa"
+#cyan = "#88ccee"
+cyan = "#66ccee"
+teal = "#44aa99"
+#green = "#117733"
+green = "#228833"
+olive = "#999933"
+sand = "#ddcc77"
+rose = "#cc6677"
+wine = "#882255"
+purple = "#aa4499"

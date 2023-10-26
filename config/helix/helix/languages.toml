@@ -1,0 +1,14 @@
+[[language]]
+name = "c"
+scope = "source.c"
+injection-regex = "c"
+file-types = ["c", "h"]
+roots = [ ".gitignore" ]
+comment-token = "//"
+auto-format = false
+indent = { tab-width = 8, unit = " " }
+#config = { command = "/usr/local/clangd/bin/clangd", args = ["--enable-config"] }
+
+[[language]]
+name = "rust"
+auto-format = false
