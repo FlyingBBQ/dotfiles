@@ -23,6 +23,13 @@ window > box {
     padding: 2px;
 }
 
+#workspaces button:hover {
+    text-shadow: none;
+    box-shadow: none;
+    background: none;
+    transition: none;
+}
+
 #workspaces button {
     padding: 0 4px;
     margin-right: 4px;
