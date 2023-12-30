@@ -1,0 +1,48 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "0x2d2d2d"
+blue = "0x4477aa"
+cyan = "0x66ccee"
+green = "0x228833"
+magenta = "0xaa3377"
+red = "0xbb5566"
+white = "0xbbbbbb"
+yellow = "0xccbb44"
+
+[colors.normal]
+black = "0x3c3c3c"
+blue = "0x4477aa"
+cyan = "0x66ccee"
+green = "0x228833"
+magenta = "0xaa4499"
+red = "0xcc6677"
+white = "0xdddddd"
+yellow = "0xccbb44"
+
+[colors.primary]
+background = "0x2b2b2b"
+foreground = "0xbbbbbb"
+
+[colors.selection]
+text = "0x2b2b2b"
+background = "0x44aa99"
+
+[cursor]
+style = "Underline"
+vi_mode_style = "Block"
+
+[font]
+size = 10.0
+
+[font.bold]
+style = "Bold"
+
+[font.normal]
+family = " JetBrains Mono"
+style = "Regular"
+
+[window.padding]
+x = 20
+y = 20
