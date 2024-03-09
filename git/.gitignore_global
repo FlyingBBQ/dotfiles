@@ -5,3 +5,4 @@
 virt_env/
 __pycache__
 compile_commands.json
+tags
