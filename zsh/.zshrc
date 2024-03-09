@@ -76,7 +76,7 @@ precmd() {
 
 # vi mode cursor
 zle-keymap-select() {
-    if [ $TERM = "st-256color" ]; then
+    if [ $TERM = "st-256color" ] || [ $TERM = "alacritty" ]; then
         if [ $KEYMAP = vicmd ]; then
             echo -ne "\e[2 q"
         else
