@@ -12,6 +12,8 @@
 
 [alias]
     bav = branch -avv
+    pro = remote prune origin
+    sup = submodule update --init --recursive
     la = log --pretty=format:'%C(auto)%h%d %s %C(white)- %C(bold blue)%an %Creset%C(white)%cr %Creset'
 
 [include]
