@@ -1,33 +1,32 @@
 [colors]
 draw_bold_text_with_bright_colors = false
 
+## miasma
+indexed_colors = [{ index = 16, color = "0x222222"}]
+
 [colors.bright]
-black = "0x3c3c3c"
-blue = "0x4477aa"
-cyan = "0x66ccee"
-green = "0x228833"
-magenta = "0xaa4499"
-red = "0xcc6677"
-white = "0xdddddd"
-yellow = "0xccbb44"
+black = "#666666"
+red = "#685742"
+green = "#5f875f"
+yellow = "#b36d43"
+blue = "#78824b"
+magenta = "#bb7744"
+cyan = "#c9a554"
+white = "#d7c483"
 
 [colors.normal]
-black = "0x2d2d2d"
-blue = "0x4477aa"
-cyan = "0x66ccee"
-green = "0x228833"
-magenta = "0xaa3377"
-red = "0xbb5566"
-white = "0xbbbbbb"
-yellow = "0xccbb44"
+black = "#222222"
+red = "#685742"
+green = "#5f875f"
+yellow = "#b36d43"
+blue = "#78824b"
+magenta = "#bb7744"
+cyan = "#c9a554"
+white = "#d7c483"
 
 [colors.primary]
-background = "0x2b2b2b"
-foreground = "0xbbbbbb"
-
-[colors.selection]
-text = "0x2b2b2b"
-background = "0x44aa99"
+background = "#222222"
+foreground = "#c2c2b0"
 
 [cursor]
 style = "Underline"

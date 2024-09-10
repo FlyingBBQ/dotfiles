@@ -5,7 +5,7 @@
 #
 
 # prompt
-PROMPT='%F{red}%~ %F{yellow}%(?.▼.▽)%f '
+PROMPT='%F{red}%~ %F{cyan}%(?.▼.▽)%f '
 RPROMPT='${vcs_info_msg_0_} %F{237}%*%f'
 
 # alias

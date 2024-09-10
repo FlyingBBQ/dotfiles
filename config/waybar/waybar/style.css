@@ -1,6 +1,6 @@
-@define-color color_bg #2b2b2b;
-@define-color color_fg #bbbbbb;
-@define-color color_hl #999933;
+@define-color color_bg #222222;
+@define-color color_fg #c2c2b0;
+@define-color color_hl #c9a554;
 @define-color color_lt #323232;
 
 * {
