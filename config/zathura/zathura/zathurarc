@@ -4,6 +4,7 @@
 set font "JetBrains Mono 10"
 set selection-clipboard clipboard
 set synctex true
+set database sqlite
 
 #// colors:
 set default-bg \#282828
@@ -26,9 +27,8 @@ set notification-error-bg \#cc241d
 set notification-error-fg \#ebdbb2
 set notification-warning-bg \#458588
 set notification-warning-fg \#282828
-set highlight-active-color \#d473f9
-set highlight-color \#6b3baa
-set highlight-transparency 0.3
+set highlight-active-color "rgba(212, 116,249, 0.4)" #d473f9
+set highlight-color "rgba(107, 59, 170, 0.4)" #6b3baa
 #set recolor true
 #set recolor-keephue true
 set recolor-darkcolor \#1d2021
