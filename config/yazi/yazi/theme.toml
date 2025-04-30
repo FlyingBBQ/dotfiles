@@ -1,0 +1,7 @@
+[manager]
+cwd = { fg = "cyan", bold = true }
+border_symbol = " "
+
+[status]
+sep_left  = { open = "█", close = "█" }
+sep_right = { open = "█", close = "█" }

@@ -1,0 +1,6 @@
+[manager]
+prepend_keymap = [
+	# Goto
+	{ on = [ "g", "d" ],       run = "cd ~/downloads",   desc = "Go ~/downloads" },
+]
+
