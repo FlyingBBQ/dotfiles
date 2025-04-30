@@ -29,6 +29,7 @@ alias forecast='curl -s wttr.in'
 
 alias dl='cd ~/downloads'
 alias dots='cd ~/.dotfiles'
+alias con='cd ~/.config'
 alias nvimit='cd ~/.config/nvim && nvim init.lua'
 
 # local alias
