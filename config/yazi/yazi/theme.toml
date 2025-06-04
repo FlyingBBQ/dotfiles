@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 cwd = { fg = "cyan", bold = true }
 border_symbol = " "
 

@@ -1,0 +1,12 @@
+[mgr]
+linemode = "size"
+
+[opener]
+pdff = [
+	{ run = 'zathura "$@"', desc = "zathura", block = true, for = "unix" },
+]
+
+[open]
+prepend_rules = [
+    { mime = "application/pdf", use = [ "pdff", "reveal" ] },
+]
