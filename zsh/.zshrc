@@ -76,8 +76,12 @@ precmd() {
 }
 
 # vi mode cursor
+is_supported_term() {
+    [[ $TERM == (*256color|alacritty) ]]
+}
+
 zle-keymap-select() {
-    if [ $TERM = "st-256color" ] || [ $TERM = "alacritty" ]; then
+    if is_supported_term; then
         if [ $KEYMAP = vicmd ]; then
             echo -ne "\e[2 q"
         else
@@ -89,7 +93,7 @@ zle -N zle-keymap-select
 
 zle-line-init() {
     zle -K viins
-    if [ $TERM = "st-256color" ]; then
+    if is_supported_term; then
         echo -ne "\e[4 q"
     fi
 }
@@ -145,7 +149,6 @@ gd() {
         git diff $@ -- $file_name
     fi
 }
-
 
 gb() {
     # Display commits for each branch
