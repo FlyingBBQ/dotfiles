@@ -16,7 +16,7 @@ alias lt='ls -TL 2'
 alias lsn='exa --sort=new -1 | tail -5'
 
 alias pac='paru'
-alias ranger='. ranger'
+alias fm='yazi_cwd'
 alias stowc='stow -t ~/.config'
 alias fda='fd --no-ignore -L'
 alias slep='~/bin/lock.sh && systemctl suspend'
@@ -130,6 +130,14 @@ source /usr/share/fzf/completion.zsh
 
 bindkey '^f' fzf-file-widget
 bindkey '^o' fzf-cd-widget
+
+yazi_cwd() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+}
 
 # fzf + git
 is_in_git_repo() {
