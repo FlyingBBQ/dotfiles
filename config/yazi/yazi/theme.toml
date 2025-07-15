@@ -1,7 +1,12 @@
 [mgr]
 cwd = { fg = "cyan", bold = true }
-border_symbol = " "
+border_symbol = "│"
+border_style = { fg = "#3e3e3e" }
 
 [status]
 sep_left  = { open = "█", close = "█" }
 sep_right = { open = "█", close = "█" }
+
+[tabs]
+sep_inner = { open = "█", close = "█" }
+sep_outer = { open = "█", close = "█" }
