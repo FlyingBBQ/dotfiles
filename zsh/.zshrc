@@ -9,11 +9,11 @@ PROMPT='%F{red}%~ %F{yellow}%(?.▼.▽)%f '
 RPROMPT='${vcs_info_msg_0_} %F{237}%*%f'
 
 # alias
-alias ls='exa -g'
+alias ls='eza -g'
 alias ll='ls -l'
 alias la='ls -a'
 alias lt='ls -TL 2'
-alias lsn='exa --sort=new -1 | tail -5'
+alias lsn='eza --sort=new -1 | tail -5'
 
 alias pac='paru'
 alias fm='yazi_cwd'
