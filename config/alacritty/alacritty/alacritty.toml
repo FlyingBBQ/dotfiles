@@ -43,6 +43,10 @@ style = "Bold"
 family = " JetBrains Mono"
 style = "Regular"
 
+[window.dimensions]
+columns = 128
+lines = 24
+
 [window.padding]
 x = 20
 y = 20
