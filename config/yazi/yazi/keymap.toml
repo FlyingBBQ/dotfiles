@@ -1,6 +1,7 @@
 [mgr]
 prepend_keymap = [
 	# Goto
-	{ on = [ "g", "d" ],       run = "cd ~/downloads",   desc = "Go ~/downloads" },
+    { on = [ "g", "d" ], run = "cd ~/downloads", desc = "Go ~/downloads" },
+    { on = "e", run = "shell '$EDITOR %h' --block", desc = "Open in $EDITOR" },
 ]
 

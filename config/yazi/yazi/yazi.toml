@@ -3,7 +3,7 @@ linemode = "size"
 
 [opener]
 pdff = [
-	{ run = 'zathura "$@"', desc = "zathura", block = true, for = "unix" },
+    { run = 'zathura "$@"', desc = "zathura", orphan = true, for = "unix" },
 ]
 
 [open]
